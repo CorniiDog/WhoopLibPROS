@@ -83,7 +83,7 @@ double WhoopInertial::get_pitch()
     #if USE_VEXCODE
     return vex_inertial.pitch();
     #else
-    pros_inertial.get_roll();
+    return pros_inertial.get_roll();
     #endif
 }
 

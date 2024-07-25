@@ -7,7 +7,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-#include "vex.h"
+#include "whooplib/includer.hpp"
 #include "whooplib/include/calculators/RollingAverage.hpp"
 
 RollingAverageFilter::RollingAverageFilter(int capacity) : capacity(capacity) {}

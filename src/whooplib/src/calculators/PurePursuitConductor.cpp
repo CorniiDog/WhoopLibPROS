@@ -8,7 +8,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "whooplib/include/calculators/PurePursuitConductor.hpp"
-#include "vex.h"
+#include "whooplib/includer.hpp"
 #include <iostream>
 
 PurePursuitConductor::PurePursuitConductor(PursuitParams *default_pursuit_parameters) : turn_pid(0, default_pursuit_parameters->turning_kp, default_pursuit_parameters->turning_ki, default_pursuit_parameters->turning_kd, default_pursuit_parameters->turning_i_activation, default_pursuit_parameters->settle_rotation, default_pursuit_parameters->settle_time, default_pursuit_parameters->timeout),
@@ -99,7 +99,11 @@ void PurePursuitConductor::generate_path(std::vector<TwoDPose> waypoints, double
 {
     if (waypoints.size() < 2)
     {
+        #if USE_VEXCODE
         Brain.Screen.print("A path requires at least 2 waypoints");
+        #else
+        pros::lcd::print(1, "A path requires at least 2 waypoints");
+        #endif
         std::cout << "A path requires at least 2 waypoints" << std::endl;
     }
 
