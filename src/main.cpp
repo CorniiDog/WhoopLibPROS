@@ -196,7 +196,6 @@ void competition_initialize() {}
 void autonomous()
 {
     robot_drivetrain.set_state(drivetrainState::mode_autonomous);
-    pros::delay(5000);
 
     robot_drivetrain.set_pose_units(PoseUnits::in_deg_cw);
     robot_drivetrain.set_pose(0, 0, 0);
@@ -235,12 +234,14 @@ void autonomous()
  */
 void opcontrol()
 {
-    autonomous();
-
     robot_drivetrain.set_state(drivetrainState::mode_usercontrol);
 
     while (true)
     {
+        Pose current_pose = robot_drivetrain.get_pose();
+        pros::lcd::clear_line(3);
+        pros::lcd::print(3, "FO (%s): %.1f %.1f %.1f %.1f %.1f %.1f", robot_drivetrain.get_units_str().c_str(), current_pose.x, current_pose.y, current_pose.z, current_pose.pitch, current_pose.yaw, current_pose.roll);
+
         pros::delay(20); // Run for 20 ms then update
     }
 }
