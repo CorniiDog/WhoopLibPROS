@@ -14,44 +14,45 @@
 #include "whooplib/include/devices/WhoopVision.hpp"
 #include <deque>
 
-namespace whoop{
-
-/**
- * Rolling Average Filter Object
- */
-class RollingAverageFilter
+namespace whoop
 {
-private:
-    std::deque<Pose> buffer_pose;
-    std::deque<double> buffer_double;
-    std::deque<double> buffer_int;
-    int capacity;
-
-public:
-    /**
-     * Constructor for Rolling Average
-     * @param n Number of elements for rolling average
-     */
-    RollingAverageFilter(int capacity);
 
     /**
-     * Processes pose into rolling average
-     * @return rolling average result
+     * Rolling Average Filter Object
      */
-    Pose process(const Pose &newMeasurement);
+    class RollingAverageFilter
+    {
+    private:
+        std::deque<Pose> buffer_pose;
+        std::deque<double> buffer_double;
+        std::deque<double> buffer_int;
+        int capacity;
 
-    /**
-     * Processes double into rolling average
-     * @return rolling average result
-     */
-    double process(double newMeasurement);
+    public:
+        /**
+         * Constructor for Rolling Average
+         * @param n Number of elements for rolling average
+         */
+        RollingAverageFilter(int capacity);
 
-    /**
-     * Processes double into rolling average
-     * @return rolling average result
-     */
-    int process(int newMeasurement);
-};
+        /**
+         * Processes pose into rolling average
+         * @return rolling average result
+         */
+        Pose process(const Pose &newMeasurement);
+
+        /**
+         * Processes double into rolling average
+         * @return rolling average result
+         */
+        double process(double newMeasurement);
+
+        /**
+         * Processes double into rolling average
+         * @return rolling average result
+         */
+        int process(int newMeasurement);
+    };
 
 } // namespace whoop
 

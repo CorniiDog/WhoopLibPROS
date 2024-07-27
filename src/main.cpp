@@ -59,7 +59,7 @@ WhoopDriveOdomOffset odom_offset(
 
 // Serial communication module
 BufferNode buffer_system(
-    256,                       // The buffer size, in characters. Increase if necessary, but at the cost of computational efficiency.
+    256,                      // The buffer size, in characters. Increase if necessary, but at the cost of computational efficiency.
     debugmode::debug_disabled // debugMode::debug_disabled for competition use, debugMode::debug_enabled to allow the code to pass errors through
 );
 
@@ -151,10 +151,11 @@ ComputeManager manager({&buffer_system, &jetson_commander, &robot_drivetrain, &c
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
-	manager.start();
+void initialize()
+{
+    pros::lcd::initialize();
+    pros::lcd::set_text(1, "Hello PROS User!");
+    manager.start();
     jetson_commander.initialize(); // If you don't have Tesseract, omit this line
     robot_drivetrain.calibrate();
 }
@@ -164,8 +165,9 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {
-	robot_drivetrain.set_state(drivetrainState::mode_disabled);
+void disabled()
+{
+    robot_drivetrain.set_state(drivetrainState::mode_disabled);
 }
 
 /**
@@ -190,14 +192,15 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {
+void autonomous()
+{
     robot_drivetrain.set_state(drivetrainState::mode_autonomous);
-	pros::delay(10*1000);
+    pros::delay(10 * 1000);
 
-	robot_drivetrain.set_pose_units(PoseUnits::in_deg_cw);
-  	robot_drivetrain.set_pose(0, 0, 0);
+    robot_drivetrain.set_pose_units(PoseUnits::in_deg_cw);
+    robot_drivetrain.set_pose(0, 0, 0);
 
-	// robot_drivetrain.turn_to_position(15, 15);
+    // robot_drivetrain.turn_to_position(15, 15);
     robot_drivetrain.drive_forward(15);
 
     robot_drivetrain.turn_to(90);
@@ -229,13 +232,15 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-void opcontrol() {
+void opcontrol()
+{
     autonomous();
 
-	robot_drivetrain.set_state(drivetrainState::mode_usercontrol);
+    robot_drivetrain.set_state(drivetrainState::mode_usercontrol);
 
-	while (true) {
+    while (true)
+    {
 
-		pros::delay(20);                               // Run for 20 ms then update
-	}
+        pros::delay(20); // Run for 20 ms then update
+    }
 }

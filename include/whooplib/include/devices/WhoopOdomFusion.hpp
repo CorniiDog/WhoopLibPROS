@@ -18,112 +18,113 @@
 #include <vector>
 #include <memory>
 
-namespace whoop{
-
-// Enumeration defining possible fusion modes between visual and wheel odometry data.
-enum fusionmode
+namespace whoop
 {
-    fusion_instant, // Instantly aligns wheel odometry to vision odometry upon data retrieval.
-    fusion_gradual, // Gradually aligns wheel odometry to vision odometry over time.
-    vision_only,    // Vision Odometry Only
-    wheel_odom_only // Wheel Odometry Only
-};
 
-// Class responsible for fusing visual and wheel odometry data.
-class WhoopOdomFusion : public ComputeNode
-{
-protected:
-    WhoopMutex self_lock;            // Mutex for thread-safe operations.
-    WhoopVision *whoop_vision;       // Pointer to the vision odometry unit.
-    double min_confidence_threshold; // Minimum confidence level required to accept new vision data.
-    fusionmode fusion_mode;          // Current mode of odometry data fusion.
-    double max_fusion_shift_meters;  // Maximum shift in meters per step when gradually fusing data.
-    double max_fusion_shift_radians; // Maximum rotational shift in radians per step when gradually fusing data.
+    // Enumeration defining possible fusion modes between visual and wheel odometry data.
+    enum fusionmode
+    {
+        fusion_instant, // Instantly aligns wheel odometry to vision odometry upon data retrieval.
+        fusion_gradual, // Gradually aligns wheel odometry to vision odometry over time.
+        vision_only,    // Vision Odometry Only
+        wheel_odom_only // Wheel Odometry Only
+    };
 
-    WhoopDriveOdomOffset *odom_offset;
+    // Class responsible for fusing visual and wheel odometry data.
+    class WhoopOdomFusion : public ComputeNode
+    {
+    protected:
+        WhoopMutex self_lock;            // Mutex for thread-safe operations.
+        WhoopVision *whoop_vision;       // Pointer to the vision odometry unit.
+        double min_confidence_threshold; // Minimum confidence level required to accept new vision data.
+        fusionmode fusion_mode;          // Current mode of odometry data fusion.
+        double max_fusion_shift_meters;  // Maximum shift in meters per step when gradually fusing data.
+        double max_fusion_shift_radians; // Maximum rotational shift in radians per step when gradually fusing data.
 
-    // Callback function that handles new vision pose data.
-    void on_vision_pose_received(Pose p);
+        WhoopDriveOdomOffset *odom_offset;
 
-    bool frame_rejected = true;
+        // Callback function that handles new vision pose data.
+        void on_vision_pose_received(Pose p);
 
-    bool accepting_fuses = false;
+        bool frame_rejected = true;
 
-public:
-    Pose pose = Pose(); // Current fused pose of the odometry system.
+        bool accepting_fuses = false;
 
-    /**
-     * Constructs a new odometry fusion object.
-     * @param whoop_vision Pointer to the vision odometry system.
-     * @param odom_offset Pointer to the wheel odometry offset object.
-     * @param min_confidence_threshold Minimum confidence required to consider vision data (0.0 - 1.0).
-     * @param fusion_mode Method of fusing vision with wheel odometry (instant, gradual, vision_only, wheel_odom_only).
-     * @param max_fusion_shift_meters If FusionMode is fusion_gradual, it is the maximum allowable shift in meters for gradual fusion, per second.
-     * @param max_fusion_shift_radians If FusionMode is fusion_gradual, it is the maximum allowable rotational shift in radians for gradual fusion, per second.
-     */
-    WhoopOdomFusion(WhoopVision *whoop_vision, WhoopDriveOdomOffset *odom_offset, double min_confidence_threshold, fusionmode fusion_mode, double max_fusion_shift_meters, double max_fusion_shift_radians);
+    public:
+        Pose pose = Pose(); // Current fused pose of the odometry system.
 
-    /**
-     * Constructor for just wheel odometry
-     * @param odom_offset Pointer to the wheel odometry offset object.
-     */
-    WhoopOdomFusion(WhoopDriveOdomOffset *odom_offset);
+        /**
+         * Constructs a new odometry fusion object.
+         * @param whoop_vision Pointer to the vision odometry system.
+         * @param odom_offset Pointer to the wheel odometry offset object.
+         * @param min_confidence_threshold Minimum confidence required to consider vision data (0.0 - 1.0).
+         * @param fusion_mode Method of fusing vision with wheel odometry (instant, gradual, vision_only, wheel_odom_only).
+         * @param max_fusion_shift_meters If FusionMode is fusion_gradual, it is the maximum allowable shift in meters for gradual fusion, per second.
+         * @param max_fusion_shift_radians If FusionMode is fusion_gradual, it is the maximum allowable rotational shift in radians for gradual fusion, per second.
+         */
+        WhoopOdomFusion(WhoopVision *whoop_vision, WhoopDriveOdomOffset *odom_offset, double min_confidence_threshold, fusionmode fusion_mode, double max_fusion_shift_meters, double max_fusion_shift_radians);
 
-    /**
-     * Retreives the pose from the odom fusion
-     * @returns Pose object
-     */
-    Pose get_pose();
+        /**
+         * Constructor for just wheel odometry
+         * @param odom_offset Pointer to the wheel odometry offset object.
+         */
+        WhoopOdomFusion(WhoopDriveOdomOffset *odom_offset);
 
-    /**
-     * Retreives the pose from the odom fusion
-     * @returns Pose object, two dimension
-     */
-    TwoDPose get_pose_2d();
+        /**
+         * Retreives the pose from the odom fusion
+         * @returns Pose object
+         */
+        Pose get_pose();
 
-    /**
-     * Runs calibration process
-     */
-    void calibrate();
+        /**
+         * Retreives the pose from the odom fusion
+         * @returns Pose object, two dimension
+         */
+        TwoDPose get_pose_2d();
 
-    /**
-     * Returns true if approving frames
-     */
-    bool approving_frames();
+        /**
+         * Runs calibration process
+         */
+        void calibrate();
 
-    /**
-     * Sets the current odometry to the specified coordinates and yaw.
-     * @param x the x coordinate (forwards), in meters
-     * @param y the y coordinate (right), in meters
-     * @param yaw the yaw (counter-clockwise), in radians
-     */
-    void tare(double x, double y, double yaw);
+        /**
+         * Returns true if approving frames
+         */
+        bool approving_frames();
 
-    /**
-     * Sets the current odometry to the specified coordinates in 3D space, and yaw.
-     * @param x the x coordinate (forwards), in meters
-     * @param y the y coordinate (right), in meters
-     * @param z the z coordinate (up), in meters
-     * @param yaw the yaw (counter-clockwise), in radians
-     */
-    void tare(double x, double y, double z, double yaw);
+        /**
+         * Sets the current odometry to the specified coordinates and yaw.
+         * @param x the x coordinate (forwards), in meters
+         * @param y the y coordinate (right), in meters
+         * @param yaw the yaw (counter-clockwise), in radians
+         */
+        void tare(double x, double y, double yaw);
 
-    // Resets the current odometry to the origin (0,0,0).
-    void tare();
+        /**
+         * Sets the current odometry to the specified coordinates in 3D space, and yaw.
+         * @param x the x coordinate (forwards), in meters
+         * @param y the y coordinate (right), in meters
+         * @param z the z coordinate (up), in meters
+         * @param yaw the yaw (counter-clockwise), in radians
+         */
+        void tare(double x, double y, double z, double yaw);
 
-    // Returns true if moving
-    bool is_moving(double rads_s_threshold = 0.02);
+        // Resets the current odometry to the origin (0,0,0).
+        void tare();
 
-    void accept_fuses();
-    void reject_fuses();
+        // Returns true if moving
+        bool is_moving(double rads_s_threshold = 0.02);
 
-public: // Exceptionally public to allow access from another module.
-    /**
-     * Processes a single step of odometry updates.
-     * This method is called periodically to integrate new sensor data and adjust the internal state.
-     */
-    void __step() override; // Protected helper function for processing steps
-};
+        void accept_fuses();
+        void reject_fuses();
+
+    public: // Exceptionally public to allow access from another module.
+        /**
+         * Processes a single step of odometry updates.
+         * This method is called periodically to integrate new sensor data and adjust the internal state.
+         */
+        void __step() override; // Protected helper function for processing steps
+    };
 
 } // namespace whoop
 
