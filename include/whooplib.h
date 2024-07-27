@@ -30,7 +30,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#define USE_VEXCODE false  // Change to false if not using VEXCode (i.e. PROS)
 
 #ifndef WHOOP_LIB_H
 #define WHOOP_LIB_H

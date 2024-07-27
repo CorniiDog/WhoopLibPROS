@@ -155,8 +155,8 @@ void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
 	manager.start();
-	controller1.notify("Initializing", 2);
-
+    jetson_commander.initialize(); // If you don't have Tesseract, omit this line
+    robot_drivetrain.calibrate();
 }
 
 /**
@@ -191,6 +191,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+    robot_drivetrain.set_state(drivetrainState::mode_autonomous);
 	pros::delay(10*1000);
 
 	robot_drivetrain.set_pose_units(PoseUnits::in_deg_cw);
@@ -229,8 +230,9 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	robot_drivetrain.set_state(drivetrainState::mode_usercontrol);
+    autonomous();
 
+	robot_drivetrain.set_state(drivetrainState::mode_usercontrol);
 
 	while (true) {
 

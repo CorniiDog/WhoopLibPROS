@@ -19,8 +19,8 @@ namespace whoop{
  */
 enum reversed
 {
-    yes_reverse = true,
-    no_reverse = false
+    no_reverse = false,
+    yes_reverse = true
 };
 
 /**

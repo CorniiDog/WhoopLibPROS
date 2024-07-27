@@ -26,10 +26,8 @@ WhoopRotation::WhoopRotation(std::int32_t port, reversed reversed) :
 #if USE_VEXCODE
 vex_rotation(vex::rotation(port, reversed)) {}
 #else
-pros_rotation(pros::Rotation(port))
-{
-    pros_rotation.set_reversed(reversed);
-}
+pros_rotation(pros::Rotation(reversed == whoop::reversed::yes_reverse ? -port : port))
+{}
 #endif
 
 WhoopRotation::WhoopRotation(double wheel_diameter_meters, std::int32_t port) : WhoopRotation(port)

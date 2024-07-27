@@ -25,7 +25,7 @@ pros_motor(pros::Motor(port))
 
 WhoopMotor::WhoopMotor(std::int32_t port, reversed reversed) : 
 #if USE_VEXCODE
-vex_motor(vex::motor(port, gear_ratios::green, reversed)) {}
+vex_motor(vex::motor(port, gearSetting(cartridge::green), reversed)) {}
 #else
 pros_motor(pros::Motor(port))
 {
@@ -41,13 +41,13 @@ pros_motor(pros::Motor(port))
 {
     switch(motorCartridge){
     case cartridge::red:
-        pros_motor.get_gearing(pros::E_MOTOR_GEARSET_36);
+        pros_motor.set_gearing(pros::E_MOTOR_GEARSET_36);
         break;
     case cartridge::green:
-        pros_motor.get_gearing(pros::E_MOTOR_GEARSET_18);
+        pros_motor.set_gearing(pros::E_MOTOR_GEARSET_18);
         break;
     case cartridge::blue:
-        pros_motor.get_gearing(pros::E_MOTOR_GEARSET_06);
+        pros_motor.set_gearing(pros::E_MOTOR_GEARSET_06);
         break;
     }
 }
@@ -55,23 +55,22 @@ pros_motor(pros::Motor(port))
 
 WhoopMotor::WhoopMotor(std::int32_t port, cartridge motorCartridge, reversed reversed) : 
 #if USE_VEXCODE
-vex_motor(vex::motor(port, motorCartridge, reversed)) {}
+vex_motor(vex::motor(port, gearSetting(cartridge::green), reversed)) {}
 #else
-pros_motor(pros::Motor(port))
+pros_motor(pros::Motor(reversed == whoop::reversed::yes_reverse ? -port : port))
 {
     switch(motorCartridge){
     case cartridge::red:
-        pros_motor.get_gearing(pros::E_MOTOR_GEARSET_36);
+        pros_motor.set_gearing(pros::E_MOTOR_GEARSET_36);
         break;
     case cartridge::green:
-        pros_motor.get_gearing(pros::E_MOTOR_GEARSET_18);
+        pros_motor.set_gearing(pros::E_MOTOR_GEARSET_18);
         break;
     case cartridge::blue:
-        pros_motor.get_gearing(pros::E_MOTOR_GEARSET_06);
+        pros_motor.set_gearing(pros::E_MOTOR_GEARSET_06);
         break;
     }
 
-    pros_motor.set_reversed(reversed);
 }
 #endif
 
@@ -154,7 +153,7 @@ double WhoopMotor::get_rotation_radians()
 double WhoopMotor::get_velocity()
 {
     #if USE_VEXCODE
-    return vex_motor.velocity(vel);
+    return vex_motor.velocity(velocityUnits::dps);
     #else
     return pros_motor.get_actual_velocity() * 6.0; // In RPM, so we multiply it by 6 to convert to deg/s
     #endif
