@@ -32,8 +32,8 @@ namespace whoop
      */
     enum debugmode
     {
-        debug_enabled = true,
-        debug_disabled = false
+        debug_disabled = false,
+        debug_enabled = true
     };
 
     class Messenger; // Forward declaration to allow reference within BufferNode

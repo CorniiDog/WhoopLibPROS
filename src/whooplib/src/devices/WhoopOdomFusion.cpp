@@ -131,9 +131,10 @@ namespace whoop
 
     void WhoopOdomFusion::calibrate()
     {
-        self_lock.lock();
-        odom_offset->calibrate();
 
+        self_lock.lock();
+
+        odom_offset->calibrate();
         if (whoop_vision != nullptr)
         {
             whoop_vision->tare();

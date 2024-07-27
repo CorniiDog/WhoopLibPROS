@@ -52,6 +52,8 @@ namespace whoop
     // Compute Node Base
     ////////////////////////////////////////////////////////////////////////////////
 
+    void placeholder_task(){}
+
     // ComputeNode Methods
     ComputeNode::ComputeNode() {}
 
@@ -71,7 +73,11 @@ namespace whoop
 
         while (node->node_running)
         {
-            if (node->node_debug)
+            if (node->node_debug) // If in debug mode, simply step knowing the consequence of an error breaking the thread
+            {
+                node->__step();
+            }
+            else
             {
                 try
                 {
@@ -91,8 +97,7 @@ namespace whoop
 #if USE_VEXCODE
                         int end_time = Brain.timer(timeUnits::msec) - start_time;
 #else
-                        int end_time = pros::c::millis();
-                        -start_time;
+                        int end_time = pros::c::millis() - start_time;
 #endif
 
                         if (end_time < node->step_time_ms)
@@ -100,8 +105,7 @@ namespace whoop
 #if USE_VEXCODE
                             node->initial_computational_time = Brain.timer(timeUnits::msec) - start_time;
 #else
-                            node->initial_computational_time = pros::c::millis();
-                            -start_time;
+                            node->initial_computational_time = pros::c::millis() - start_time;
 #endif
                         }
                         else
@@ -122,11 +126,8 @@ namespace whoop
 #endif
                 }
             }
-            else
-            {
-                node->__step();
-            }
 
+            // Initial computational time application for delay
             if (node->initial_computational_time > 0 && node->initial_computational_time < node->step_time_ms)
             {
 #if USE_VEXCODE
@@ -162,17 +163,21 @@ namespace whoop
 
     void ComputeNode::start_pipeline(bool debug_mode)
     {
+#if USE_VEXCODE
+        if (node_running) // Unfortunately cannot do anything about this... Cannot check if the task is running
+        {
+            return;
+        }
+        vex::task vexTask(ComputeNode::task_runner, this); // VEXCode requires an int return variable (hence task_runner)
+#else
         if (node_running)
         {
             return;
         }
+        pros::Task (ComputeNode::task_runner_void, this, ""); // PROS requires no return variable (hence task_runner_void)
+#endif
         node_debug = debug_mode;
         node_running = true;
-#if USE_VEXCODE
-        vex::task myTask(ComputeNode::task_runner, this); // VEXCode requires an int return variable
-#else
-        pros::Task myTask(ComputeNode::task_runner_void, this, ""); // PROS requires no return variable
-#endif
     }
 
     void ComputeNode::stop_pipeline()

@@ -37,7 +37,7 @@ namespace whoop
     /**
      * Represents a motor with control over its speed, direction, and measurement capabilities.
      */
-    class WhoopMotor
+    class WhoopMotor : private pros::Motor
     {
     protected:
         double pos_offset = 0; // Offset applied to the position readings of the motor.
@@ -45,8 +45,6 @@ namespace whoop
 // Upon initialization
 #if USE_VEXCODE
         vex::motor vex_motor; // VEX motor instance.
-#else
-        pros::Motor pros_motor; // PROS motor instance.
 #endif
 
         /**

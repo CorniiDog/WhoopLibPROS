@@ -11,35 +11,16 @@
 #include "whooplib/include/devices/WhoopMotor.hpp"
 #include "whooplib/include/toolbox.hpp"
 
-#define ANALOG_TO_VOLTAGE 127.0 / 12.0
+#define ANALOG_TO_VOLTAGE (127.0 / 12.0)
 
 namespace whoop
 {
 
-    WhoopMotor::WhoopMotor(std::int32_t port) :
-#if USE_VEXCODE
-                                                vex_motor(vex::motor(port))
-#else
-                                                pros_motor(pros::Motor(port))
-#endif
-    {
-    }
+    WhoopMotor::WhoopMotor(std::int32_t port) : WhoopMotor::WhoopMotor(port, reversed::no_reverse) {}
 
-    WhoopMotor::WhoopMotor(std::int32_t port, reversed reversed) :
-#if USE_VEXCODE
-                                                                   vex_motor(vex::motor(port, gearSetting(cartridge::green), reversed))
-    {
-    }
-#else
-                                                                   pros_motor(pros::Motor(port))
-    {
-        pros_motor.set_reversed(reversed);
-    }
-#endif
+    WhoopMotor::WhoopMotor(std::int32_t port, reversed reversed) : WhoopMotor(port, cartridge::green, reversed) {}
 
-    WhoopMotor::WhoopMotor(std::int32_t port, cartridge motorCartridge) : WhoopMotor(port, motorCartridge, whoop::reversed::no_reverse)
-    {
-    }
+    WhoopMotor::WhoopMotor(std::int32_t port, cartridge motorCartridge) : WhoopMotor(port, motorCartridge, whoop::reversed::no_reverse) {}
 
     WhoopMotor::WhoopMotor(std::int32_t port, cartridge motorCartridge, reversed reversed) :
 #if USE_VEXCODE
@@ -47,8 +28,8 @@ namespace whoop
     {
     }
 #else
-                                                                                             pros_motor(pros::Motor(reversed == whoop::reversed::yes_reverse ? -port : port,
-                                                                                                                    motorCartridge == cartridge::red ? pros::v5::MotorGears::red : (motorCartridge == cartridge::green ? pros::v5::MotorGears::green : pros::v5::MotorGears::blue)))
+                                                                                             pros::Motor(reversed ? port : port,
+                                                                                                         motorCartridge == cartridge::red ? pros::v5::MotorGears::red : (motorCartridge == cartridge::green ? pros::v5::MotorGears::green : pros::v5::MotorGears::blue))
     {
     }
 #endif
@@ -60,7 +41,7 @@ namespace whoop
 #if USE_VEXCODE
         vex_motor.spin(fwd, linearize_voltage(volts), voltageUnits::volt);
 #else
-        pros_motor.move(volts * ANALOG_TO_VOLTAGE);
+        pros::Motor::move(volts * ANALOG_TO_VOLTAGE);
 #endif
     }
 
@@ -79,8 +60,8 @@ namespace whoop
 #if USE_VEXCODE
         vex_motor.stop(brakeType::hold);
 #else
-        pros_motor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-        pros_motor.brake();
+        pros::Motor::set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+        pros::Motor::brake();
 #endif
     }
 
@@ -89,8 +70,8 @@ namespace whoop
 #if USE_VEXCODE
         vex_motor.stop(brakeType::brake);
 #else
-        pros_motor.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-        pros_motor.brake();
+        pros::Motor::set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+        pros::Motor::brake();
 #endif
     }
 
@@ -99,8 +80,8 @@ namespace whoop
 #if USE_VEXCODE
         vex_motor.stop(brakeType::coast);
 #else
-        pros_motor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-        pros_motor.brake();
+        pros::Motor::set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+        pros::Motor::brake();
 #endif
     }
 
@@ -109,7 +90,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_motor.position(rotationUnits::deg) + pos_offset;
 #else
-        return pros_motor.get_position(); // Degrees by default
+        return pros::Motor::get_position(); // Degrees by default
 #endif
     }
 
@@ -134,7 +115,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_motor.velocity(velocityUnits::dps);
 #else
-        return pros_motor.get_actual_velocity() * 6.0; // In RPM, so we multiply it by 6 to convert to deg/s
+        return pros::Motor::get_actual_velocity() * 6.0; // In RPM, so we multiply it by 6 to convert to deg/s
 #endif
     }
 
@@ -159,7 +140,7 @@ namespace whoop
 #if USE_VEXCODE
         vex_motor.resetPosition();
 #else
-        pros_motor.tare_position();
+        pros::Motor::tare_position();
 #endif
     }
 

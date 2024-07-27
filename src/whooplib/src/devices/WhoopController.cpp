@@ -23,12 +23,14 @@ namespace whoop
 
     WhoopController::WhoopController(joystickmode mode, controllertype controller_type) :
 #if USE_VEXCODE
-                                                                                          vex_controller(controller_type == controllertype::controller_primary ? vex::controllerType::primary : vex::controllerType::partner),
+                                                                                          vex_controller(vex::controller(controller_type == controllertype::controller_primary ? vex::controllerType::primary : vex::controllerType::partner)),
 #else
-                                                                                          pros_controller(controller_type == controllertype::controller_partner ? pros::E_CONTROLLER_MASTER : pros::E_CONTROLLER_PARTNER),
+                                                                                          Controller((controller_type == controllertype::controller_primary ? pros::E_CONTROLLER_MASTER : pros::E_CONTROLLER_PARTNER)),
 #endif
                                                                                           joystick_mode(mode)
     {
+
+        std::cout<< "Is primary:" <<  (controller_type == controllertype::controller_primary) << std::endl;
     }
 
     void WhoopController::notify(std::string message, double duration_seconds)
@@ -39,9 +41,15 @@ namespace whoop
         vex_controller.Screen.print("%s", message.c_str());
         vex_controller.rumble(".");
 #else
-        pros_controller.clear_line(1);
-        pros_controller.print(1, 2, "%s", message.c_str());
-        pros_controller.rumble(".");
+        std::cout << "Cleared line" << std::endl;
+        pros::Controller::clear_line(1);
+        std::cout << "Printing" << std::endl;
+
+        pros::Controller::print(1, 2, "%s", message.c_str());
+
+        std::cout << "Rumble" << std::endl;
+
+        pros::Controller::rumble(".");
 #endif
 
         time_left_to_clear = duration_seconds * std::round(safeDivide(1000, step_time_ms, 10000)); // in milliseconds
@@ -54,7 +62,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.Axis4.position(pct);
 #else
-        return pros_controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) * ANALOG_TO_PCT;
+        return pros::Controller::get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X) * ANALOG_TO_PCT;
 #endif
     }
     double WhoopController::get_left_joystick_y()
@@ -62,7 +70,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.Axis3.position(pct);
 #else
-        return pros_controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) * ANALOG_TO_PCT;
+        return pros::Controller::get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) * ANALOG_TO_PCT;
 #endif
     }
     double WhoopController::get_right_joystick_x()
@@ -70,7 +78,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.Axis1.position(pct);
 #else
-        return pros_controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) * ANALOG_TO_PCT;
+        return pros::Controller::get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) * ANALOG_TO_PCT;
 #endif
     }
     double WhoopController::get_right_joystick_y()
@@ -78,7 +86,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.Axis2.position(pct);
 #else
-        return pros_controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) * ANALOG_TO_PCT;
+        return pros::Controller::get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) * ANALOG_TO_PCT;
 #endif
     }
 
@@ -89,7 +97,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.ButtonUp.pressing();
 #else
-        return pros_controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
+        return pros::Controller::get_digital(pros::E_CONTROLLER_DIGITAL_UP);
 #endif
     }
     bool WhoopController::down_pressing()
@@ -97,7 +105,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.ButtonDown.pressing();
 #else
-        return pros_controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN);
+        return pros::Controller::get_digital(pros::E_CONTROLLER_DIGITAL_DOWN);
 #endif
     }
     bool WhoopController::left_pressing()
@@ -105,7 +113,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.ButtonLeft.pressing();
 #else
-        return pros_controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT);
+        return pros::Controller::get_digital(pros::E_CONTROLLER_DIGITAL_LEFT);
 #endif
     }
     bool WhoopController::right_pressing()
@@ -113,7 +121,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.ButtonRight.pressing();
 #else
-        return pros_controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT);
+        return pros::Controller::get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT);
 #endif
     }
 
@@ -124,7 +132,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.ButtonA.pressing();
 #else
-        return pros_controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
+        return pros::Controller::get_digital(pros::E_CONTROLLER_DIGITAL_A);
 #endif
     }
     bool WhoopController::b_pressing()
@@ -132,7 +140,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.ButtonB.pressing();
 #else
-        return pros_controller.get_digital(pros::E_CONTROLLER_DIGITAL_B);
+        return pros::Controller::get_digital(pros::E_CONTROLLER_DIGITAL_B);
 #endif
     }
     bool WhoopController::x_pressing()
@@ -140,7 +148,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.ButtonX.pressing();
 #else
-        return pros_controller.get_digital(pros::E_CONTROLLER_DIGITAL_X);
+        return pros::Controller::get_digital(pros::E_CONTROLLER_DIGITAL_X);
 #endif
     }
     bool WhoopController::y_pressing()
@@ -148,7 +156,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.ButtonY.pressing();
 #else
-        return pros_controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
+        return pros::Controller::get_digital(pros::E_CONTROLLER_DIGITAL_Y);
 #endif
     }
 
@@ -159,7 +167,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.ButtonR1.pressing();
 #else
-        return pros_controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1);
+        return pros::Controller::get_digital(pros::E_CONTROLLER_DIGITAL_R1);
 #endif
     }
     bool WhoopController::right_bottom_bumper_pressing()
@@ -167,7 +175,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.ButtonR2.pressing();
 #else
-        return pros_controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2);
+        return pros::Controller::get_digital(pros::E_CONTROLLER_DIGITAL_R2);
 #endif
     }
     bool WhoopController::left_top_bumper_pressing()
@@ -175,7 +183,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.ButtonL1.pressing();
 #else
-        return pros_controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1);
+        return pros::Controller::get_digital(pros::E_CONTROLLER_DIGITAL_L1);
 #endif
     }
     bool WhoopController::left_bottom_bumper_pressing()
@@ -183,7 +191,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_controller.ButtonL2.pressing();
 #else
-        return pros_controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2);
+        return pros::Controller::get_digital(pros::E_CONTROLLER_DIGITAL_L2);
 #endif
     }
 
@@ -201,7 +209,7 @@ namespace whoop
 #if USE_VEXCODE
             vex_controller.Screen.clearLine(1);
 #else
-            pros_controller.clear_line(1);
+            pros::Controller::clear_line(1);
 #endif
         }
     }

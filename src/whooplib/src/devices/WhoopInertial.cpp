@@ -21,7 +21,7 @@ namespace whoop
 #if USE_VEXCODE
                                                       vex_inertial(inertial(port))
 #else
-                                                      pros_inertial(pros::IMU(port))
+                                                      pros::IMU(port)
 #endif
     {
     }
@@ -37,7 +37,7 @@ namespace whoop
 #if USE_VEXCODE
         double yaw = -(vex_inertial.heading(rotationUnits::deg) * correction_multiplier);
 #else
-        double yaw = -(pros_inertial.get_heading() * correction_multiplier);
+        double yaw = -(pros::IMU::get_heading() * correction_multiplier);
 #endif
 
         yaw += yaw_offset;
@@ -68,7 +68,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_inertial.roll();
 #else
-        return pros_inertial.get_roll();
+        return pros::IMU::get_roll();
 #endif
     }
 
@@ -87,7 +87,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_inertial.pitch();
 #else
-        return pros_inertial.get_roll();
+        return pros::IMU::get_roll();
 #endif
     }
 
@@ -107,7 +107,7 @@ namespace whoop
 #if USE_VEXCODE
         vex_inertial.calibrate();
 #else
-        pros_inertial.reset();
+        pros::IMU::reset();
 #endif
     }
 
@@ -122,7 +122,7 @@ namespace whoop
 #if USE_VEXCODE
         vex_inertial.resetHeading();
 #else
-        pros_inertial.tare_heading();
+        pros::IMU::tare_heading();
 #endif
     }
     void WhoopInertial::tare_degrees(double degrees)

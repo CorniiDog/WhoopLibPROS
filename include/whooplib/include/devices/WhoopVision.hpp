@@ -75,7 +75,7 @@ namespace whoop
 
     protected:
         // Upon initialization
-        std::unique_ptr<Messenger> pose_messenger = nullptr; // Handles messaging for pose data from Jetson Nano
+        Messenger pose_messenger; // Handles messaging for pose data from Jetson Nano
 
         // Tares
         double tare_x = 0;
@@ -98,13 +98,6 @@ namespace whoop
         RobotVisionOffset *robot_offset; // Offset configuration for vision adjustments.
 
         std::vector<std::function<void(Pose)>> callback_functions; // Callbacks registered for incoming messages.
-
-        /**
-         * Setups the messaging system for receiving pose data.
-         * @param bufferSystem The buffer node system used for message handling.
-         * @param pose_stream The stream identifier for pose data.
-         */
-        void setup_messenger(BufferNode *bufferSystem, const std::string &pose_stream);
 
         /**
          * Transforms the raw pose data based on the current configuration and tare settings.

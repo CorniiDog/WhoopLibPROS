@@ -25,17 +25,12 @@ namespace whoop
         this->y = y;
     }
 
-    void WhoopVision::setup_messenger(BufferNode *bufferSystem, const std::string &pose_stream)
-    {
-        pose_messenger = std::make_unique<Messenger>(bufferSystem, pose_stream, deleteafterread::no_delete);
-        pose_messenger->on_message(std::bind(&WhoopVision::_update_pose, this, std::placeholders::_1));
-    }
 
-    WhoopVision::WhoopVision(RobotVisionOffset *robotOffset, BufferNode *bufferSystem, std::string pose_stream) : tared_position(this->raw_pose.x, this->raw_pose.y, this->raw_pose.yaw - tare_yaw), offset_change(0, 0, 0)
+    WhoopVision::WhoopVision(RobotVisionOffset *robotOffset, BufferNode *bufferSystem, std::string pose_stream) : tared_position(this->raw_pose.x, this->raw_pose.y, this->raw_pose.yaw - tare_yaw), offset_change(0, 0, 0),
+    pose_messenger(Messenger(bufferSystem, pose_stream, deleteafterread::no_delete))
     {
         robot_offset = robotOffset;
-        setup_messenger(bufferSystem, pose_stream);
-        this->tare();
+        pose_messenger.on_message(std::bind(&WhoopVision::_update_pose, this, std::placeholders::_1));
     }
 
     void WhoopVision::_transform_pose(bool apply_delta)
@@ -68,7 +63,11 @@ namespace whoop
 
     void WhoopVision::tare(double x, double y, double z, double pitch, double yaw, double roll)
     {
+
+
         thread_lock.lock();
+
+
         this->tare_x = x;
         this->tare_y = y;
         this->tare_z = z;
@@ -81,8 +80,9 @@ namespace whoop
         tared_roll = this->raw_pose.roll - tare_roll;
 
         this->tared_position = TwoDPose(this->raw_pose.x, this->raw_pose.y, this->raw_pose.yaw - tare_yaw);
-        this->_transform_pose(true);
+
         thread_lock.unlock();
+        this->_transform_pose(true);
     }
 
     void WhoopVision::on_update(std::function<void(Pose)> callback)
@@ -110,18 +110,21 @@ namespace whoop
 
         TwoDPose tared_p(this->raw_pose.x, this->raw_pose.y, this->raw_pose.yaw - tare_yaw);
         this->tared_position = tared_p;
-        this->_transform_pose(true);
+
         thread_lock.unlock();
+        this->_transform_pose(true);
     }
 
     void WhoopVision::tare(double x, double y, double yaw)
     {
-        tare(x, y, yaw, tare_remaining_0::do_tare);
+        this->tare(x, y, yaw, tare_remaining_0::do_tare);
     }
 
     void WhoopVision::tare()
     {
-        tare(0, 0, 0, 0, 0, 0);
+
+        this->tare(0, 0, 0, 0, 0, 0);
+
     }
 
     void WhoopVision::_update_pose(std::string pose_data)

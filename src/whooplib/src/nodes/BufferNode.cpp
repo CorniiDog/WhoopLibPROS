@@ -33,7 +33,6 @@ namespace whoop
     {
         ////////////////////////////////////////////////////////////////////////
         // Acquiring data
-        // FILE *fp = fopen(serial_conn.c_str(), "r");
         FILE *fp = fopen(serial_conn_in.c_str(), "r");
         // If serial connection not established, don't continue
         if (!fp)
@@ -167,9 +166,10 @@ namespace whoop
             lock_ptr->lock(); // Acquire the mutex
 
         FILE *fp = fopen(serial_conn_out.c_str(), "w");
-
         // If serial connection not established, don't continue
         if (!fp)
+            if (lock_ptr)
+                lock_ptr->unlock(); // Release the mutex
             return 2;
 
         // Writing to serial connection

@@ -392,6 +392,7 @@ namespace whoop
     {
         whoop_controller->notify("Calibrating Dont Move");
         odom_fusion->calibrate();
+
         whoop_controller->notify("Calibration Finished.", 2);
 
         // Update desired position to 0,0,0

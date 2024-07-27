@@ -20,8 +20,15 @@ namespace whoop
     /**
      * Represents a rotation sensor with control over its measurement capabilities.
      */
+
+#if USE_VEXCODE
     class WhoopRotation
     {
+
+#else
+    class WhoopRotation : private pros::Rotation
+    {
+#endif
     protected:
         double pos_offset = 0;                   // Offset applied to the position readings of the rotation sensor.
         double wheel_diameter = to_meters(2.75); // Wheel Diameter in meters. For example, 0.06985 is 2.75 inches
@@ -31,8 +38,6 @@ namespace whoop
 // Upon initialization
 #if USE_VEXCODE
         vex::rotation vex_rotation; // VEX rotation sensor instance.
-#else
-        pros::Rotation pros_rotation; // PROS rotation sensor instance.
 #endif
 
         /**

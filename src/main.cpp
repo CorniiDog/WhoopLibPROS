@@ -1,5 +1,4 @@
 #include "main.h"
-#include "whooplib.h"
 
 ////////////////////////////////////////////////////////////
 /**
@@ -8,20 +7,20 @@
 ////////////////////////////////////////////////////////////
 
 // Primary controller
-WhoopController controller1(joystickmode::joystickmode_tank, controllertype::controller_primary);
+WhoopController controller1(joystickmode::joystickmode_split_arcade, controllertype::controller_primary);
 
 // Left drive motors
-WhoopMotor l1(PORT12, cartridge::blue, reversed::no_reverse);
-WhoopMotor l2(PORT13, cartridge::blue, reversed::no_reverse);
-WhoopMotor l3(PORT14, cartridge::blue, reversed::no_reverse);
-WhoopMotor l4(PORT15, cartridge::blue, reversed::no_reverse);
+WhoopMotor l1(PORT12, cartridge::blue, reversed::yes_reverse);
+WhoopMotor l2(PORT13, cartridge::blue, reversed::yes_reverse);
+WhoopMotor l3(PORT14, cartridge::blue, reversed::yes_reverse);
+WhoopMotor l4(PORT15, cartridge::blue, reversed::yes_reverse);
 WhoopMotorGroup left_motors({&l1, &l2, &l3, &l4});
 
 // Right drive motors
-WhoopMotor r1(PORT1, cartridge::blue, reversed::yes_reverse);
-WhoopMotor r2(PORT2, cartridge::blue, reversed::yes_reverse);
-WhoopMotor r3(PORT3, cartridge::blue, reversed::yes_reverse);
-WhoopMotor r4(PORT4, cartridge::blue, reversed::yes_reverse);
+WhoopMotor r1(PORT1, cartridge::blue, reversed::no_reverse);
+WhoopMotor r2(PORT2, cartridge::blue, reversed::no_reverse);
+WhoopMotor r3(PORT3, cartridge::blue, reversed::no_reverse);
+WhoopMotor r4(PORT4, cartridge::blue, reversed::no_reverse);
 WhoopMotorGroup right_motors({&r1, &r2, &r3, &r4});
 
 // Sensors
@@ -29,11 +28,11 @@ WhoopInertial inertial_sensor(PORT7);
 WhoopRotation forward_tracker(PORT6, reversed::yes_reverse);
 WhoopRotation sideways_tracker(PORT9, reversed::yes_reverse);
 
-////////////////////////////////////////////////////////////
-/**
- *    Wheel Odometry Configuration
- */
-////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////
+// /**
+//  *    Wheel Odometry Configuration
+//  */
+// ////////////////////////////////////////////////////////////
 
 WhoopDriveOdomUnit odom_unit(
     to_meters(1.51),   // The forward tracker distance, in meters, from the odom unit's center. (positive implies a shift to the right from the odom unit's center)
@@ -51,11 +50,11 @@ WhoopDriveOdomOffset odom_offset(
     to_meters(4.95)  // The y offset of the odom unit from the center of the robot (positive implies a shift forward from the center of the robot).
 );
 
-////////////////////////////////////////////////////////////
-/**
- *    VISION TESSERACT
- */
-////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////
+// /**
+//  *    VISION TESSERACT
+//  */
+// ////////////////////////////////////////////////////////////
 
 // Serial communication module
 BufferNode buffer_system(
@@ -157,6 +156,8 @@ void initialize()
     pros::lcd::set_text(1, "Hello PROS User!");
     manager.start();
     jetson_commander.initialize(); // If you don't have Tesseract, omit this line
+    controller1.notify("Initializing");
+
     robot_drivetrain.calibrate();
 }
 
@@ -234,13 +235,12 @@ void autonomous()
  */
 void opcontrol()
 {
-    autonomous();
+    //autonomous();
 
     robot_drivetrain.set_state(drivetrainState::mode_usercontrol);
 
     while (true)
     {
-
         pros::delay(20); // Run for 20 ms then update
     }
 }

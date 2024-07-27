@@ -19,7 +19,7 @@ namespace whoop
 #if USE_VEXCODE
                                                       vex_rotation(vex::rotation(port, false))
 #else
-                                                      pros_rotation(pros::Rotation(port))
+                                                      pros::Rotation(port)
 #endif
     {
     }
@@ -30,7 +30,7 @@ namespace whoop
     {
     }
 #else
-                                                                         pros_rotation(pros::Rotation(reversed == whoop::reversed::yes_reverse ? -port : port))
+                                                                         pros::Rotation(reversed ? -port : port)
     {
     }
 #endif
@@ -56,7 +56,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_rotation.position(rotationUnits::deg) + pos_offset;
 #else
-        return pros_rotation.get_position() / 100.0; // Position in centidegrees, so we convert
+        return pros::Rotation::get_position() / 100.0; // Position in centidegrees, so we convert
 #endif
     }
 
@@ -80,7 +80,7 @@ namespace whoop
 #if USE_VEXCODE
         return vex_rotation.velocity(velocityUnits::dps);
 #else
-        return pros_rotation.get_velocity() / 100.0; // Convert from centidegrees/s to degrees/s
+        return pros::Rotation::get_velocity() / 100.0; // Convert from centidegrees/s to degrees/s
 #endif
     }
     double WhoopRotation::get_velocity_deg_s()
@@ -112,7 +112,7 @@ namespace whoop
 #if USE_VEXCODE
         vex_rotation.resetPosition();
 #else
-        pros_rotation.reset_position();
+        pros::Rotation::reset_position();
 #endif
     }
 

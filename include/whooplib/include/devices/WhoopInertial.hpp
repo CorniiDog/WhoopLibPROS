@@ -18,8 +18,13 @@ namespace whoop
     /**
      * Manages an inertial sensor to provide orientation and motion-related data.
      */
+#if USE_VEXCODE
     class WhoopInertial
     {
+#else
+    class WhoopInertial: private pros::IMU
+    {
+#endif
     protected:
         double yaw_offset = 0; // Offset to adjust the yaw reading to account for initial orientation.
         double correction_multiplier = 1;
@@ -27,8 +32,6 @@ namespace whoop
     public:
 #if USE_VEXCODE
         inertial vex_inertial; // VEX Robotics Inertial Sensor object.
-#else
-        pros::IMU pros_inertial; // PROS inertial sensor
 #endif
 
         /**

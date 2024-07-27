@@ -72,6 +72,7 @@ namespace whoop
         int step_time_ms = 10;          // time between each computational activity
         bool omit_steptime_compensation = false;
         int initial_computational_time = 0; // Time to process data (to try to adapt step time to be more precise)
+
         /**
          * Constructor for ComputeNode.
          */
