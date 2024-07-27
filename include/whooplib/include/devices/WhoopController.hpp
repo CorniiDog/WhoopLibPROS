@@ -15,10 +15,11 @@
 #include <functional>
 #include "whooplib/include/nodes/NodeManager.hpp"
 
+namespace whoop{
 /**
  * Enumerates the available joystick control modes.
  */
-enum joystickMode
+enum joystickmode
 {
     joystickmode_tank = 1,
     joystickmode_split_arcade = 2,
@@ -29,10 +30,10 @@ enum joystickMode
 /*
  * VEX Controller type for primary and partner
 */
-enum controllerType
+enum controllertype
 {
-    controllertype_primary,
-    controllerpartner
+    controller_primary,
+    controller_partner
 };
 
 /**
@@ -46,7 +47,7 @@ public:
     #else
     pros::Controller pros_controller; // Instance of PROS controller.
     #endif
-    joystickMode joystick_mode;     // Current joystick mode.
+    joystickmode joystick_mode;     // Current joystick mode.
 
     int time_left_to_clear = 0;
 
@@ -54,14 +55,14 @@ public:
      * Constructor that initializes the controller with a specific joystick mode.
      * @param mode The joystick mode to be used.
      */
-    WhoopController(joystickMode mode = joystickMode::joystickmode_split_arcade);
+    WhoopController(joystickmode mode = joystickmode::joystickmode_split_arcade);
 
     /**
      * Constructor that initializes the controller with a specific joystick mode and controller type.
      * @param mode The joystick mode to be used.
      * @param controller_type The type of controller (primary or partner).
      */
-    WhoopController(joystickMode mode, controllerType controller_type);
+    WhoopController(joystickmode mode, controllertype controller_type);
 
     /**
      * Retrieves the horizontal axis value of the left joystick.
@@ -115,5 +116,7 @@ public:
 public:
     void __step() override; // Protected helper function for processing steps
 };
+
+} // Namespace whoop
 
 #endif // WHOOP_CONTROLLER_HPP

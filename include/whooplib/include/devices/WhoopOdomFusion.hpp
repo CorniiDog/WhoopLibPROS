@@ -18,8 +18,10 @@
 #include <vector>
 #include <memory>
 
+namespace whoop{
+
 // Enumeration defining possible fusion modes between visual and wheel odometry data.
-enum FusionMode
+enum fusionmode
 {
     fusion_instant, // Instantly aligns wheel odometry to vision odometry upon data retrieval.
     fusion_gradual, // Gradually aligns wheel odometry to vision odometry over time.
@@ -34,7 +36,7 @@ protected:
     WhoopMutex self_lock;            // Mutex for thread-safe operations.
     WhoopVision *whoop_vision;       // Pointer to the vision odometry unit.
     double min_confidence_threshold; // Minimum confidence level required to accept new vision data.
-    FusionMode fusion_mode;          // Current mode of odometry data fusion.
+    fusionmode fusion_mode;          // Current mode of odometry data fusion.
     double max_fusion_shift_meters;  // Maximum shift in meters per step when gradually fusing data.
     double max_fusion_shift_radians; // Maximum rotational shift in radians per step when gradually fusing data.
 
@@ -59,7 +61,7 @@ public:
      * @param max_fusion_shift_meters If FusionMode is fusion_gradual, it is the maximum allowable shift in meters for gradual fusion, per second.
      * @param max_fusion_shift_radians If FusionMode is fusion_gradual, it is the maximum allowable rotational shift in radians for gradual fusion, per second.
      */
-    WhoopOdomFusion(WhoopVision *whoop_vision, WhoopDriveOdomOffset *odom_offset, double min_confidence_threshold, FusionMode fusion_mode, double max_fusion_shift_meters, double max_fusion_shift_radians);
+    WhoopOdomFusion(WhoopVision *whoop_vision, WhoopDriveOdomOffset *odom_offset, double min_confidence_threshold, fusionmode fusion_mode, double max_fusion_shift_meters, double max_fusion_shift_radians);
 
     /**
      * Constructor for just wheel odometry
@@ -122,5 +124,7 @@ public: // Exceptionally public to allow access from another module.
      */
     void __step() override; // Protected helper function for processing steps
 };
+
+} // namespace whoop
 
 #endif // WHOOP_ODOM_FUSION_HPP

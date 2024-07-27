@@ -13,6 +13,8 @@
 #include <memory>
 #include <cmath>
 
+namespace whoop{
+
 WhoopDriveOdomUnit::WhoopDriveOdomUnit(double drive_width, double drive_wheel_diameter_meters, double drive_gear_ratio, WhoopInertial *inertialSensor, WhoopMotorGroup *leftMotorGroup, WhoopMotorGroup *rightMotorGroup) : inertial_sensor(inertialSensor)
 {
     init_motor_groups(leftMotorGroup, rightMotorGroup);
@@ -159,3 +161,5 @@ void WhoopDriveOdomUnit::__step()
     pose.yaw = orientation_rad;
     thread_lock.unlock();
 }
+
+} // namespace whoop

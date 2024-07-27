@@ -8,8 +8,9 @@
 /*----------------------------------------------------------------------------*/
 
 #include "whooplib/include/calculators/PID.hpp"
-
 #include <cmath>
+
+namespace whoop{
 
 /**
  * PID constructor with P, I, D, and starti
@@ -103,3 +104,5 @@ void PID::zeroize_accumulated()
 {
   accumulated_error = 0;
 }
+
+} // namespace whoop

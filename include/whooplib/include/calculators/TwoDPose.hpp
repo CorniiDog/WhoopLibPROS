@@ -15,6 +15,8 @@
 #include <iomanip>
 #include <string>
 
+namespace whoop{
+
 /**
  * Represents a 2D pose with position and orientation in a Cartesian coordinate system.
  * Yaw is in radians, counter-clockwise.
@@ -131,5 +133,7 @@ public:
      */
     std::string to_realsense_string(int decimal_places = 4);
 };
+
+} // namespace whoop
 
 #endif // TWODPOSE_HPP

@@ -17,6 +17,8 @@
 #include <vector>
 #include <memory>
 
+namespace whoop{
+
 /**
  * Struct representing a three-dimensional pose with orientation.
  * @param x meters (right-positive)
@@ -144,5 +146,7 @@ public:
      */
     Pose get_pose();
 };
+
+} // namespace whoop
 
 #endif // WHOOP_VISION_HPP

@@ -12,6 +12,8 @@
 
 #include "whooplib/includer.hpp"
 
+namespace whoop{
+
 /**
  * Manages an inertial sensor to provide orientation and motion-related data.
  */
@@ -123,5 +125,7 @@ public:
      */
     void tare_radians(double radians);
 };
+
+} // namespace whoop
 
 #endif // WHOOP_INERTIAL_HPP

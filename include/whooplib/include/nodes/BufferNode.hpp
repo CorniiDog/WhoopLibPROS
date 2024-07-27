@@ -15,10 +15,12 @@
 #include <string>
 #include <functional>
 
+namespace whoop{
+
 /**
  * Enum for controlling whether messages should be deleted after reading.
  */
-enum deleteAfterRead
+enum deleteafterread
 {
     no_delete = true,
     yes_delete = false
@@ -27,7 +29,7 @@ enum deleteAfterRead
 /**
  * Enum for setting the debug mode of the BufferNode.
  */
-enum debugMode
+enum debugmode
 {
     debug_enabled = true,
     debug_disabled = false
@@ -42,7 +44,8 @@ class BufferNode : public ComputeNode
 {
 protected:
     int max_buffer_size;     // Maximum buffer size for storing messages.
-    std::string serial_conn = MICRO_USB_SERIAL_CONNECTION; // Serial connection identifier.
+    std::string serial_conn_out = MICRO_USB_SERIAL_CONNECTION_OUT; // Serial connection identifier for OUT.
+    std::string serial_conn_in = MICRO_USB_SERIAL_CONNECTION_IN; // Serial connection identifier for IN.
 
     // Additional modifiables
     std::string my_buffer = "";                            // Global buffer to store USB input data
@@ -56,7 +59,7 @@ public:
      * @param maxBufferSize Maximum size of the buffer.
      * @param debugMode Initial state of debug mode.
      */
-    BufferNode(int maxBufferSize = 512, debugMode debugMode = debugMode::debug_disabled); // Constructor declaration
+    BufferNode(int maxBufferSize = 512, debugmode debugMode = debugmode::debug_disabled); // Constructor declaration
 
     /**
      * Registers a messenger for listening to specific streams.
@@ -110,7 +113,7 @@ public:
      * @param stream The stream identifier for this messenger.
      * @param deleteAfterRead Controls whether messages are deleted after reading.
      */
-    Messenger(BufferNode *bufferSystem, std::string stream, deleteAfterRead deleteAfterRead = deleteAfterRead::no_delete);
+    Messenger(BufferNode *bufferSystem, std::string stream, deleteafterread deleteAfterRead = deleteafterread::no_delete);
 
     /**
      * Sends a message to the associated stream.
@@ -130,5 +133,8 @@ public:
      */
     void on_message(std::function<void(std::string)> callback);
 };
+
+} // namespace whoop
+
 
 #endif // BUFFER_NODE_HPP

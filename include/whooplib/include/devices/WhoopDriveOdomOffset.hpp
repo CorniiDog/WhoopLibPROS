@@ -17,6 +17,8 @@
 #include <vector>
 #include <memory>
 
+namespace whoop{
+
 struct velocityVector
 {
     double x = 0;
@@ -100,5 +102,7 @@ public: // This is one of the ONLY exceptions to be public, as another module re
     void __step_down();     // This steps down to the Odom Unit (meant to be managed by drivetrain or fusion object)
     void __step() override; // Protected helper function for processing steps
 };
+
+} // namespace whoop
 
 #endif // WHOOP_DRIVE_ODOM_OFFSET_HPP

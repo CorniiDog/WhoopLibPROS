@@ -17,6 +17,8 @@
 #include <string>
 #include <memory> // For std::unique_ptr
 
+namespace whoop{
+
 void WhoopDrivetrain::init_motor_groups(WhoopMotorGroup *leftGroup, WhoopMotorGroup *rightGroup)
 {
     left_motor_group = std::make_unique<WhoopMotorGroup>(*leftGroup);
@@ -496,19 +498,19 @@ void WhoopDrivetrain::step_usercontrol()
 {
     switch (whoop_controller->joystick_mode)
     {
-    case joystickMode::joystickmode_tank:
+    case joystickmode::joystickmode_tank:
         left_motor_group->spin_percentage(whoop_controller->get_left_joystick_y());
         right_motor_group->spin_percentage(whoop_controller->get_right_joystick_y());
         break;
-    case joystickMode::joystickmode_split_arcade:
+    case joystickmode::joystickmode_split_arcade:
         left_motor_group->spin_percentage(whoop_controller->get_left_joystick_y() + whoop_controller->get_right_joystick_x());
         right_motor_group->spin_percentage(whoop_controller->get_left_joystick_y() - whoop_controller->get_right_joystick_x());
         break;
-    case joystickMode::joystickmode_left_arcade:
+    case joystickmode::joystickmode_left_arcade:
         left_motor_group->spin_percentage(whoop_controller->get_left_joystick_y() + whoop_controller->get_left_joystick_x());
         right_motor_group->spin_percentage(whoop_controller->get_left_joystick_y() - whoop_controller->get_left_joystick_x());
         break;
-    case joystickMode::joystickmode_right_arcade:
+    case joystickmode::joystickmode_right_arcade:
         left_motor_group->spin_percentage(whoop_controller->get_right_joystick_y() + whoop_controller->get_right_joystick_x());
         right_motor_group->spin_percentage(whoop_controller->get_right_joystick_y() - whoop_controller->get_right_joystick_x());
         break;
@@ -646,3 +648,5 @@ void WhoopDrivetrain::set_pose_units(PoseUnits units)
 {
     pose_units = units;
 }
+
+} // namespace whoop

@@ -18,6 +18,8 @@
 #include <functional>
 #include <memory> // For std::unique_ptr
 
+namespace whoop{
+
 enum jetsonCommunication
 {
     enable_comms = true,
@@ -86,5 +88,7 @@ public:
      */
     void __step() override; // Protected helper function for processing steps
 };
+
+} // namespace whoop
 
 #endif // JETSON_COMMANDER_HPP

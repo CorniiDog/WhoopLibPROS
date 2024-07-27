@@ -23,6 +23,8 @@
 #include <vector>
 #include <memory>
 
+namespace whoop{
+
 /**
  * Enum representing the possible states of the drivetrain.
  */
@@ -303,5 +305,7 @@ protected:
      */
     void __step() override; // Protected helper function for processing steps
 };
+
+} // namespace whoop
 
 #endif // WHOOP_DRIVETRAIN_HPP

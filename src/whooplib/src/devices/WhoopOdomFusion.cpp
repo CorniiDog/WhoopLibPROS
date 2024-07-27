@@ -12,7 +12,9 @@
 #include <cmath>
 #include "whooplib/include/devices/WhoopDrivetrain.hpp"
 
-WhoopOdomFusion::WhoopOdomFusion(WhoopVision *whoop_vision, WhoopDriveOdomOffset *odom_offset, double min_confidence_threshold, FusionMode fusion_mode, double max_fusion_shift_meters, double max_fusion_shift_radians)
+namespace whoop{
+
+WhoopOdomFusion::WhoopOdomFusion(WhoopVision *whoop_vision, WhoopDriveOdomOffset *odom_offset, double min_confidence_threshold, fusionmode fusion_mode, double max_fusion_shift_meters, double max_fusion_shift_radians)
 {
     this->odom_offset = odom_offset;
     this->max_fusion_shift_meters = max_fusion_shift_meters / 55.6;
@@ -27,13 +29,13 @@ WhoopOdomFusion::WhoopOdomFusion(WhoopDriveOdomOffset *odom_offset)
     this->odom_offset = odom_offset;
     this->max_fusion_shift_meters = 0;
     this->max_fusion_shift_radians = 0;
-    this->fusion_mode = FusionMode::wheel_odom_only;
+    this->fusion_mode = fusionmode::wheel_odom_only;
     this->whoop_vision = nullptr;
 }
 
 void WhoopOdomFusion::on_vision_pose_received(Pose p)
 {
-    if (fusion_mode == FusionMode::wheel_odom_only || !accepting_fuses)
+    if (fusion_mode == fusionmode::wheel_odom_only || !accepting_fuses)
     {
         return;
     }
@@ -48,7 +50,7 @@ void WhoopOdomFusion::on_vision_pose_received(Pose p)
         double angle_difference = std::fabs(yaw_difference);
 
         // Handle linear position adjustment
-        if (fusion_mode == FusionMode::fusion_gradual && distance > max_fusion_shift_meters)
+        if (fusion_mode == fusionmode::fusion_gradual && distance > max_fusion_shift_meters)
         {
             double dx = p.x - pose.x;
             double dy = p.y - pose.y;
@@ -75,7 +77,7 @@ void WhoopOdomFusion::on_vision_pose_received(Pose p)
 
         // Handle angular position adjustment
         self_lock.lock();
-        if (fusion_mode == FusionMode::fusion_gradual && angle_difference > max_fusion_shift_radians)
+        if (fusion_mode == fusionmode::fusion_gradual && angle_difference > max_fusion_shift_radians)
         {
             pose.yaw += std::copysign(max_fusion_shift_radians, yaw_difference);
         }
@@ -176,7 +178,7 @@ void WhoopOdomFusion::__step()
 {
     self_lock.lock();
 
-    if (fusion_mode != FusionMode::vision_only)
+    if (fusion_mode != fusionmode::vision_only)
     {
         odom_offset->__step_down(); // Step down wheel odometry ladder
         TwoDPose result = odom_offset->get_pose();
@@ -188,3 +190,5 @@ void WhoopOdomFusion::__step()
     pose.pitch = odom_offset->odom_unit->inertial_sensor->get_pitch_radians();
     self_lock.unlock();
 }
+
+} // namespace whoop

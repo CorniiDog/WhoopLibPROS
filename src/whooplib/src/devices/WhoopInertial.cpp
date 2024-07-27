@@ -13,6 +13,8 @@
 
 #include "whooplib/include/devices/WhoopMotor.hpp"
 
+namespace whoop{
+
 // Initialization Constructors
 WhoopInertial::WhoopInertial(std::int32_t port) : 
 #if USE_VEXCODE
@@ -129,3 +131,5 @@ void WhoopInertial::tare_radians(double radians)
 {
     this->tare(to_deg(radians));
 }
+
+} // namespace whoop

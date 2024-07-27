@@ -13,6 +13,8 @@
 #include "whooplib/includer.hpp"
 #include <iostream>
 
+namespace whoop{
+
 void PurePursuitPath::initializeWaypoints(std::vector<TwoDPose> waypoints)
 {
     if (waypoints.size() < 2)
@@ -317,3 +319,6 @@ PursuitEstimate PurePursuitPath::calculate_pursuit_estimate(TwoDPose current_pos
     // length_lookahead is the path distance from target (like a racecar track length to finish line)
     return PursuitEstimate(true, steering_angle, point_ahead_distance + length_lookahead, is_past_point, end_steering, suggest_point_turn);
 }
+
+
+} // namespace whoop

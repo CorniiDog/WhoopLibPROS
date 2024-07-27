@@ -14,6 +14,8 @@
 #include "whooplib/include/calculators/TwoDPose.hpp"
 #include <vector>
 
+namespace whoop{
+
 struct PursuitEstimate
 {
     bool is_valid;
@@ -119,5 +121,8 @@ public:
      */
     PursuitEstimate calculate_pursuit_estimate(TwoDPose current_position, bool find_closest_if_off_course = true, double deviation_min = 0);
 };
+
+} // namespace whoop
+
 
 #endif // PURE_PURSUIT_HPP

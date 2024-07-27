@@ -16,6 +16,8 @@
 #include <string>
 #include <memory> // For std::unique_ptr
 
+namespace whoop{
+
 RobotVisionOffset::RobotVisionOffset(double x, double y)
 {
     this->x = x;
@@ -24,7 +26,7 @@ RobotVisionOffset::RobotVisionOffset(double x, double y)
 
 void WhoopVision::setup_messenger(BufferNode *bufferSystem, const std::string &pose_stream)
 {
-    pose_messenger = std::make_unique<Messenger>(bufferSystem, pose_stream, deleteAfterRead::no_delete);
+    pose_messenger = std::make_unique<Messenger>(bufferSystem, pose_stream, deleteafterread::no_delete);
     pose_messenger->on_message(std::bind(&WhoopVision::_update_pose, this, std::placeholders::_1));
 }
 
@@ -177,3 +179,5 @@ Pose WhoopVision::get_pose()
     thread_lock.unlock();
     return p;
 }
+
+} // namespace whoop

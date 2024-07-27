@@ -15,6 +15,8 @@
 #include <memory>
 #include <iomanip> // Include for std::setprecision
 
+namespace whoop{
+
 // Function to find all indexes of a substring in a string
 std::vector<int> find_all_indexes(const std::string &str, const std::string &substring)
 {
@@ -344,3 +346,5 @@ double safeDivide(double numerator, double denominator, double max_possible_numb
 
     return result;
 }
+
+} // namespace whoop

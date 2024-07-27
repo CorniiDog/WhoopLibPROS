@@ -69,4 +69,6 @@
 #include "whooplib/include/devices/WhoopDriveOdomOffset.hpp"
 #include "whooplib/include/devices/WhoopOdomFusion.hpp"
 
+using namespace whoop; // This is to help newer teams get used to C/C++. If you want to be more explicit, remove this and use whoop::abc instead
+
 #endif // WHOOP_LIB_H

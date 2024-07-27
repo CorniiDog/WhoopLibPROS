@@ -22,6 +22,8 @@
 #ifndef DUBINS_HPP
 #define DUBINS_HPP
 
+namespace whoop{
+
 typedef enum
 {
     LSL = 0,
@@ -164,5 +166,8 @@ int dubins_path_endpoint(DubinsPath *path, double q[3]);
  * @param newpath - the resultant path
  */
 int dubins_extract_subpath(DubinsPath *path, double t, DubinsPath *newpath);
+
+} // namespace whoop
+
 
 #endif /* DUBINS_HPP */

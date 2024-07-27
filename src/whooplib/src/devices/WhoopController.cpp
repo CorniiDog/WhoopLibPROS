@@ -15,14 +15,16 @@
 
 #define ANALOG_TO_PCT (100.0/127.0)
 
-// Initialization Constructors
-WhoopController::WhoopController(joystickMode mode) : WhoopController(mode, controllerType::controllertype_primary) {}
+namespace whoop{
 
-WhoopController::WhoopController(joystickMode mode, controllerType controller_type) :
+// Initialization Constructors
+WhoopController::WhoopController(joystickmode mode) : WhoopController(mode, controllertype::controller_primary) {}
+
+WhoopController::WhoopController(joystickmode mode, controllertype controller_type) :
 #if USE_VEXCODE
-vex_controller(controller_type == controllerType::controllertype_primary ? vex::controllerType::primary : vex::controllerType::partner),
+vex_controller(controller_type == controllertype::controller_primary ? vex::controllerType::primary : vex::controllerType::partner),
 #else
-pros_controller(controller_type == controllerType::controllertype_primary ? pros::E_CONTROLLER_MASTER : pros::E_CONTROLLER_PARTNER),
+pros_controller(controller_type == controllertype::controller_partner ? pros::E_CONTROLLER_MASTER : pros::E_CONTROLLER_PARTNER),
 #endif
 joystick_mode(mode)
 {}
@@ -201,3 +203,5 @@ void WhoopController::__step()
         #endif
     }
 }
+
+} // namespace whoop

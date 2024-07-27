@@ -34,6 +34,8 @@
 
 #include "whooplib/includer.hpp"
 
+namespace whoop{
+
 /**
  * Wheel Odometry Object
  */
@@ -92,5 +94,7 @@ public:
   void set_physical_distances(double forward_distance, double sideways_distance);
   ;
 };
+
+} // namespace whoop
 
 #endif // WHEEL_ODOM_HPP

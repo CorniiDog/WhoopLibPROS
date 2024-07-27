@@ -12,6 +12,8 @@
 #include "whooplib/include/toolbox.hpp"
 #include <stdexcept>
 
+namespace whoop{
+
 WhoopRotation::WhoopRotation(std::int32_t port) : 
 #if USE_VEXCODE
 vex_rotation(vex::rotation(port, false)) 
@@ -141,3 +143,5 @@ void WhoopRotation::tare_meters(double meters)
     double rotations_needed = meters / wheel_circumference;
     tare_rotations(rotations_needed);
 }
+
+} // namespace whoop

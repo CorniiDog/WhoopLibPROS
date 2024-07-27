@@ -14,6 +14,8 @@
 #include "whooplib/include/devices/WhoopMotor.hpp"
 #include "whooplib/include/toolbox.hpp"
 
+namespace whoop{
+
 /**
  * Represents a rotation sensor with control over its measurement capabilities.
  */
@@ -105,5 +107,7 @@ public:
      */
     void tare_meters(double meters); // For a drivetrain, to tare by meters
 };
+
+} // namespace whoop
 
 #endif // WHOOP_ROTATION_HPP

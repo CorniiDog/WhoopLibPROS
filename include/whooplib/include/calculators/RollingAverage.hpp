@@ -14,6 +14,8 @@
 #include "whooplib/include/devices/WhoopVision.hpp"
 #include <deque>
 
+namespace whoop{
+
 /**
  * Rolling Average Filter Object
  */
@@ -50,5 +52,7 @@ public:
      */
     int process(int newMeasurement);
 };
+
+} // namespace whoop
 
 #endif // ROLLING_AVERAGE_HPP

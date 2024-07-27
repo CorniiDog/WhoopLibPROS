@@ -32,6 +32,8 @@
 #ifndef PID_HPP
 #define PID_HPP
 
+namespace whoop{
+
 /**
  * General-use PID class for drivetrains. It includes both
  * control calculation and settling calculation. The default
@@ -130,5 +132,7 @@ public:
      */
     void zeroize_accumulated();
 };
+
+} // namespace whoop
 
 #endif // PID_HPP

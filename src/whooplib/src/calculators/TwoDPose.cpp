@@ -14,6 +14,8 @@
 #include <string>
 #include "whooplib/include/toolbox.hpp"
 
+namespace whoop{
+
 TwoDPose::TwoDPose(double x, double y, double yaw)
 {
     this->x = x;
@@ -114,3 +116,5 @@ std::string TwoDPose::to_realsense_string(int decimal_places)
     oss << -y << " " << -x << " " << yaw;
     return oss.str();
 }
+
+} // namespace whoop

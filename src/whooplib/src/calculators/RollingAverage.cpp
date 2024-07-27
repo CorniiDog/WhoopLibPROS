@@ -10,6 +10,8 @@
 #include "whooplib/includer.hpp"
 #include "whooplib/include/calculators/RollingAverage.hpp"
 
+namespace whoop{
+
 RollingAverageFilter::RollingAverageFilter(int capacity) : capacity(capacity) {}
 
 Pose RollingAverageFilter::process(const Pose &newMeasurement)
@@ -68,3 +70,5 @@ int RollingAverageFilter::process(int newMeasurement)
     int size = buffer_int.size();
     return (int)(sum / size);
 }
+
+} // namespace whoop

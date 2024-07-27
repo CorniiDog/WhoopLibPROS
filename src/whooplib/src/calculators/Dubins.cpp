@@ -25,6 +25,8 @@
 #include "whooplib/include/calculators/Dubins.hpp"
 #include <math.h>
 
+namespace whoop{
+
 #define EPSILON (10e-10)
 
 typedef enum
@@ -455,3 +457,5 @@ int dubins_word(DubinsIntermediateResults *in, DubinsPathType pathType, double o
     }
     return result;
 }
+
+} // namespace whoop

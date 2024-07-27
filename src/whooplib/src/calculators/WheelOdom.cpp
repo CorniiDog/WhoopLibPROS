@@ -14,6 +14,8 @@
 #include "whooplib/include/calculators/WheelOdom.hpp"
 #include "whooplib/include/toolbox.hpp"
 
+namespace whoop{
+
 void WheelOdom::set_position(double x, double y, double orientation)
 {
     X_position = x;
@@ -79,3 +81,5 @@ void WheelOdom::update_pose(double forward_tracker_pos, double sideways_tracker_
     X_position += X_position_delta;
     Y_position += Y_position_delta;
 }
+
+} // namespace whoop

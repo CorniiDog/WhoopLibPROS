@@ -17,6 +17,9 @@
 #include <cmath>
 #include <memory>
 #include <iomanip>
+
+namespace whoop{
+
 /**
  * Finds all indices of a substring within a string.
  * @param str The main string to search within.
@@ -171,4 +174,7 @@ int int_distance(int point_1, int point_2);
  * Visual representation of curving: https://www.desmos.com/calculator/anyejul5wg
  */
 double linearize_voltage(double volt, double c=1.5);
+
+} // namespace whoop
+
 #endif // TOOLBOX_HPP

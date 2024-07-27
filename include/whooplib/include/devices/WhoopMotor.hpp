@@ -12,6 +12,8 @@
 
 #include "whooplib/includer.hpp"
 
+namespace whoop{
+
 /**
  * Enum to specify whether the motor should be reversed.
  */
@@ -24,7 +26,7 @@ enum reversed
 /**
  * Enum to specify which gear ratio to use
  */
-enum gear_ratio
+enum cartridge
 {
     red = 0, // 100 RPM
     green = 1, // 200 RPM
@@ -62,17 +64,17 @@ public:
     /**
      * Constructor to initialize a motor with a specified gear ratio.
      * @param port The port number where the motor is connected.
-     * @param gearRatio The gear setting of the motor.
+     * @param motorCartridge The cartridge of the motor (red, green, blue).
      */
-    WhoopMotor(std::int32_t port, gear_ratio gearRatio);
+    WhoopMotor(std::int32_t port, cartridge motorCartridge);
 
     /**
      * Constructor to initialize a motor with a gear ratio and an option to reverse its direction.
      * @param port The port number where the motor is connected.
-     * @param gearRatio The gear setting of the motor.
+     * @param motorCartridge The cartridge of the motor (red, green, blue).
      * @param reversed Enum value to set the motor direction reversed or not.
      */
-    WhoopMotor(std::int32_t port, gear_ratio, reversed reversed);
+    WhoopMotor(std::int32_t port, cartridge motorCartridge, reversed reversed);
 
     // Motor commands
     void spin(double volts);                 // Commands the motor to spin at a voltage (-12.0 to 12.0, with 0.0 being stopped).
@@ -101,5 +103,7 @@ public:
     void tare_radians(double radians);     // Resets the motor encoder count to a specified radian.
     void tare_rotations(double rotations); // Resets the motor encoder count to a specified number of rotations.
 };
+
+} // namespace whoop
 
 #endif // WHOOP_MOTOR_HPP

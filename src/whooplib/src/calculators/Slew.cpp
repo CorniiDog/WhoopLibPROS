@@ -8,8 +8,9 @@
 /*----------------------------------------------------------------------------*/
 
 #include "whooplib/include/calculators/Slew.hpp"
-
 #include <cmath>
+
+namespace whoop{
 
 Slew::Slew(double max_increase_per_second, bool can_slew_down, int milliseconds_per_step) : max_increase_per_second(max_increase_per_second), can_slew_down(can_slew_down), milliseconds_per_step(milliseconds_per_step)
 {
@@ -54,3 +55,5 @@ double Slew::step(double error)
   }
   return slewed_error; // Return the adjusted error, representing the output power after slew rate limiting.
 }
+
+} // namespace whoop

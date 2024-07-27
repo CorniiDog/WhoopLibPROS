@@ -13,6 +13,8 @@
 
 #define ANALOG_TO_VOLTAGE 127.0/12.0
 
+namespace whoop{
+
 WhoopMotor::WhoopMotor(std::int32_t port) : 
 #if USE_VEXCODE
 vex_motor(vex::motor(port)) 
@@ -31,40 +33,40 @@ pros_motor(pros::Motor(port))
 }
 #endif
 
-WhoopMotor::WhoopMotor(std::int32_t port, gear_ratio gearRatio) : 
+WhoopMotor::WhoopMotor(std::int32_t port, cartridge motorCartridge) : 
 #if USE_VEXCODE
-vex_motor(vex::motor(port, gearRatio)) {}
+vex_motor(vex::motor(port, motorCartridge)) {}
 #else
 pros_motor(pros::Motor(port))
 {
-    switch(gearRatio){
-    case gear_ratio::red:
+    switch(motorCartridge){
+    case cartridge::red:
         pros_motor.get_gearing(pros::E_MOTOR_GEARSET_36);
         break;
-    case gear_ratio::green:
+    case cartridge::green:
         pros_motor.get_gearing(pros::E_MOTOR_GEARSET_18);
         break;
-    case gear_ratio::blue:
+    case cartridge::blue:
         pros_motor.get_gearing(pros::E_MOTOR_GEARSET_06);
         break;
     }
 }
 #endif
 
-WhoopMotor::WhoopMotor(std::int32_t port, gear_ratio gearRatio, reversed reversed) : 
+WhoopMotor::WhoopMotor(std::int32_t port, cartridge motorCartridge, reversed reversed) : 
 #if USE_VEXCODE
-vex_motor(vex::motor(port, gearRatio, reversed)) {}
+vex_motor(vex::motor(port, motorCartridge, reversed)) {}
 #else
 pros_motor(pros::Motor(port))
 {
-    switch(gearRatio){
-    case gear_ratio::red:
+    switch(motorCartridge){
+    case cartridge::red:
         pros_motor.get_gearing(pros::E_MOTOR_GEARSET_36);
         break;
-    case gear_ratio::green:
+    case cartridge::green:
         pros_motor.get_gearing(pros::E_MOTOR_GEARSET_18);
         break;
-    case gear_ratio::blue:
+    case cartridge::blue:
         pros_motor.get_gearing(pros::E_MOTOR_GEARSET_06);
         break;
     }
@@ -202,3 +204,5 @@ void WhoopMotor::tare_radians(double radians)
 {
     this->tare(to_deg(radians));
 }
+
+} // namespace whoop

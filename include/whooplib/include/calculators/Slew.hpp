@@ -10,6 +10,8 @@
 #ifndef SLEW_HPP
 #define SLEW_HPP
 
+namespace whoop{
+
 /**
  * General-use Slew class for motor voltage. 
  * The default update period is 10ms or 100Hz
@@ -41,5 +43,7 @@ public:
      */
     double step(double error);
 };
+
+} // namespace whoop
 
 #endif // SLEW_HPP

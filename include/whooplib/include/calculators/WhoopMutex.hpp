@@ -12,8 +12,9 @@
 #ifndef WHOOP_MUTEX_H
 #define WHOOP_MUTEX_H
 
-#if USE_VEXCODE
+namespace whoop{
 
+#if USE_VEXCODE
 class WhoopMutex{
 public:
     vex::mutex vexcode_mutex;
@@ -26,7 +27,6 @@ public:
 };
 
 #else
-
 class WhoopMutex{
 public:
     pros::Mutex pros_mutex;
@@ -37,7 +37,8 @@ public:
     // Unlocks the mutex
     void unlock();
 };
-
 #endif
+
+} // namespace whoop
 
 #endif // WHOOP_MUTEX_H

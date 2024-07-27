@@ -17,6 +17,8 @@
 #include "whooplib/include/toolbox.hpp"
 #include <vector>
 
+namespace whoop{
+
 struct PursuitParams
 {
     double turning_radius;
@@ -213,5 +215,8 @@ public:
      */
     PursuitResult step(TwoDPose current_pose);
 };
+
+} // namespace whoop
+
 
 #endif

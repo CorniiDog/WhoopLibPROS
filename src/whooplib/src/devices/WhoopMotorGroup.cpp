@@ -15,6 +15,8 @@
 #include <stdexcept>
 #include <algorithm> // Needed for std::max_element
 
+namespace whoop{
+
 void WhoopMotorGroup::add_motor(WhoopMotor *motor)
 {
     whoop_motors.push_back(motor);
@@ -229,3 +231,5 @@ void WhoopMotorGroup::tare_meters(double meters)
     double rotations_needed = meters / wheel_circumference;
     tare_rotations(rotations_needed);
 }
+
+} // namespace whoop

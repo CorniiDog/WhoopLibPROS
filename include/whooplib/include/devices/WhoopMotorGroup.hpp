@@ -15,6 +15,8 @@
 #include "whooplib/includer.hpp"
 #include <vector>
 
+namespace whoop{
+
 /**
  * Manages a group of WhoopMotors, allowing synchronized control over multiple motors.
  */
@@ -129,5 +131,7 @@ public:
      */
     void tare_meters(double meters); // For a drivetrain, to tare by meters
 };
+
+} // namespace whoop
 
 #endif // WHOOP_MOTOR_GROUP_HPP

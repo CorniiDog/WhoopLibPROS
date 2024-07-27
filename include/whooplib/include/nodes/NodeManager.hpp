@@ -14,6 +14,8 @@
 #include "whooplib/include/calculators/WhoopMutex.hpp"
 #include <vector>
 
+namespace whoop{
+
 enum omitStepCompensation
 {
     yes_omit = true,
@@ -112,5 +114,8 @@ protected:
      */
     static void task_runner_void(void *param); // Static task runner function for VEX
 };
+
+} // namespace whoop
+
 
 #endif // NODE_MANAGER_HPP

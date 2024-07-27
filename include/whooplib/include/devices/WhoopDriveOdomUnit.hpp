@@ -22,6 +22,8 @@
 #include <vector>
 #include <memory>
 
+namespace whoop{
+
 // Enum for configuring odom
 enum class DriveOdomConfig
 {
@@ -165,5 +167,7 @@ public: // This is one of the ONLY exceptions to be public, as another module re
      */
     void __step() override; // Protected helper function for processing steps
 };
+
+} // namespace whoop
 
 #endif // WHOOP_DRIVE_ODOM_UNIT_HPP

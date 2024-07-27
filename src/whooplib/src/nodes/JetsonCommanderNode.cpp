@@ -13,9 +13,11 @@
 #include <string>
 #include <functional>
 
+namespace whoop{
+
 void JetsonCommander::setup_messenger(BufferNode *bufferSystem, const std::string &pose_stream)
 {
-    keepalive_messenger = std::make_unique<Messenger>(bufferSystem, pose_stream, deleteAfterRead::no_delete);
+    keepalive_messenger = std::make_unique<Messenger>(bufferSystem, pose_stream, deleteafterread::no_delete);
     keepalive_messenger->on_message(std::bind(&JetsonCommander::_on_message_received, this, std::placeholders::_1));
 }
 
@@ -121,3 +123,5 @@ void JetsonCommander::__step()
 
     keepalive_messenger->send(intToString(keep_alive_time_seconds));
 }
+
+} // namespace whoop
