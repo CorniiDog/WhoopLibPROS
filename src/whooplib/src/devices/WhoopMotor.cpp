@@ -16,7 +16,7 @@
 namespace whoop
 {
 
-    WhoopMotor::WhoopMotor(std::int32_t port) : WhoopMotor::WhoopMotor(port, reversed::no_reverse) {}
+    WhoopMotor::WhoopMotor(std::int32_t port) : WhoopMotor(port, reversed::no_reverse) {}
 
     WhoopMotor::WhoopMotor(std::int32_t port, reversed reversed) : WhoopMotor(port, cartridge::green, reversed) {}
 
@@ -28,7 +28,7 @@ namespace whoop
     {
     }
 #else
-                                                                                             pros::Motor(reversed ? port : port,
+                                                                                             pros::Motor(reversed ? port : -port,
                                                                                                          motorCartridge == cartridge::red ? pros::v5::MotorGears::red : (motorCartridge == cartridge::green ? pros::v5::MotorGears::green : pros::v5::MotorGears::blue))
     {
     }

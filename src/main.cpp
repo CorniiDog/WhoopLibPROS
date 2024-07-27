@@ -10,17 +10,17 @@
 WhoopController controller1(joystickmode::joystickmode_split_arcade, controllertype::controller_primary);
 
 // Left drive motors
-WhoopMotor l1(PORT12, cartridge::blue, reversed::yes_reverse);
-WhoopMotor l2(PORT13, cartridge::blue, reversed::yes_reverse);
-WhoopMotor l3(PORT14, cartridge::blue, reversed::yes_reverse);
-WhoopMotor l4(PORT15, cartridge::blue, reversed::yes_reverse);
+WhoopMotor l1(PORT12, cartridge::blue, reversed::no_reverse);
+WhoopMotor l2(PORT13, cartridge::blue, reversed::no_reverse);
+WhoopMotor l3(PORT14, cartridge::blue, reversed::no_reverse);
+WhoopMotor l4(PORT15, cartridge::blue, reversed::no_reverse);
 WhoopMotorGroup left_motors({&l1, &l2, &l3, &l4});
 
 // Right drive motors
-WhoopMotor r1(PORT1, cartridge::blue, reversed::no_reverse);
-WhoopMotor r2(PORT2, cartridge::blue, reversed::no_reverse);
-WhoopMotor r3(PORT3, cartridge::blue, reversed::no_reverse);
-WhoopMotor r4(PORT4, cartridge::blue, reversed::no_reverse);
+WhoopMotor r1(PORT1, cartridge::blue, reversed::yes_reverse);
+WhoopMotor r2(PORT2, cartridge::blue, reversed::yes_reverse);
+WhoopMotor r3(PORT3, cartridge::blue, reversed::yes_reverse);
+WhoopMotor r4(PORT4, cartridge::blue, reversed::yes_reverse);
 WhoopMotorGroup right_motors({&r1, &r2, &r3, &r4});
 
 // Sensors
