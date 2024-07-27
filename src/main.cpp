@@ -25,8 +25,8 @@ WhoopMotorGroup right_motors({&r1, &r2, &r3, &r4});
 
 // Sensors
 WhoopInertial inertial_sensor(PORT7);
-WhoopRotation forward_tracker(PORT6, reversed::yes_reverse);
-WhoopRotation sideways_tracker(PORT9, reversed::yes_reverse);
+WhoopRotation forward_tracker(PORT6, reversed::no_reverse);
+WhoopRotation sideways_tracker(PORT9, reversed::no_reverse);
 
 // ////////////////////////////////////////////////////////////
 // /**
@@ -158,6 +158,7 @@ void initialize()
     manager.start();
     jetson_commander.initialize(); // If you don't have Tesseract, omit this line
     robot_drivetrain.calibrate();
+
 }
 
 /**
@@ -195,7 +196,7 @@ void competition_initialize() {}
 void autonomous()
 {
     robot_drivetrain.set_state(drivetrainState::mode_autonomous);
-    pros::delay(10 * 1000);
+    pros::delay(5000);
 
     robot_drivetrain.set_pose_units(PoseUnits::in_deg_cw);
     robot_drivetrain.set_pose(0, 0, 0);
@@ -234,7 +235,7 @@ void autonomous()
  */
 void opcontrol()
 {
-    //autonomous();
+    autonomous();
 
     robot_drivetrain.set_state(drivetrainState::mode_usercontrol);
 
