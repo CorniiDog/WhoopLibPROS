@@ -154,10 +154,9 @@ void initialize()
 {
     pros::lcd::initialize();
     pros::lcd::set_text(1, "Hello PROS User!");
+    controller1.notify("Initializing");
     manager.start();
     jetson_commander.initialize(); // If you don't have Tesseract, omit this line
-    controller1.notify("Initializing");
-
     robot_drivetrain.calibrate();
 }
 

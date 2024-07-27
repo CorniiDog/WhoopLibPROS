@@ -42,18 +42,14 @@ namespace whoop
         vex::controller::Screen.print("%s", message.c_str());
         vex::controller::rumble(".");
 #else
-        std::cout << "Cleared line" << std::endl;
-        pros::Controller::clear_line(1);
-        std::cout << "Printing" << std::endl;
-
-        pros::Controller::print(1, 2, "%s", message.c_str());
-
-        std::cout << "Rumble" << std::endl;
-
         pros::Controller::rumble(".");
+        pros::delay(50); // https://www.vexforum.com/t/unable-to-clear-the-controller-screen/62997/2
+        pros::Controller::clear_line(2);
+        pros::delay(50);
+        pros::Controller::print(2, 0, "%s", message.c_str());
+        pros::delay(50);
 #endif
-
-        time_left_to_clear = duration_seconds * std::round(safeDivide(1000, step_time_ms, 10000)); // in milliseconds
+        time_left_to_clear = duration_seconds * std::round(safeDivide(1000, step_time_ms - 150, 10000)); // in milliseconds
     }
 
     /////////////////////////////////////////////
@@ -210,7 +206,7 @@ namespace whoop
 #if USE_VEXCODE
             vex::controller::Screen.clearLine(1);
 #else
-            pros::Controller::clear_line(1);
+            pros::Controller::clear_line(0);
 #endif
         }
     }

@@ -13,7 +13,9 @@ The most advanced SLAM solution in VEX.
 
 **WhoopLib PROS Source Code**
 
->**Warning:** PROS Source Code is in testing right now.
+>**Warning:** PROS Source Code is in testing right now. 
+It works fine, however I am trying to experiment some of the ups and downs
+between VEXCode and PROS
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
