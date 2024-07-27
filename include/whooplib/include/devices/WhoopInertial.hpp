@@ -19,7 +19,7 @@ namespace whoop
      * Manages an inertial sensor to provide orientation and motion-related data.
      */
 #if USE_VEXCODE
-    class WhoopInertial
+    class WhoopInertial : private vex::inertial
     {
 #else
     class WhoopInertial: private pros::IMU
@@ -30,9 +30,6 @@ namespace whoop
         double correction_multiplier = 1;
 
     public:
-#if USE_VEXCODE
-        inertial vex_inertial; // VEX Robotics Inertial Sensor object.
-#endif
 
         /**
          * Constructor to initialize an inertial sensor on a specified port.

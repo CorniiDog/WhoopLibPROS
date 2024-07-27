@@ -12,28 +12,25 @@
 namespace whoop
 {
 
-    /**
-     * This locks the mutex
-     */
-    void WhoopMutex::lock()
-    {
 #if USE_VEXCODE
-        vexcode_mutex.lock();
-#else
-        pros_mutex.take();
-#endif
-    }
 
-    /**
-     * This unlocks the mutex
-     */
-    void WhoopMutex::unlock()
-    {
-#if USE_VEXCODE
-        vexcode_mutex.unlock();
+void WhoopMutex::lock(){
+        vex::mutex::lock();
+}
+
+void WhoopMutex::unlock(){
+        vex::mutex::unlock();
+}
+
 #else
-        pros_mutex.give();
+
+void WhoopMutex::lock(){
+        pros::Mutex::take();
+}
+
+void WhoopMutex::unlock(){
+        pros::Mutex::give();
+}
 #endif
-    }
 
 } // namespace whoop

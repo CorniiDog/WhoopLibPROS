@@ -25,9 +25,8 @@ namespace whoop
         this->y = y;
     }
 
+    WhoopVision::WhoopVision(RobotVisionOffset *robotOffset, BufferNode *bufferSystem, std::string pose_stream) : pose_messenger(Messenger(bufferSystem, pose_stream, deleteafterread::no_delete)), tared_position(this->raw_pose.x, this->raw_pose.y, this->raw_pose.yaw - tare_yaw), offset_change(0, 0, 0)
 
-    WhoopVision::WhoopVision(RobotVisionOffset *robotOffset, BufferNode *bufferSystem, std::string pose_stream) : tared_position(this->raw_pose.x, this->raw_pose.y, this->raw_pose.yaw - tare_yaw), offset_change(0, 0, 0),
-    pose_messenger(Messenger(bufferSystem, pose_stream, deleteafterread::no_delete))
     {
         robot_offset = robotOffset;
         pose_messenger.on_message(std::bind(&WhoopVision::_update_pose, this, std::placeholders::_1));
@@ -64,9 +63,7 @@ namespace whoop
     void WhoopVision::tare(double x, double y, double z, double pitch, double yaw, double roll)
     {
 
-
         thread_lock.lock();
-
 
         this->tare_x = x;
         this->tare_y = y;
@@ -124,7 +121,6 @@ namespace whoop
     {
 
         this->tare(0, 0, 0, 0, 0, 0);
-
     }
 
     void WhoopVision::_update_pose(std::string pose_data)

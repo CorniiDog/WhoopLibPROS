@@ -41,16 +41,14 @@ namespace whoop
      * Controls and manages inputs from a VEX controller.
      */
 #if USE_VEXCODE
-    class WhoopController : public ComputeNode
+    class WhoopController : public ComputeNode, private vex::controller
     {
 #else
     class WhoopController : public ComputeNode, private pros::Controller
     {
 #endif
     public:
-#if USE_VEXCODE
-        vex::controller vex_controller; // Instance of VEX controller.
-#endif
+
         joystickmode joystick_mode; // Current joystick mode.
 
         int time_left_to_clear = 0;

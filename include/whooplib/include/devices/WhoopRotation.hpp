@@ -22,7 +22,7 @@ namespace whoop
      */
 
 #if USE_VEXCODE
-    class WhoopRotation
+    class WhoopRotation : private vex::rotation
     {
 
 #else
@@ -35,10 +35,6 @@ namespace whoop
         double wheel_circumference = circumference_from_diameter(wheel_diameter);
 
     public:
-// Upon initialization
-#if USE_VEXCODE
-        vex::rotation vex_rotation; // VEX rotation sensor instance.
-#endif
 
         /**
          * Constructor to initialize a rotation sensor on a specified port.

@@ -24,11 +24,11 @@ namespace whoop
 
     WhoopMotor::WhoopMotor(std::int32_t port, cartridge motorCartridge, reversed reversed) :
 #if USE_VEXCODE
-                                                                                             vex_motor(vex::motor(port, gearSetting(cartridge::green), reversed))
+                                                                                             vex::motor(port, gearSetting(cartridge::green), reversed)
     {
     }
 #else
-                                                                                             pros::Motor(reversed ? port : -port,
+                                                                                             pros::Motor(reversed ? -port : port,
                                                                                                          motorCartridge == cartridge::red ? pros::v5::MotorGears::red : (motorCartridge == cartridge::green ? pros::v5::MotorGears::green : pros::v5::MotorGears::blue))
     {
     }
@@ -39,7 +39,7 @@ namespace whoop
 // Linearizes the voltage. Visual representation of the linearization: https://www.desmos.com/calculator/anyejul5wg
 // It attempts to make the voltage and motor power more linearly proportional
 #if USE_VEXCODE
-        vex_motor.spin(fwd, linearize_voltage(volts), voltageUnits::volt);
+        vex::motor::spin(fwd, linearize_voltage(volts), voltageUnits::volt);
 #else
         pros::Motor::move(volts * ANALOG_TO_VOLTAGE);
 #endif
@@ -58,7 +58,7 @@ namespace whoop
     void WhoopMotor::stop_hold()
     {
 #if USE_VEXCODE
-        vex_motor.stop(brakeType::hold);
+        vex::motor::stop(brakeType::hold);
 #else
         pros::Motor::set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
         pros::Motor::brake();
@@ -68,7 +68,7 @@ namespace whoop
     void WhoopMotor::stop_brake()
     {
 #if USE_VEXCODE
-        vex_motor.stop(brakeType::brake);
+        vex::motor::stop(brakeType::brake);
 #else
         pros::Motor::set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
         pros::Motor::brake();
@@ -78,7 +78,7 @@ namespace whoop
     void WhoopMotor::stop_coast()
     {
 #if USE_VEXCODE
-        vex_motor.stop(brakeType::coast);
+        vex::motor::stop(brakeType::coast);
 #else
         pros::Motor::set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
         pros::Motor::brake();
@@ -88,7 +88,7 @@ namespace whoop
     double WhoopMotor::get_rotation()
     {
 #if USE_VEXCODE
-        return vex_motor.position(rotationUnits::deg) + pos_offset;
+        return vex::motor::position(rotationUnits::deg) + pos_offset;
 #else
         return pros::Motor::get_position(); // Degrees by default
 #endif
@@ -113,7 +113,7 @@ namespace whoop
     double WhoopMotor::get_velocity()
     {
 #if USE_VEXCODE
-        return vex_motor.velocity(velocityUnits::dps);
+        return vex::motor::velocity(velocityUnits::dps);
 #else
         return pros::Motor::get_actual_velocity() * 6.0; // In RPM, so we multiply it by 6 to convert to deg/s
 #endif
@@ -138,7 +138,7 @@ namespace whoop
     {
         pos_offset = degrees;
 #if USE_VEXCODE
-        vex_motor.resetPosition();
+        vex::motor::resetPosition();
 #else
         pros::Motor::tare_position();
 #endif

@@ -19,7 +19,7 @@ namespace whoop
     // Initialization Constructors
     WhoopInertial::WhoopInertial(std::int32_t port) :
 #if USE_VEXCODE
-                                                      vex_inertial(inertial(port))
+                                                      vex::inertial(inertial(port))
 #else
                                                       pros::IMU(port)
 #endif
@@ -35,7 +35,7 @@ namespace whoop
     double WhoopInertial::get_yaw()
     {
 #if USE_VEXCODE
-        double yaw = -(vex_inertial.heading(rotationUnits::deg) * correction_multiplier);
+        double yaw = -(vex::inertial::heading(rotationUnits::deg) * correction_multiplier);
 #else
         double yaw = -(pros::IMU::get_heading() * correction_multiplier);
 #endif
@@ -66,7 +66,7 @@ namespace whoop
     double WhoopInertial::get_roll()
     {
 #if USE_VEXCODE
-        return vex_inertial.roll();
+        return vex::inertial::roll();
 #else
         return pros::IMU::get_roll();
 #endif
@@ -85,7 +85,7 @@ namespace whoop
     double WhoopInertial::get_pitch()
     {
 #if USE_VEXCODE
-        return vex_inertial.pitch();
+        return vex::inertial::pitch();
 #else
         return pros::IMU::get_roll();
 #endif
@@ -105,7 +105,7 @@ namespace whoop
     void WhoopInertial::calibrate()
     {
 #if USE_VEXCODE
-        vex_inertial.calibrate();
+        vex::inertial::calibrate();
 #else
         pros::IMU::reset();
 #endif
@@ -120,7 +120,7 @@ namespace whoop
     {
         yaw_offset = degrees;
 #if USE_VEXCODE
-        vex_inertial.resetHeading();
+        vex::inertial::resetHeading();
 #else
         pros::IMU::tare_heading();
 #endif

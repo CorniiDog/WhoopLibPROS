@@ -16,10 +16,9 @@ namespace whoop
 {
 
 #if USE_VEXCODE
-    class WhoopMutex
+    class WhoopMutex : private vex::mutex
     {
     public:
-        vex::mutex vexcode_mutex;
 
         // Locks the mutex
         void lock();
@@ -29,10 +28,9 @@ namespace whoop
     };
 
 #else
-    class WhoopMutex
+    class WhoopMutex : private pros::Mutex
     {
     public:
-        pros::Mutex pros_mutex;
 
         // Locks the mutex
         void lock();

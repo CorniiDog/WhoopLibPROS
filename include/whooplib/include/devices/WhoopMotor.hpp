@@ -37,16 +37,16 @@ namespace whoop
     /**
      * Represents a motor with control over its speed, direction, and measurement capabilities.
      */
+#if USE_VEXCODE
+    class WhoopMotor : private vex::motor
+    {
+#else
     class WhoopMotor : private pros::Motor
     {
+#endif
     protected:
         double pos_offset = 0; // Offset applied to the position readings of the motor.
     public:
-// Upon initialization
-#if USE_VEXCODE
-        vex::motor vex_motor; // VEX motor instance.
-#endif
-
         /**
          * Constructor to initialize a motor on a specified port.
          * @param port The port number where the motor is connected.
