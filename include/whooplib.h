@@ -68,6 +68,7 @@
 #include "whooplib/include/devices/WhoopRotation.hpp"
 #include "whooplib/include/devices/WhoopVision.hpp"
 
+using namespace units; // This is for units system such as "1.5_in"
 using namespace whoop; // This is to help newer teams get used to C/C++. If you
                        // want to be more explicit, remove this and use
                        // whoop::abc instead
