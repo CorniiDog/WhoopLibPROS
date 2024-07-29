@@ -18,7 +18,7 @@
 #include "whooplib/include/calculators/WheelOdom.hpp"
 #include "whooplib/include/calculators/PurePursuitConductor.hpp"
 #include "whooplib/include/devices/WhoopOdomFusion.hpp"
-#include "whooplib/include/calculators/WhoopMutex.hpp"
+#include "whooplib/include/devices/WhoopMutex.hpp"
 #include "whooplib/includer.hpp"
 #include <vector>
 #include <memory>

@@ -1,3 +1,22 @@
+/**
+ * Module:       main.cpp
+ * Author:       Connor White -> Aggie Robotics     
+ * Created:      Thu Jun 21 2024
+ * Description:  Whooplib Template
+ * 
+ * Contributions:
+ *   2775 Josh:
+ *      https://github.com/JacksonAreaRobotics/JAR-Template
+ *   Intel:
+ *      https://github.com/IntelRealSense/librealsense
+ *   PiLons:
+ *      http://thepilons.ca/wp-content/uploads/2018/10/Tracking.pdf
+ *   Andrew Walker:
+ *      https://github.com/AndrewWalker/Dubins-Curves/tree/master
+ *   Alex:
+ *      https://www.learncpp.com/
+ *  
+ */
 #include "main.h"
 
 ////////////////////////////////////////////////////////////
@@ -35,10 +54,10 @@ WhoopRotation sideways_tracker(PORT9, reversed::no_reverse);
 // ////////////////////////////////////////////////////////////
 
 WhoopDriveOdomUnit odom_unit(
-    to_meters(1.51),   // The forward tracker distance, in meters, from the odom unit's center. (positive implies a shift to the right from the odom unit's center)
-    to_meters(2.5189), // Diameter of the forward tracker, in meters (e.g., 0.08255 for 3.25-inch wheels).
-    to_meters(-4.468), // The sideways tracker distance, in meters, from the odom unit's center (positive implies a shift forward from the odom unit center)
-    to_meters(2.5189), // Diameter of the sideways tracker, in meters (e.g., 0.08255 for 3.25-inch wheels).
+    1.51_in,   // The forward tracker distance, in meters, from the odom unit's center. (positive implies a shift to the right from the odom unit's center)
+    2.5189_in, // Diameter of the forward tracker, in meters (e.g., 0.08255 for 3.25-inch wheels).
+    -4.468_in, // The sideways tracker distance, in meters, from the odom unit's center (positive implies a shift forward from the odom unit center)
+    2.5189_in, // Diameter of the sideways tracker, in meters (e.g., 0.08255 for 3.25-inch wheels).
     &inertial_sensor,  // Pointer to the WhoopInertial sensor
     &forward_tracker,  // Pointer to the forward tracker, as a WhoopRotation sensor
     &sideways_tracker  // Pointer to the sideways tracker, as a WhoopRotation sensor
@@ -46,8 +65,8 @@ WhoopDriveOdomUnit odom_unit(
 
 WhoopDriveOdomOffset odom_offset(
     &odom_unit,      // Pointer to the odometry unit (will manage the odom unit)
-    to_meters(-0.6), // The x offset of the odom unit from the center of the robot (positive implies a shift right from the center of the robot).
-    to_meters(4.95)  // The y offset of the odom unit from the center of the robot (positive implies a shift forward from the center of the robot).
+    -0.6_in, // The x offset of the odom unit from the center of the robot (positive implies a shift right from the center of the robot).
+    4.95_in  // The y offset of the odom unit from the center of the robot (positive implies a shift forward from the center of the robot).
 );
 
 // ////////////////////////////////////////////////////////////
@@ -64,8 +83,8 @@ BufferNode buffer_system(
 
 // Vision Offset of the Vision Tesseract from the Center of Robot
 RobotVisionOffset vision_offset(
-    0.0,           // The x offset in meters, (right-positive from the center of the robot).
-    220.0 / 1000.0 // The y offset in meters (forward-positive from the center of the robot).
+    0_mm,           // The x offset in meters, (right-positive from the center of the robot).
+    220_mm // The y offset in meters (forward-positive from the center of the robot).
 );
 
 // Jetson Nano pose retreival object (also configured on Nano-side)
@@ -82,8 +101,8 @@ JetsonCommander jetson_commander(
     &controller1,                      // The controller to send messages to upon error
     &buffer_system,                    // Pointer to the buffer system (will be managed by the buffer system)
     "C",                               // The subscribed stream name for keep-alive, shutdown, and reboot
-    60,                                // In seconds. When the V5 Brain shuts down or disconnects, the Jetson Nano will keep the program running for this time before it shuts off
-    2,                                 // How many seconds to wait before sending anoter keep alive message to Jetson (suggested 2)
+    60_sec,                                // In seconds. When the V5 Brain shuts down or disconnects, the Jetson Nano will keep the program running for this time before it shuts off
+    2_sec,                                 // How many seconds to wait before sending anoter keep alive message to Jetson (suggested 2)
     jetsonCommunication::disable_comms // If you don't have a Vision Tesseract on your robot, set to disable_comms
 );
 
@@ -97,8 +116,8 @@ WhoopOdomFusion odom_fusion(
     &odom_offset,                // Pointer to the odometry offset
     0.9,                         // Minimum confidence threshold to apply vision system to odometry
     fusionmode::wheel_odom_only, // The method of fusing
-    to_meters(50),               // If FusionMode is fusion_gradual, it is the maximum allowable lateral shift the vision camera can update in meters per second.
-    to_rad(500)                  // If FusionMode is fusion_gradual, it is the maximum allowable yaw rotational shift the vision camera can update in radians per second.
+    50_in,               // If FusionMode is fusion_gradual, it is the maximum allowable lateral shift the vision camera can update in meters per second.
+    500_deg                  // If FusionMode is fusion_gradual, it is the maximum allowable yaw rotational shift the vision camera can update in radians per second.
 );
 
 ////////////////////////////////////////////////////////////
@@ -108,23 +127,23 @@ WhoopOdomFusion odom_fusion(
 ////////////////////////////////////////////////////////////
 
 PursuitParams pursuit_parameters(
-    to_meters(5),    // Radius of the turns, in meters
-    to_meters(5),    // Pure Pursuit look ahead distance, in meters
-    8.0,             // Pure pursuit forward max motor voltage (0.0, 12.0]
-    12.0,            // Pure pursuit turning max motor voltage (0.0, 12.0]
-    50.0,            // The maximum voltage change per second, as a slew rate (only applies speeding up)
-    to_meters(1.25), // Settle Distance. Exits when within this distance of target, in meters
-    to_rad(1),       // Settle Rotation. Exits when within this rotation of target, in radians
-    0.3,             // Minimum time to be considered settled, in seconds
-    0,               // Time after which to give up and move on, in seconds (set to 0 to disable)
-    14,              // Turning (kP) Proportional Tuning
-    0.1,             // Turning (kI) Integral Tuning
-    20,              // Turning (kD) Derivative Tuning
-    to_rad(15),      // The rotation distance (error), in radians, to activate turning_ki
-    55,              // Forward (kP) Proportional Tuning
-    0.01,            // Forward (kI) Integral Tuning
-    250,             // Forward (kD) Derivative Tuning
-    to_meters(2),    // The forward distance (error), in meters, to activate forward_ki
+    5_in,    // Radius of the turns, in meters
+    5_in,    // Pure Pursuit look ahead distance, in meters
+    8.0_v,             // Pure pursuit forward max motor voltage (0.0, 12.0]
+    12.0_v,            // Pure pursuit turning max motor voltage (0.0, 12.0]
+    50.0_v,            // The maximum voltage change per second, as a slew rate (only applies speeding up)
+    1.25_in, // Settle Distance. Exits when within this distance of target, in meters
+    1_deg,       // Settle Rotation. Exits when within this rotation of target, in radians
+    0.3_sec,             // Minimum time to be considered settled, in seconds
+    0_sec,               // Time after which to give up and move on, in seconds (set to 0 to disable)
+    14_kp,              // Turning (kP) Proportional Tuning
+    0.1_ki,             // Turning (kI) Integral Tuning
+    20_kd,              // Turning (kD) Derivative Tuning
+    15_deg,      // The rotation distance (error), in radians, to activate turning_ki
+    55_kp,              // Forward (kP) Proportional Tuning
+    0.01_ki,            // Forward (kI) Integral Tuning
+    250_kd,             // Forward (kD) Derivative Tuning
+    2_m,    // The forward distance (error), in meters, to activate forward_ki
     100              // The number of points when generating the path. More points mean higher detail of the path, but at a higher computational cost
 );
 
@@ -203,7 +222,7 @@ void autonomous()
     // robot_drivetrain.turn_to_position(15, 15);
     robot_drivetrain.drive_forward(15);
 
-    robot_drivetrain.turn_to(90);
+    robot_drivetrain.turn_to(90); 
 
     robot_drivetrain.drive_forward(-15);
 

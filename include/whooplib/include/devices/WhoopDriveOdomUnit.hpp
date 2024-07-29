@@ -17,7 +17,7 @@
 #include "whooplib/include/devices/WhoopRotation.hpp"
 #include "whooplib/include/nodes/NodeManager.hpp"
 #include "whooplib/include/calculators/WheelOdom.hpp"
-#include "whooplib/include/calculators/WhoopMutex.hpp"
+#include "whooplib/include/devices/WhoopMutex.hpp"
 #include "whooplib/includer.hpp"
 #include <vector>
 #include <memory>

@@ -7,7 +7,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-#include "whooplib/include/calculators/WhoopMutex.hpp"
+#include "whooplib/include/devices/WhoopMutex.hpp"
 
 namespace whoop
 {

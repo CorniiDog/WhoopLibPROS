@@ -11,7 +11,7 @@
 #define NODE_MANAGER_HPP
 
 #include "whooplib/includer.hpp"
-#include "whooplib/include/calculators/WhoopMutex.hpp"
+#include "whooplib/include/devices/WhoopMutex.hpp"
 #include <vector>
 
 namespace whoop

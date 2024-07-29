@@ -47,7 +47,7 @@
 #include "whooplib/include/calculators/PurePursuitConductor.hpp"
 #include "whooplib/include/calculators/Dubins.hpp"
 #include "whooplib/include/calculators/Slew.hpp"
-#include "whooplib/include/calculators/WhoopMutex.hpp"
+#include "whooplib/include/calculators/Units.hpp"
 
 // Nodes
 #include "whooplib/include/toolbox.hpp"
@@ -66,6 +66,8 @@
 #include "whooplib/include/devices/WhoopDriveOdomUnit.hpp"
 #include "whooplib/include/devices/WhoopDriveOdomOffset.hpp"
 #include "whooplib/include/devices/WhoopOdomFusion.hpp"
+#include "whooplib/include/devices/WhoopMutex.hpp"
+
 
 using namespace whoop; // This is to help newer teams get used to C/C++. If you want to be more explicit, remove this and use whoop::abc instead
 
