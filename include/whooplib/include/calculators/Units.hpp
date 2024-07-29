@@ -43,11 +43,11 @@ namespace whoop {
 
     // Conversion factor: 1 degree = pi/180 radians
     constexpr long double operator"" _deg(long double degrees) {
-        return degrees * 3.14159265358979323846 / 180.0;
+        return degrees * M_PI / 180.0;
     }
 
     constexpr long double operator"" _deg(unsigned long long degrees) {
-        return degrees * 3.14159265358979323846 / 180.0;
+        return degrees * M_PI / 180.0;
     }
 
     // Radians remain the same
