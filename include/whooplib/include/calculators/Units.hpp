@@ -13,7 +13,7 @@
 #define DESIGNATED_UNITS_H
 
 // Define a namespace for user-defined literals
-namespace whoop {
+namespace units {
 // Conversion factor: 1 inch = 0.0254 meters
 constexpr long double operator"" _in(long double inches) {
   return inches * 0.0254;
@@ -56,9 +56,9 @@ constexpr long double operator"" _rad(unsigned long long radians) {
 }
 
 // Volts remain the same
-constexpr long double operator"" _v(long double volts) { return volts; }
+constexpr long double operator"" _volts(long double volts) { return volts; }
 
-constexpr long double operator"" _v(unsigned long long volts) { return volts; }
+constexpr long double operator"" _volts(unsigned long long volts) { return volts; }
 
 // Conversion factor: 1 millisecond = 0.001 seconds
 constexpr long double operator"" _msec(long double milliseconds) {
@@ -90,6 +90,11 @@ constexpr long double operator"" _ki(unsigned long long ki) { return ki; }
 constexpr long double operator"" _kd(long double kd) { return kd; }
 
 constexpr long double operator"" _kd(unsigned long long kd) { return kd; }
-} // namespace whoop
+
+// Points remains the same
+constexpr unsigned int operator"" _points(unsigned long long points) {
+    return static_cast<unsigned int>(points);
+}
+} // namespace units
 
 #endif // DESIGNATED_UNITS_H
