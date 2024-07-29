@@ -31,30 +31,29 @@
 #define MICRO_USB_SERIAL_CONNECTION_OUT "sout"
 #define MICRO_USB_SERIAL_CONNECTION_IN "sinp"
 
-enum smart_ports
-{
-    PORT1 = 1,
-    PORT2,
-    PORT3,
-    PORT4,
-    PORT5,
-    PORT6,
-    PORT7,
-    PORT8,
-    PORT9,
-    PORT10,
-    PORT11,
-    PORT12,
-    PORT13,
-    PORT14,
-    PORT15,
-    PORT16,
-    PORT17,
-    PORT18,
-    PORT19,
-    PORT20,
-    PORT21,
-    PORT22
+enum smart_ports {
+  PORT1 = 1,
+  PORT2,
+  PORT3,
+  PORT4,
+  PORT5,
+  PORT6,
+  PORT7,
+  PORT8,
+  PORT9,
+  PORT10,
+  PORT11,
+  PORT12,
+  PORT13,
+  PORT14,
+  PORT15,
+  PORT16,
+  PORT17,
+  PORT18,
+  PORT19,
+  PORT20,
+  PORT21,
+  PORT22
 };
 #endif // API_H (or PROS)
 

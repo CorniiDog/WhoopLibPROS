@@ -19,8 +19,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -40,35 +40,36 @@
 #include "whooplib/include/toolbox.hpp"
 
 // Calculators
-#include "whooplib/include/calculators/TwoDPose.hpp"
-#include "whooplib/include/calculators/WheelOdom.hpp"
-#include "whooplib/include/calculators/RollingAverage.hpp"
+#include "whooplib/include/calculators/Dubins.hpp"
 #include "whooplib/include/calculators/PurePursuit.hpp"
 #include "whooplib/include/calculators/PurePursuitConductor.hpp"
-#include "whooplib/include/calculators/Dubins.hpp"
+#include "whooplib/include/calculators/RollingAverage.hpp"
 #include "whooplib/include/calculators/Slew.hpp"
+#include "whooplib/include/calculators/TwoDPose.hpp"
 #include "whooplib/include/calculators/Units.hpp"
+#include "whooplib/include/calculators/WheelOdom.hpp"
 
 // Nodes
-#include "whooplib/include/toolbox.hpp"
 #include "whooplib/include/nodes/BufferNode.hpp"
-#include "whooplib/include/nodes/NodeManager.hpp"
 #include "whooplib/include/nodes/JetsonCommanderNode.hpp"
+#include "whooplib/include/nodes/NodeManager.hpp"
+#include "whooplib/include/toolbox.hpp"
 
 // Devices
+#include "whooplib/include/devices/WhoopController.hpp"
+#include "whooplib/include/devices/WhoopDriveOdomOffset.hpp"
+#include "whooplib/include/devices/WhoopDriveOdomUnit.hpp"
+#include "whooplib/include/devices/WhoopDrivetrain.hpp"
+#include "whooplib/include/devices/WhoopInertial.hpp"
 #include "whooplib/include/devices/WhoopMotor.hpp"
 #include "whooplib/include/devices/WhoopMotorGroup.hpp"
-#include "whooplib/include/devices/WhoopInertial.hpp"
-#include "whooplib/include/devices/WhoopController.hpp"
-#include "whooplib/include/devices/WhoopDrivetrain.hpp"
-#include "whooplib/include/devices/WhoopVision.hpp"
-#include "whooplib/include/devices/WhoopRotation.hpp"
-#include "whooplib/include/devices/WhoopDriveOdomUnit.hpp"
-#include "whooplib/include/devices/WhoopDriveOdomOffset.hpp"
-#include "whooplib/include/devices/WhoopOdomFusion.hpp"
 #include "whooplib/include/devices/WhoopMutex.hpp"
+#include "whooplib/include/devices/WhoopOdomFusion.hpp"
+#include "whooplib/include/devices/WhoopRotation.hpp"
+#include "whooplib/include/devices/WhoopVision.hpp"
 
-
-using namespace whoop; // This is to help newer teams get used to C/C++. If you want to be more explicit, remove this and use whoop::abc instead
+using namespace whoop; // This is to help newer teams get used to C/C++. If you
+                       // want to be more explicit, remove this and use
+                       // whoop::abc instead
 
 #endif // WHOOP_LIB_H
