@@ -48,6 +48,34 @@ void set_line(std::string& buffer, int row, const std::string& content) {
     buffer = join_lines(lines);
 }
 
+void print_at(int row, const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+    std::string result = format_string(format, args);
+    va_end(args);
+
+    set_line(buffer, row, result);
+
+    // now use the data var
+
+    if(win != nullptr && txt != nullptr){
+        lv_label_set_text(txt, buffer.c_str());
+    }
+}
+
+// Function to clear a specific row in the buffer
+void clear_row(int row) {
+    auto lines = split_lines(buffer);
+    if (row < lines.size()) {
+        lines[row].clear(); // Clear the specific row
+        buffer = join_lines(lines);
+    }
+
+    if(win != nullptr && txt != nullptr){
+        lv_label_set_text(txt, buffer.c_str());
+    }
+}
+
 // Animation callback function to scale the image
 static void anim_scale_cb(void * var, int32_t v) {
     lv_obj_t * obj = (lv_obj_t *)var;
@@ -151,34 +179,6 @@ void create_log_window(){
     lv_obj_t * content = lv_win_get_content(win); // Get the window's content area
     txt = lv_label_create(content); // Create the label in the content area
     lv_label_set_text(txt, "");
-}
-
-void print_at(int row, const char* format, ...) {
-    va_list args;
-    va_start(args, format);
-    std::string result = format_string(format, args);
-    va_end(args);
-
-    set_line(buffer, row, result);
-
-    // now use the data var
-
-    if(win != nullptr && txt != nullptr){
-        lv_label_set_text(txt, buffer.c_str());
-    }
-}
-
-// Function to clear a specific row in the buffer
-void clear_row(int row) {
-    auto lines = split_lines(buffer);
-    if (row < lines.size()) {
-        lines[row].clear(); // Clear the specific row
-        buffer = join_lines(lines);
-    }
-
-    if(win != nullptr && txt != nullptr){
-        lv_label_set_text(txt, buffer.c_str());
-    }
 }
 
 void initialize(){
