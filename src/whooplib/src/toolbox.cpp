@@ -300,11 +300,10 @@ std::string format_string(const char* format, ...) {
     std::vsnprintf(&result[0], result.size(), format, args);
     va_end(args);
 
-    // Remove the null terminator to return a properly terminated string
-    result.pop_back();
+    // Resize to remove the extra null terminator
+    result.resize(size);
 
     return result;
 }
-
 
 } // namespace whoop

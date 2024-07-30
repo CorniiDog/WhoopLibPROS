@@ -9,6 +9,7 @@
 
 #include "whooplib/include/nodes/NodeManager.hpp"
 #include "whooplib/include/toolbox.hpp"
+#include "whooplib/include/whoopgl/MainScreen.hpp"
 #include <algorithm>
 #include <cstdio>
 #include <iostream>
@@ -105,8 +106,8 @@ int ComputeNode::task_runner(void *param) {
         Brain.Screen.setCursor(1, 1);
         Brain.Screen.print("Error: %s", e.what());
 #else
-        pros::lcd::clear_line(1);
-        pros::lcd::print(1, "Error: %s", e.what());
+        whoop::screen::clear_row(1);
+        whoop::screen::print_at(1, "Error: %s", e.what());
 #endif
       }
     }

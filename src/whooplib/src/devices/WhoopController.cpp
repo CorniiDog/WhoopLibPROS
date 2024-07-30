@@ -196,7 +196,7 @@ void WhoopController::__step() {
 #if USE_VEXCODE
     vex::controller::Screen.clearLine(1);
 #else
-    pros::Controller::clear_line(0);
+    pros::Controller::clear_line(2);
 #endif
   }
 }
