@@ -10,6 +10,7 @@
 #include "whooplib/include/calculators/PurePursuit.hpp"
 #include "whooplib/include/calculators/Dubins.hpp"
 #include "whooplib/include/toolbox.hpp"
+#include "whooplib/include/whoopgl/MainScreen.hpp"
 #include "whooplib/includer.hpp"
 #include <iostream>
 
@@ -20,7 +21,7 @@ void PurePursuitPath::initializeWaypoints(std::vector<TwoDPose> waypoints) {
 #if USE_VEXCODE
     Brain.Screen.print("Error. Waypoints must have 2 or more points.");
 #else
-    pros::lcd::print(1, "Error. Waypoints must have 2 or more points.");
+    whoop::screen::print_at(1, "Error. Waypoints must have 2 or more points.");
 #endif
     std::cout << "Error. Waypoints must have 2 or more points." << std::endl;
   }

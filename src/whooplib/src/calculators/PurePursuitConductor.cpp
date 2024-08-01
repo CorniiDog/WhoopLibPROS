@@ -8,6 +8,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "whooplib/include/calculators/PurePursuitConductor.hpp"
+#include "whooplib/include/whoopgl/MainScreen.hpp"
 #include "whooplib/includer.hpp"
 #include <iostream>
 
@@ -123,7 +124,7 @@ void PurePursuitConductor::generate_path(std::vector<TwoDPose> waypoints,
 #if USE_VEXCODE
     Brain.Screen.print("A path requires at least 2 waypoints");
 #else
-    pros::lcd::print(1, "A path requires at least 2 waypoints");
+    whoop::screen::print_at(1, "A path requires at least 2 waypoints"); 
 #endif
     std::cout << "A path requires at least 2 waypoints" << std::endl;
   }
