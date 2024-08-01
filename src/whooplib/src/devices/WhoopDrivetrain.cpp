@@ -10,6 +10,7 @@
 #include "whooplib/include/devices/WhoopDrivetrain.hpp"
 #include "whooplib/include/devices/WhoopOdomFusion.hpp"
 #include "whooplib/include/toolbox.hpp"
+#include "whooplib/include/whoopgl/MainScreen.hpp"
 #include "whooplib/includer.hpp"
 #include <cmath>
 #include <iostream>
@@ -248,7 +249,8 @@ void WhoopDrivetrain::drive_through_path(
 #if USE_VEXCODE
     Brain.Screen.print("A path requires at least 1 waypoint");
 #else
-    pros::lcd::print(1, "A path requires at least 1 waypoint");
+    whoop::screen::print_at(1, "A path requires at least 1 waypoint");
+
 #endif
     std::cout << "A path requires at least 1 waypoint" << std::endl;
   }
@@ -264,8 +266,9 @@ void WhoopDrivetrain::drive_through_path(
       Brain.Screen.print("Waypoints must consist of either 3 variables {x, y, "
                          "yaw}, or 2 variables {x, y}");
 #else
-      pros::lcd::print(1, "Waypoints must consist of either 3 variables {x, y, "
-                          "yaw}, or 2 variables {x, y}");
+      whoop::screen::print_at(
+          1, "Waypoints must consist of either 3 variables {x, y, "
+             "yaw}, or 2 variables {x, y}");
 #endif
       std::cout << "Waypoints must consist of either 3 variables {x, y, yaw}, "
                    "or 2 variables {x, y}"

@@ -148,6 +148,10 @@ double area_from_radius(double radius);
  */
 double area_from_diameter(double diameter);
 
+const double SMALL_NUMBER_THRESHOLD = 1e-9;
+const double MAX_POSSIBLE_DOUBLE_NUMBER =
+    std::numeric_limits<double>::infinity();
+
 /**
  * Does a safe divide calculation that completely avoids
  * divide by zero errors.
@@ -155,9 +159,8 @@ double area_from_diameter(double diameter);
  * @param denominator  the denominator, or the value to divide from the
  * numerator
  */
-double safeDivide(
-    double numerator, double denominator,
-    double max_possible_number = std::numeric_limits<double>::infinity());
+double safeDivide(double numerator, double denominator,
+                  double max_possible_number = MAX_POSSIBLE_DOUBLE_NUMBER);
 
 /**
  * This clamps to volts value [-12.0, 12.0]
@@ -196,14 +199,15 @@ double linearize_voltage(double volt, double c = 1.5);
  * with the variables added
  * @param format The format for the string (i.e. "The date is %d/%d/%d")
  * @param args (...)
- * 
+ *
  * Example:
- * 
+ *
  * ```
- * std::string dateMsg = whoop::format_string("The date is %d/%d/%d", 5, 10, 2024);
+ * std::string dateMsg = whoop::format_string("The date is %d/%d/%d", 5, 10,
+ * 2024);
  * ```
  */
-std::string format_string(const char* format, ...);
+std::string format_string(const char *format, ...);
 
 } // namespace whoop
 

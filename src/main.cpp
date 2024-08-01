@@ -18,6 +18,7 @@
  *
  */
 #include "main.h"
+#include "liblvgl/draw/lv_img_buf.h"
 
 ////////////////////////////////////////////////////////////
 /**
@@ -171,8 +172,7 @@ ComputeManager manager({&buffer_system, &jetson_commander, &robot_drivetrain, &c
  */
 void initialize()
 {
-    pros::lcd::initialize();
-    pros::lcd::set_text(1, "Hello PROS User!");
+    whoop::screen::initialize();
     controller1.notify("Initializing");
     manager.start();
     jetson_commander.initialize(); // If you don't have Tesseract, omit this line
@@ -239,6 +239,31 @@ void autonomous()
     robot_drivetrain.reverse_through_path({{15, 15, 180}, {0, 0, 180}}, 7);
 }
 
+
+#include <inttypes.h>
+static void event_cb(lv_event_t * e)
+{
+    LV_LOG_USER("Clicked");
+
+    static uint32_t cnt = 1;
+    lv_obj_t * btn = lv_event_get_target(e);
+    lv_obj_t * label = lv_obj_get_child(btn, 0);
+    lv_label_set_text_fmt(label, "%" PRIu32, cnt);
+    cnt++;
+}
+
+void create_button(){
+    lv_obj_t * btn = lv_btn_create(lv_scr_act());
+    lv_obj_set_size(btn, 100, 50);
+    lv_obj_center(btn);
+    lv_obj_add_event_cb(btn, event_cb, LV_EVENT_CLICKED, NULL);
+
+    lv_obj_t * label = lv_label_create(btn);
+    lv_label_set_text(label, "Click me!");
+    lv_obj_center(label);
+
+}
+
 /**
  * Runs the operator control code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -255,12 +280,15 @@ void autonomous()
 void opcontrol()
 {
     robot_drivetrain.set_state(drivetrainState::mode_usercontrol);
+    //create_button();
+    
+
 
     while (true)
     {
         Pose current_pose = robot_drivetrain.get_pose();
-        pros::lcd::clear_line(3);
-        pros::lcd::print(3, "FO (%s): %.1f %.1f %.1f %.1f %.1f %.1f", robot_drivetrain.get_units_str().c_str(), current_pose.x, current_pose.y, current_pose.z, current_pose.pitch, current_pose.yaw, current_pose.roll);
+        // pros::lcd::clear_line(3);
+        // pros::lcd::print(3, "FO (%s): %.1f %.1f %.1f %.1f %.1f %.1f", robot_drivetrain.get_units_str().c_str(), current_pose.x, current_pose.y, current_pose.z, current_pose.pitch, current_pose.yaw, current_pose.roll);
 
         pros::delay(20); // Run for 20 ms then update
     }

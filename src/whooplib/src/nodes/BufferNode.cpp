@@ -9,7 +9,7 @@
 
 #include "whooplib/include/nodes/BufferNode.hpp"
 #include "whooplib/include/toolbox.hpp"
-
+#include "whooplib/include/whoopgl/MainScreen.hpp"
 #include <cerrno>
 #include <cstdio>
 #include <fcntl.h>
@@ -112,8 +112,9 @@ void BufferNode::__step() {
             Brain.Screen.setCursor(1, 1);
             Brain.Screen.print("Error: %s", e.what());
 #else
-            pros::lcd::clear_line(1);
-            pros::lcd::print(1, "Error: %s", e.what());
+            whoop::screen::clear_row(1);
+            whoop::screen::print_at(1, "Error: %s", e.what());
+
 #endif
           }
         }
