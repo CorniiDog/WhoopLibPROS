@@ -7,15 +7,15 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
+#include "whooplib/include/toolbox.hpp"
 #include <algorithm>
 #include <cmath>
+#include <cstdarg> // Needed for va_list and related operations
 #include <iomanip> // Include for std::setprecision
 #include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <cstdarg> // Needed for va_list and related operations
-
 
 namespace whoop {
 
@@ -242,8 +242,6 @@ double area_from_diameter(double diameter) {
   return M_PI * radius * radius;
 }
 
-const double SMALL_NUMBER_THRESHOLD = 1e-10;
-
 double safeDivide(double numerator, double denominator,
                   double max_possible_number) {
   if (std::abs(denominator) < SMALL_NUMBER_THRESHOLD) {
@@ -277,33 +275,33 @@ double safeDivide(double numerator, double denominator,
   return result;
 }
 
+std::string format_string(const char *format, ...) {
+  va_list args;
+  va_start(args, format); // Initialize the argument list
 
-std::string format_string(const char* format, ...) {
-    va_list args;
-    va_start(args, format); // Initialize the argument list
+  // We need to predict the size of the output string
+  // vsnprintf returns the number of characters (excluding null terminator) that
+  // would have been written
+  int size = std::vsnprintf(nullptr, 0, format, args);
+  va_end(args);
 
-    // We need to predict the size of the output string
-    // vsnprintf returns the number of characters (excluding null terminator) that would have been written
-    int size = std::vsnprintf(nullptr, 0, format, args);
-    va_end(args);
+  if (size < 0) {
+    throw std::runtime_error("Error during formatting.");
+  }
 
-    if (size < 0) {
-        throw std::runtime_error("Error during formatting.");
-    }
+  // Create a string with the correct size and fill it with null terminators
+  std::string result(size + 1, '\0');
 
-    // Create a string with the correct size and fill it with null terminators
-    std::string result(size + 1, '\0');
+  // We need to start processing args again
+  va_start(args, format);
+  // vsnprintf writes to the string including the null terminator
+  std::vsnprintf(&result[0], result.size(), format, args);
+  va_end(args);
 
-    // We need to start processing args again
-    va_start(args, format);
-    // vsnprintf writes to the string including the null terminator
-    std::vsnprintf(&result[0], result.size(), format, args);
-    va_end(args);
+  // Resize to remove the extra null terminator
+  result.resize(size);
 
-    // Resize to remove the extra null terminator
-    result.resize(size);
-
-    return result;
+  return result;
 }
 
 } // namespace whoop

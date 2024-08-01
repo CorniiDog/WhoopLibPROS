@@ -7,6 +7,9 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
+// actual measurements for the omni-wheels are from LemLib documentation
+// Which can be found here: https://lemlib.readthedocs.io/en/v0.5.0/tutorials/2_configuration.html
+
 #include <ratio>
 
 #ifndef DESIGNATED_UNITS_H
@@ -95,6 +98,48 @@ constexpr long double operator"" _kd(unsigned long long kd) { return kd; }
 constexpr unsigned int operator"" _points(unsigned long long points) {
     return static_cast<unsigned int>(points);
 }
+
+// Source: https://lemlib.readthedocs.io/en/v0.5.0/tutorials/2_configuration.html#wheel-diameter
+/**
+* MIT License
+* 
+* Copyright (c) 2024 Liam Teale and LemLib contributors
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+enum Omniwheel{
+  NEW_2 = 2.125_in,
+  NEW_275 = 2.75_in,
+  OLD_275 = 2.75_in,
+  NEW_275_HALF = 2.744_in,
+  OLD_275_HALF = 2.74_in,
+  NEW_325 = 3.25_in,
+  OLD_325 = 3.25_in,
+  NEW_325_HALF = 3.246_in,
+  OLD_325_HALF = 3.246_in,
+  NEW_4 = 4.00_in,
+  OLD_4 = 4.18_in,
+  NEW_4_HALF = 3.995_in,
+  OLD_4_HALF = 4.175_in
+};
+
+
 } // namespace units
 
 #endif // DESIGNATED_UNITS_H
