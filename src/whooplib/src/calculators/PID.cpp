@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       PID.cpp                                                   */
-/*    Author:       2775Josh, Modified by Connor White (WHOOP)                */
+/*    Author:       Connor White (WHOOP)                                      */
 /*    Created:      Thu July 4 2024                                           */
 /*    Description:  Whoop PID Calculator                                      */
 /*                                                                            */

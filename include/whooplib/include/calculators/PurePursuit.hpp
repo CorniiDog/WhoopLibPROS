@@ -16,6 +16,9 @@
 
 namespace whoop {
 
+/**
+PursuitEstimate is an object that is the result of a given pure pursuit path calculation
+ */
 struct PursuitEstimate {
   bool is_valid;
   double steering_angle;
