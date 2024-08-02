@@ -18,7 +18,6 @@
  *
  */
 #include "main.h"
-#include "liblvgl/draw/lv_img_buf.h"
 
 ////////////////////////////////////////////////////////////
 /**
@@ -239,31 +238,6 @@ void autonomous()
     robot_drivetrain.reverse_through_path({{15, 15, 180}, {0, 0, 180}}, 7);
 }
 
-
-#include <inttypes.h>
-static void event_cb(lv_event_t * e)
-{
-    LV_LOG_USER("Clicked");
-
-    static uint32_t cnt = 1;
-    lv_obj_t * btn = lv_event_get_target(e);
-    lv_obj_t * label = lv_obj_get_child(btn, 0);
-    lv_label_set_text_fmt(label, "%" PRIu32, cnt);
-    cnt++;
-}
-
-void create_button(){
-    lv_obj_t * btn = lv_btn_create(lv_scr_act());
-    lv_obj_set_size(btn, 100, 50);
-    lv_obj_center(btn);
-    lv_obj_add_event_cb(btn, event_cb, LV_EVENT_CLICKED, NULL);
-
-    lv_obj_t * label = lv_label_create(btn);
-    lv_label_set_text(label, "Click me!");
-    lv_obj_center(label);
-
-}
-
 /**
  * Runs the operator control code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -282,8 +256,6 @@ void opcontrol()
     robot_drivetrain.set_state(drivetrainState::mode_usercontrol);
     //create_button();
     
-
-
     while (true)
     {
         Pose current_pose = robot_drivetrain.get_pose();
