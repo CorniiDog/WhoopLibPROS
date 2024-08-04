@@ -133,6 +133,7 @@ public:
   TwoDPose end_position;
   PursuitParams *default_pursuit_parameters = nullptr;
 
+  // If is_turn, then use turn_pose for the turn (see "generate_turn")
   bool is_turn = false;
   TwoDPose turn_pose;
 

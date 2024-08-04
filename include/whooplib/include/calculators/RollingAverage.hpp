@@ -34,12 +34,6 @@ public:
   RollingAverageFilter(int capacity);
 
   /**
-   * Processes pose into rolling average
-   * @return rolling average result
-   */
-  Pose process(const Pose &newMeasurement);
-
-  /**
    * Processes double into rolling average
    * @return rolling average result
    */

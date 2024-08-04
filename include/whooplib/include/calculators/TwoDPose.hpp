@@ -44,6 +44,8 @@ public:
 
   // Overloaded * operator to combine two poses
   // Think of it as Roblox's CF = CFrame1 * CFrame2
+  // Therefore, if applied:
+  // 
   /**
    * Combines this pose with another pose using matrix multiplication semantics.
    * Equivalent to applying the transformation of the other pose to this pose.

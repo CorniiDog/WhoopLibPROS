@@ -28,7 +28,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * Reference to original work: https://github.com/JacksonAreaRobotics/JAR-Template
+ * Reference to original work: https://github.com/JacksonAreaRobotics/JAR-Template/blob/main/include/JAR-Template/odom.h
  * Reference to license: https://github.com/JacksonAreaRobotics/JAR-Template/blob/main/LICENSE.md
  */
 
