@@ -64,6 +64,11 @@ WhoopDrivetrain::WhoopDrivetrain(PursuitParams *default_pursuit_parameters,
 void WhoopDrivetrain::set_state(drivetrainState state) {
   if (state == drivetrainState::mode_autonomous) {
     pose_units = default_pose_units;
+
+    if (!is_calibrated) { // Calibrate if not already calibrated
+      calibrate();
+      is_calibrated = true;
+    }
   }
   drive_state = state;
 }
@@ -372,20 +377,20 @@ void WhoopDrivetrain::drive_through_path(
 void WhoopDrivetrain::run_disabled_calibration_protocol() {
   if (drive_state == drivetrainState::mode_disabled) {
     if (odom_fusion->is_moving()) {
-      needs_calibration = true;
+      is_calibrated = true;
       calibration_timer = 0;
       if (moved_one_time_notif) {
         whoop_controller->notify("Robot Moved");
         moved_one_time_notif = false;
       }
-    } else if (needs_calibration) { // Stationary and needs calibration
+    } else if (is_calibrated) { // Stationary and needs calibration
       calibration_timer += 20;
       if (calibration_timer >
           time_until_calibration) { // If stationary for more than period of
                                     // time (like 500 milliseconds) then
                                     // calibrate
         calibrate();
-        needs_calibration = false;
+        is_calibrated = false;
         moved_one_time_notif = true;
       }
     }
@@ -397,6 +402,11 @@ void WhoopDrivetrain::calibrate() {
   odom_fusion->calibrate();
 
   whoop_controller->notify("Calibration Finished.", 2);
+#if USE_VEXCODE
+  wait(300, msec);
+#else
+  pros::delay(300);
+#endif
 
   // Update desired position to 0,0,0
   desired_position = TwoDPose(0, 0, 0);
