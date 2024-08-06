@@ -142,7 +142,7 @@ PursuitParams pursuit_parameters(
     ,100_points 
 
     /////////////////////////
-    // Volages
+    // Motor Voltages
     /////////////////////////
     // Pure pursuit forward max motor voltage (0.0, 12.0]
     ,8.0_volts
@@ -167,25 +167,25 @@ PursuitParams pursuit_parameters(
     // Turning PID
     /////////////////////////
     // Turning (kP) Proportional Tuning
-    ,14_kp
+    ,14.0_kp
     // Turning (kI) Integral Tuning
     ,0.1_ki
     // Turning (kD) Derivative Tuning
-    ,20_kd
+    ,20.0_kd
     // The rotation distance (error) to activate turning_ki
-    ,15_deg
+    ,15.0_deg
 
     /////////////////////////
     // Forward PID
     /////////////////////////
     // Forward (kP) Proportional Tuning
-    ,55_kp
+    ,55.0_kp
     // Forward (kI) Integral Tuning
     ,0.01_ki
     // Forward (kD) Derivative Tuning
-    ,250_kd
+    ,250.0_kd
     // The forward distance (error) to activate forward_ki
-    ,2_in
+    ,2.0_in
 );
 
 ////////////////////////////////////////////////////////////
