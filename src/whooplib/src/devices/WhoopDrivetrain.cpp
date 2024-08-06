@@ -63,12 +63,17 @@ WhoopDrivetrain::WhoopDrivetrain(PursuitParams *default_pursuit_parameters,
 
 void WhoopDrivetrain::set_state(drivetrainState state) {
   if (state == drivetrainState::mode_autonomous) {
-    pose_units = default_pose_units;
-
-    if (!is_calibrated) { // Calibrate if not already calibrated
-      calibrate();
-      is_calibrated = true;
+    // Calibration logic to ensure that the robot is calibrated properly before anything else
+    if(is_calibrating){
+      while(is_calibrating){
+        pros::delay(5);
+      }
     }
+    else if(!is_calibrated){
+      calibrate();
+    }
+
+    pose_units = default_pose_units;
   }
   drive_state = state;
 }
@@ -377,20 +382,19 @@ void WhoopDrivetrain::drive_through_path(
 void WhoopDrivetrain::run_disabled_calibration_protocol() {
   if (drive_state == drivetrainState::mode_disabled) {
     if (odom_fusion->is_moving()) {
-      is_calibrated = true;
+      is_calibrated = false;
       calibration_timer = 0;
       if (moved_one_time_notif) {
         whoop_controller->notify("Robot Moved");
         moved_one_time_notif = false;
       }
-    } else if (is_calibrated) { // Stationary and needs calibration
+    } else if (!is_calibrated && !is_calibrating) { // Stationary and needs calibration
       calibration_timer += 20;
       if (calibration_timer >
           time_until_calibration) { // If stationary for more than period of
                                     // time (like 500 milliseconds) then
                                     // calibrate
         calibrate();
-        is_calibrated = false;
         moved_one_time_notif = true;
       }
     }
@@ -399,18 +403,16 @@ void WhoopDrivetrain::run_disabled_calibration_protocol() {
 
 void WhoopDrivetrain::calibrate() {
   whoop_controller->notify("Calibrating Dont Move");
+
+  is_calibrating = true;
   odom_fusion->calibrate();
 
   whoop_controller->notify("Calibration Finished.", 2);
-#if USE_VEXCODE
-  wait(300, msec);
-#else
-  pros::delay(300);
-#endif
-
   // Update desired position to 0,0,0
   desired_position = TwoDPose(0, 0, 0);
   last_desired_position = desired_position;
+  is_calibrating = false;
+  is_calibrated = true;
 }
 
 /**
@@ -537,6 +539,7 @@ void WhoopDrivetrain::step_disabled() {
 }
 
 void WhoopDrivetrain::step_autonomous() {
+
   if (auton_traveling) {
     TwoDPose robot_pose = odom_fusion->get_pose_2d();
     if (auton_reverse) {

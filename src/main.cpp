@@ -169,7 +169,7 @@ PursuitParams pursuit_parameters(
     // Turning (kP) Proportional Tuning
     ,14.0_kp
     // Turning (kI) Integral Tuning
-    ,0.1_ki
+    ,0.2_ki
     // Turning (kD) Derivative Tuning
     ,20.0_kd
     // The rotation distance (error) to activate turning_ki
@@ -215,7 +215,6 @@ void initialize()
     whoop::screen::initialize();
     controller1.notify("Initializing");
     manager.start();
-    jetson_commander.initialize(); // If you don't have Tesseract, omit this line
     robot_drivetrain.calibrate();
 }
 

@@ -66,6 +66,7 @@ private:
   double time_until_calibration = 1000; // ms
   // Calibration protocol Modifiables
   bool is_calibrated = false;
+  bool is_calibrating = false;
   double calibration_timer = 0;
   bool moved_one_time_notif = false;
   // This runs the calibration protocol for the drivetrain
