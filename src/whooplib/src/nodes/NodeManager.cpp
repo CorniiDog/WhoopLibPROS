@@ -9,7 +9,6 @@
 
 #include "whooplib/include/nodes/NodeManager.hpp"
 #include "whooplib/include/toolbox.hpp"
-#include "whooplib/include/whoopgl/MainScreen.hpp"
 #include <algorithm>
 #include <cstdio>
 #include <iostream>

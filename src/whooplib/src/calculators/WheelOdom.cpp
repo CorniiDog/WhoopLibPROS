@@ -12,7 +12,6 @@
 /*----------------------------------------------------------------------------*/
 
 #include "whooplib/include/calculators/WheelOdom.hpp"
-#include "whooplib/include/whoopgl/MainScreen.hpp"
 #include "whooplib/include/toolbox.hpp"
 
 namespace whoop {

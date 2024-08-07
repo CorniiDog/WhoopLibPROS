@@ -128,19 +128,19 @@ constexpr unsigned int operator"" _points(unsigned long long points) {
  * Reference to license: https://github.com/LemLib/LemLib/blob/master/LICENSE
  */
 namespace Omniwheel{
-  double NEW_2 = 2.125_in;
-  double NEW_275 = 2.75_in;
-  double OLD_275 = 2.75_in;
-  double NEW_275_HALF = 2.744_in;
-  double OLD_275_HALF = 2.74_in;
-  double NEW_325 = 3.25_in;
-  double OLD_325 = 3.25_in;
-  double NEW_325_HALF = 3.246_in;
-  double OLD_325_HALF = 3.246_in;
-  double NEW_4 = 4.00_in;
-  double OLD_4 = 4.18_in;
-  double NEW_4_HALF = 3.995_in;
-  double OLD_4_HALF = 4.175_in;
+  constexpr double NEW_2 = 2.125_in;
+  constexpr double NEW_275 = 2.75_in;
+  constexpr double OLD_275 = 2.75_in;
+  constexpr double NEW_275_HALF = 2.744_in;
+  constexpr double OLD_275_HALF = 2.74_in;
+  constexpr double NEW_325 = 3.25_in;
+  constexpr double OLD_325 = 3.25_in;
+  constexpr double NEW_325_HALF = 3.246_in;
+  constexpr double OLD_325_HALF = 3.246_in;
+  constexpr double NEW_4 = 4.00_in;
+  constexpr double OLD_4 = 4.18_in;
+  constexpr double NEW_4_HALF = 3.995_in;
+  constexpr double OLD_4_HALF = 4.175_in;
 }
 
 } // namespace units

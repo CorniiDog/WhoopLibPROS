@@ -149,7 +149,7 @@ PursuitParams pursuit_parameters(
     // Pure pursuit turning max motor voltage (0.0, 12.0]
     ,12.0_volts
     // The maximum voltage change per second, as a slew rate (only applies speeding up)
-    ,50.0_volts
+    ,200.0_volts
 
     /////////////////////////
     // Settling
@@ -157,9 +157,9 @@ PursuitParams pursuit_parameters(
     // Settle Distance. Exits when within this distance of target
     ,1.25_in
     // Settle Rotation. Exits when within this rotation of target
-    ,1_deg
+    ,1.1_deg
     // Minimum time to be considered settled, in seconds
-    ,0.4_sec
+    ,0.35_sec
     // Time after which to give up and move on, in seconds (set to 0 to disable)
     ,0_sec
     
@@ -167,21 +167,21 @@ PursuitParams pursuit_parameters(
     // Turning PID
     /////////////////////////
     // Turning (kP) Proportional Tuning
-    ,14.0_kp
+    ,12_kp
     // Turning (kI) Integral Tuning
-    ,0.2_ki
+    ,0.4_ki
     // Turning (kD) Derivative Tuning
-    ,20.0_kd
+    ,50.0_kd
     // The rotation distance (error) to activate turning_ki
-    ,15.0_deg
+    ,20.0_deg
 
     /////////////////////////
     // Forward PID
     /////////////////////////
     // Forward (kP) Proportional Tuning
-    ,55.0_kp
+    ,50.0_kp
     // Forward (kI) Integral Tuning
-    ,0.01_ki
+    ,0.1_ki
     // Forward (kD) Derivative Tuning
     ,250.0_kd
     // The forward distance (error) to activate forward_ki
@@ -212,7 +212,6 @@ ComputeManager manager({&buffer_system, &jetson_commander, &robot_drivetrain, &c
  */
 void initialize()
 {
-    whoop::screen::initialize();
     controller1.notify("Initializing");
     manager.start();
 }

@@ -39,9 +39,6 @@
 // Toolbox
 #include "whooplib/include/toolbox.hpp"
 
-// Whoop GL
-#include "whooplib/include/whoopgl/MainScreen.hpp"
-
 // Calculators
 #include "whooplib/include/calculators/Dubins.hpp"
 #include "whooplib/include/calculators/PurePursuit.hpp"

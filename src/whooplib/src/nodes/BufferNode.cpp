@@ -9,7 +9,6 @@
 
 #include "whooplib/include/nodes/BufferNode.hpp"
 #include "whooplib/include/toolbox.hpp"
-#include "whooplib/include/whoopgl/MainScreen.hpp"
 #include <cerrno>
 #include <cstdio>
 #include <fcntl.h>

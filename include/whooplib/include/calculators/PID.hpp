@@ -61,6 +61,11 @@ private:
   double previous_error = 0;
   double output = 0;
 
+  bool reject_first_accumulation = false;
+
+  double max_integral_power = 12.0;
+  double max_integral_power_scaled = 0;
+
 public:
   double time_spent_settled = 0;
 
@@ -85,8 +90,9 @@ public:
    * @param settle_error Maximum error to be considered settled
    * @param settle_time Minimum time to be considered settled
    * @param timeout Time after which to give up and move on
+   * @param max_integral_power The maximum integral power, clamped
    */
-  PID(double error, double kp, double ki, double kd, double starti);
+  PID(double error, double kp, double ki, double kd, double starti, double max_integral_power);
 
   /**
    * PID constructor with custom update period
@@ -101,8 +107,9 @@ public:
    * @param settle_error Maximum error to be considered settled
    * @param settle_time Minimum time to be considered settled, in seconds
    * @param timeout Time after which to give up and move on, in seconds
+   * @param max_integral_power The maximum integral power, clamped
    */
-  PID(double error, double kp, double ki, double kd, double starti,
+  PID(double error, double kp, double ki, double kd, double starti, double max_integral_power,
       double settle_error, double settle_time, double timeout);
 
   /**
