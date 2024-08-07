@@ -65,7 +65,8 @@ private:
   // Calibration protocol settings
   double time_until_calibration = 1000; // ms
   // Calibration protocol Modifiables
-  bool needs_calibration = true;
+  bool is_calibrated = false;
+  bool is_calibrating = false;
   double calibration_timer = 0;
   bool moved_one_time_notif = false;
   // This runs the calibration protocol for the drivetrain
@@ -93,8 +94,6 @@ protected:
   PoseUnits default_pose_units = PoseUnits::m_rad_ccw;
 
   PurePursuitConductor pursuit_conductor;
-
-  bool drive_calibrated = false;
 
   bool autonomous_driving = false;
 

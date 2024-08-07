@@ -207,7 +207,7 @@ double linearize_voltage(double volt, double c = 1.5);
  * 2024);
  * ```
  */
-std::string format_string(const char *format, ...);
+std::string format_string(const char* format, va_list args);
 
 } // namespace whoop
 

@@ -12,6 +12,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "whooplib/include/calculators/WheelOdom.hpp"
+#include "whooplib/include/whoopgl/MainScreen.hpp"
 #include "whooplib/include/toolbox.hpp"
 
 namespace whoop {
@@ -81,6 +82,8 @@ void WheelOdom::update_pose(double forward_tracker_pos,
 
   X_position += X_position_delta;
   Y_position += Y_position_delta;
+
+  //whoop::screen::print_at(4, "Position x: %f", X_position);
 }
 
 } // namespace whoop

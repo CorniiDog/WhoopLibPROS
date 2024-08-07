@@ -112,8 +112,8 @@ void BufferNode::__step() {
             Brain.Screen.setCursor(1, 1);
             Brain.Screen.print("Error: %s", e.what());
 #else
-            whoop::screen::clear_row(1);
-            whoop::screen::print_at(1, "Error: %s", e.what());
+            //whoop::screen::clear_row(1);
+            //whoop::screen::print_at(1, "Error: %s", e.what());
 
 #endif
           }

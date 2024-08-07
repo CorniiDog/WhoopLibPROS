@@ -21,7 +21,7 @@ void PurePursuitPath::initializeWaypoints(std::vector<TwoDPose> waypoints) {
 #if USE_VEXCODE
     Brain.Screen.print("Error. Waypoints must have 2 or more points.");
 #else
-    whoop::screen::print_at(1, "Error. Waypoints must have 2 or more points.");
+    //whoop::screen::print_at(1, "Error. Waypoints must have 2 or more points.");
 #endif
     std::cout << "Error. Waypoints must have 2 or more points." << std::endl;
   }

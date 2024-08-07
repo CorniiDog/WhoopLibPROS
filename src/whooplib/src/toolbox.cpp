@@ -275,33 +275,10 @@ double safeDivide(double numerator, double denominator,
   return result;
 }
 
-std::string format_string(const char *format, ...) {
-  va_list args;
-  va_start(args, format); // Initialize the argument list
-
-  // We need to predict the size of the output string
-  // vsnprintf returns the number of characters (excluding null terminator) that
-  // would have been written
-  int size = std::vsnprintf(nullptr, 0, format, args);
-  va_end(args);
-
-  if (size < 0) {
-    throw std::runtime_error("Error during formatting.");
-  }
-
-  // Create a string with the correct size and fill it with null terminators
-  std::string result(size + 1, '\0');
-
-  // We need to start processing args again
-  va_start(args, format);
-  // vsnprintf writes to the string including the null terminator
-  std::vsnprintf(&result[0], result.size(), format, args);
-  va_end(args);
-
-  // Resize to remove the extra null terminator
-  result.resize(size);
-
-  return result;
+std::string format_string(const char* format, va_list args) {
+    char buffer[1024]; // Adjust size as necessary
+    vsnprintf(buffer, sizeof(buffer), format, args);
+    return std::string(buffer);
 }
 
 } // namespace whoop

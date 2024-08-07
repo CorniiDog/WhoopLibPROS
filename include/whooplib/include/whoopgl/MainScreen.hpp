@@ -31,16 +31,6 @@ void initialize();
 
 static void create_log_window();
 
-/**
- * The following prints in the logger
- */
-void print_at(int row, const char* format, ...);
-
-/**
- * The following clears the row in the log
- */
-void clear_row(int row);
-
 } // screen
 
 } // whoop

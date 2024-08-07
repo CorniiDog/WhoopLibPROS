@@ -22,6 +22,7 @@ namespace whoop {
 struct PursuitParams {
   double turning_radius;
   double lookahead_distance;
+  int num_path_segments;
 
   double forward_max_voltage;
   double turning_max_voltage;
@@ -43,11 +44,13 @@ struct PursuitParams {
   double forward_kd;
   double forward_i_activation;
 
-  int num_path_segments;
 
   /**
    * @param turning_radius Radius of the turns, in meters
    * @param lookahead_distance Pure Pursuit look ahead distance, in meters
+   * @param num_path_segments The number of points when generating the path.
+   * More points mean higher detail of the path, but at a higher computational
+   * cost
    * @param forward_max_voltage The maximum voltage the motors can spin while
    * going forward
    * @param turning_max_voltage The maximum voltage the motors can spin while
@@ -67,21 +70,19 @@ struct PursuitParams {
    * @param forward_kd Forward Derivative Tuning
    * @param forward_i_activation The forward distance (error), in meters, to
    * activate forward_ki
-   * @param num_path_segments The number of points when generating the path.
-   * More points mean higher detail of the path, but at a higher computational
-   * cost
    */
   PursuitParams(
       double turning_radius = to_meters(5),
       double lookahead_distance = to_meters(5),
+      int num_path_segments = 100,
       double forward_max_voltage = 8.0, double turning_max_voltage = 12.0,
       double max_voltage_change = 50, double settle_distance = to_meters(1.25),
       double settle_rotation = to_rad(1), double settle_time = 0.3,
       double timeout = 0, double turning_kp = 14, double turning_ki = 0.1,
       double turning_kd = 20, double turning_i_activation = to_meters(15),
       double forward_kp = 55, double forward_ki = 0.01, double forward_kd = 250,
-      double forward_i_activation = to_meters(2), int num_path_segments = 100)
-      : turning_radius(turning_radius), lookahead_distance(lookahead_distance),
+      double forward_i_activation = to_meters(2))
+      : turning_radius(turning_radius), lookahead_distance(lookahead_distance), num_path_segments(num_path_segments),
         forward_max_voltage(forward_max_voltage),
         turning_max_voltage(turning_max_voltage),
         max_voltage_change(max_voltage_change),
@@ -90,8 +91,7 @@ struct PursuitParams {
         turning_ki(turning_ki), turning_kd(turning_kd),
         turning_i_activation(turning_i_activation), forward_kp(forward_kp),
         forward_ki(forward_ki), forward_kd(forward_kd),
-        forward_i_activation(forward_i_activation),
-        num_path_segments(num_path_segments) {}
+        forward_i_activation(forward_i_activation) {}
 };
 
 struct PursuitResult {
