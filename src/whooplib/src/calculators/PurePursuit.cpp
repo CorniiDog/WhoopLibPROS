@@ -10,7 +10,6 @@
 #include "whooplib/include/calculators/PurePursuit.hpp"
 #include "whooplib/include/calculators/Dubins.hpp"
 #include "whooplib/include/toolbox.hpp"
-#include "whooplib/include/whoopgl/MainScreen.hpp"
 #include "whooplib/includer.hpp"
 #include <iostream>
 

@@ -23,25 +23,50 @@ namespace whoop {
  * @param starti Maximum error to start integrating
  */
 
-PID::PID(double error, double kp, double ki, double kd, double starti)
-    : error(error), kp(kp), ki(ki), kd(kd), starti(starti) {}
+PID::PID(double error, double kp, double ki, double kd, double starti,
+         double max_integral_power)
+    : error(error), kp(kp), ki(ki), kd(kd), starti(starti),
+      max_integral_power(max_integral_power) {
+  max_integral_power_scaled = max_integral_power / ki;
+}
 
 PID::PID(double error, double kp, double ki, double kd, double starti,
-         double settle_error, double settle_time, double timeout)
+         double max_integral_power, double settle_error, double settle_time,
+         double timeout)
     : error(error), kp(kp), ki(ki), kd(kd), starti(starti),
-      settle_error(settle_error), settle_time(settle_time), timeout(timeout) {}
+      settle_error(settle_error), settle_time(settle_time), timeout(timeout),
+      max_integral_power(max_integral_power) {
+  max_integral_power_scaled = max_integral_power / ki;
+}
 
 double PID::step(double error) {
-  if (fabs(error) < starti) {
-    accumulated_error += error;
+
+  double derivative = error - previous_error;
+
+  if (reject_first_accumulation) {
+    reject_first_accumulation = false;
+  } else {
+    if (fabs(error) < starti) {
+      accumulated_error += error;
+      accumulated_error -= derivative;
+    } else {
+      accumulated_error = 0;
+    }
   }
+
   // Checks if the error has crossed 0, and if it has, it eliminates the
   // integral term
   if ((error > 0 && previous_error < 0) || (error < 0 && previous_error > 0)) {
     accumulated_error = 0;
   }
 
-  output = kp * error + ki * accumulated_error + kd * (error - previous_error);
+  double max_integral_power_scaled = max_integral_power / ki;
+  if (accumulated_error > max_integral_power_scaled)
+    accumulated_error = max_integral_power_scaled;
+  if (accumulated_error < -max_integral_power_scaled)
+    accumulated_error = -max_integral_power_scaled;
+
+  output = kp * error + ki * accumulated_error + kd * derivative;
 
   previous_error = error;
 
@@ -78,6 +103,9 @@ bool PID::settling() {
   return false;
 }
 
-void PID::zeroize_accumulated() { accumulated_error = 0; }
+void PID::zeroize_accumulated() {
+  accumulated_error = 0;
+  reject_first_accumulation = true;
+}
 
 } // namespace whoop

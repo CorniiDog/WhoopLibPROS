@@ -124,6 +124,9 @@ struct PursuitResult {
 
 class PurePursuitConductor {
 
+private:
+  bool wipe_turn_once = false;
+
 public:
   PID turn_pid;
   PID forward_pid;

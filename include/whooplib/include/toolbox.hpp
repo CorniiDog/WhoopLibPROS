@@ -194,21 +194,6 @@ int int_distance(int point_1, int point_2);
  */
 double linearize_voltage(double volt, double c = 1.5);
 
-/**
- * Formats a c-style string (can be converted via std::string.c_str())
- * with the variables added
- * @param format The format for the string (i.e. "The date is %d/%d/%d")
- * @param args (...)
- *
- * Example:
- *
- * ```
- * std::string dateMsg = whoop::format_string("The date is %d/%d/%d", 5, 10,
- * 2024);
- * ```
- */
-std::string format_string(const char* format, va_list args);
-
 } // namespace whoop
 
 #endif // TOOLBOX_HPP

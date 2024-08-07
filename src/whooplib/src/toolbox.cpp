@@ -275,10 +275,4 @@ double safeDivide(double numerator, double denominator,
   return result;
 }
 
-std::string format_string(const char* format, va_list args) {
-    char buffer[1024]; // Adjust size as necessary
-    vsnprintf(buffer, sizeof(buffer), format, args);
-    return std::string(buffer);
-}
-
 } // namespace whoop

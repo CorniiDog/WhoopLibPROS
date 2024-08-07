@@ -8,7 +8,6 @@
 /*----------------------------------------------------------------------------*/
 
 #include "whooplib/include/calculators/PurePursuitConductor.hpp"
-#include "whooplib/include/whoopgl/MainScreen.hpp"
 #include "whooplib/includer.hpp"
 #include <iostream>
 
@@ -20,13 +19,15 @@ PurePursuitConductor::PurePursuitConductor(
                default_pursuit_parameters->turning_ki,
                default_pursuit_parameters->turning_kd,
                default_pursuit_parameters->turning_i_activation,
+               12.0,
                default_pursuit_parameters->settle_rotation,
                default_pursuit_parameters->settle_time,
                default_pursuit_parameters->timeout),
       forward_pid(0, default_pursuit_parameters->forward_kp,
                   default_pursuit_parameters->forward_ki,
-                  default_pursuit_parameters->forward_kp,
+                  default_pursuit_parameters->forward_kd,
                   default_pursuit_parameters->forward_i_activation,
+                  12.0,
                   default_pursuit_parameters->settle_distance,
                   default_pursuit_parameters->settle_time,
                   default_pursuit_parameters->timeout),
@@ -146,14 +147,16 @@ void PurePursuitConductor::generate_path(std::vector<TwoDPose> waypoints,
 
   forward_pid = PID(0, default_pursuit_parameters->forward_kp,
                     default_pursuit_parameters->forward_ki,
-                    default_pursuit_parameters->forward_kp,
+                    default_pursuit_parameters->forward_kd,
                     default_pursuit_parameters->forward_i_activation,
+                    12.0,
                     default_pursuit_parameters->settle_distance,
                     default_pursuit_parameters->settle_time, t_out),
   turn_pid = PID(0, default_pursuit_parameters->turning_kp,
                  default_pursuit_parameters->turning_ki,
                  default_pursuit_parameters->turning_kd,
                  default_pursuit_parameters->turning_i_activation,
+                 12.0,
                  default_pursuit_parameters->settle_rotation,
                  default_pursuit_parameters->settle_time, t_out),
   this->end_position =
@@ -207,6 +210,13 @@ PursuitResult PurePursuitConductor::step(TwoDPose current_pose) {
     forward_pid.zeroize_accumulated();
     estimate.steering_angle = estimate.last_steering;
     estimate.suggest_point_turn = true;
+    if(!wipe_turn_once){
+      wipe_turn_once = true;
+      turn_pid.zeroize_accumulated();
+    }
+  }
+  else if(wipe_turn_once){
+    wipe_turn_once = false;
   }
 
   double turn_power = turn_slew.step(turn_pid.step(estimate.steering_angle));
