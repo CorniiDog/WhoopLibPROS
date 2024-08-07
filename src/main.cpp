@@ -159,7 +159,7 @@ PursuitParams pursuit_parameters(
     // Settle Rotation. Exits when within this rotation of target
     ,1_deg
     // Minimum time to be considered settled, in seconds
-    ,0.3_sec
+    ,0.4_sec
     // Time after which to give up and move on, in seconds (set to 0 to disable)
     ,0_sec
     
@@ -215,7 +215,6 @@ void initialize()
     whoop::screen::initialize();
     controller1.notify("Initializing");
     manager.start();
-    robot_drivetrain.calibrate();
 }
 
 /**
@@ -295,13 +294,12 @@ void opcontrol()
 {
     autonomous();
     robot_drivetrain.set_state(drivetrainState::mode_usercontrol);
-    //create_button();
     
     while (true)
     {
         Pose current_pose = robot_drivetrain.get_pose();
-        // pros::lcd::clear_line(3);
-        // pros::lcd::print(3, "FO (%s): %.1f %.1f %.1f %.1f %.1f %.1f", robot_drivetrain.get_units_str().c_str(), current_pose.x, current_pose.y, current_pose.z, current_pose.pitch, current_pose.yaw, current_pose.roll);
+        //whoop::screen::clear_row(3);
+        //whoop::screen::print_at(3, "FO (%s): %.1f %.1f %.1f %.1f %.1f %.1f", robot_drivetrain.get_units_str().c_str(), current_pose.x, current_pose.y, current_pose.z, current_pose.pitch, current_pose.yaw, current_pose.roll);
 
         pros::delay(20); // Run for 20 ms then update
     }

@@ -16,66 +16,6 @@ namespace whoop{
 
 namespace screen{
 
-static std::string buffer; // Static buffer to hold the output
-
-// Function to split a string into lines
-std::vector<std::string> split_lines(const std::string& str) {
-    std::vector<std::string> lines;
-    std::istringstream stream(str);
-    std::string line;
-    while (std::getline(stream, line)) {
-        lines.push_back(line);
-    }
-    return lines;
-}
-
-// Function to join lines into a single string
-std::string join_lines(const std::vector<std::string>& lines) {
-    std::ostringstream stream;
-    for (const auto& line : lines) {
-        stream << line << "\n";
-    }
-    return stream.str();
-}
-
-// Function to set the content of a specific line in the buffer
-void set_line(std::string& buffer, int row, const std::string& content) {
-    auto lines = split_lines(buffer);
-    if (row >= lines.size()) {
-        lines.resize(row + 1); // Resize if the row is out of bounds
-    }
-    lines[row] = content;
-    buffer = join_lines(lines);
-}
-
-void print_at(int row, const char* format, ...) {
-    va_list args;
-    va_start(args, format);
-    std::string result = format_string(format, args);
-    va_end(args);
-
-    set_line(buffer, row, result);
-
-    // now use the data var
-
-    if(win != nullptr && txt != nullptr){
-        lv_label_set_text(txt, buffer.c_str());
-    }
-}
-
-// Function to clear a specific row in the buffer
-void clear_row(int row) {
-    auto lines = split_lines(buffer);
-    if (row < lines.size()) {
-        lines[row].clear(); // Clear the specific row
-        buffer = join_lines(lines);
-    }
-
-    if(win != nullptr && txt != nullptr){
-        lv_label_set_text(txt, buffer.c_str());
-    }
-}
-
 // Animation callback function to scale the image
 static void anim_scale_cb(void * var, int32_t v) {
     lv_obj_t * obj = (lv_obj_t *)var;

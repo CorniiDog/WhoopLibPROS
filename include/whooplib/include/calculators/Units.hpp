@@ -11,6 +11,7 @@
 // Which can be found here: https://lemlib.readthedocs.io/en/v0.5.0/tutorials/2_configuration.html
 
 #include <ratio>
+#include <cmath>
 
 #ifndef DESIGNATED_UNITS_H
 #define DESIGNATED_UNITS_H
