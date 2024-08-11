@@ -51,6 +51,7 @@ public:
   double kp = 0;
   double ki = 0;
   double kd = 0;
+  double ka = 0;
   double starti = 0;
   double settle_error = 0;
 
@@ -86,13 +87,14 @@ public:
    * @param kp Proportional constant
    * @param ki Integral constant
    * @param kd Derivative constant
+   * @param ka Integral anti-windup constant
    * @param starti Maximum error to start integrating
    * @param settle_error Maximum error to be considered settled
    * @param settle_time Minimum time to be considered settled
    * @param timeout Time after which to give up and move on
    * @param max_integral_power The maximum integral power, clamped
    */
-  PID(double error, double kp, double ki, double kd, double starti, double max_integral_power);
+  PID(double error, double kp, double ki, double kd, double ka, double starti, double max_integral_power);
 
   /**
    * PID constructor with custom update period
@@ -103,13 +105,14 @@ public:
    * @param kp Proportional constant
    * @param ki Integral constant
    * @param kd Derivative constant
+   * @param ka Integral anti-windup constant
    * @param starti Maximum error to start integrating
    * @param settle_error Maximum error to be considered settled
    * @param settle_time Minimum time to be considered settled, in seconds
    * @param timeout Time after which to give up and move on, in seconds
    * @param max_integral_power The maximum integral power, clamped
    */
-  PID(double error, double kp, double ki, double kd, double starti, double max_integral_power,
+  PID(double error, double kp, double ki, double kd, double ka, double starti, double max_integral_power,
       double settle_error, double settle_time, double timeout);
 
   /**

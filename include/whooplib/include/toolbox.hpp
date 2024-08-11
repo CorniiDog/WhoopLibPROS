@@ -194,6 +194,17 @@ int int_distance(int point_1, int point_2);
  */
 double linearize_voltage(double volt, double c = 1.5);
 
+
+/**
+ * Centers text to n place
+ */
+std::string center(const std::string& text, int n);
+
+/**
+ * Centers text to n characters
+ */
+std::string truncate(const std::string& text, int truncated_n);
+
 } // namespace whoop
 
 #endif // TOOLBOX_HPP

@@ -148,8 +148,6 @@ PursuitParams pursuit_parameters(
     ,8.0_volts
     // Pure pursuit turning max motor voltage (0.0, 12.0]
     ,12.0_volts
-    // The maximum voltage change per second, as a slew rate (only applies speeding up)
-    ,200.0_volts
 
     /////////////////////////
     // Settling
@@ -159,7 +157,7 @@ PursuitParams pursuit_parameters(
     // Settle Rotation. Exits when within this rotation of target
     ,1.1_deg
     // Minimum time to be considered settled, in seconds
-    ,0.35_sec
+    ,0.0_sec
     // Time after which to give up and move on, in seconds (set to 0 to disable)
     ,0_sec
     
@@ -167,13 +165,18 @@ PursuitParams pursuit_parameters(
     // Turning PID
     /////////////////////////
     // Turning (kP) Proportional Tuning
-    ,12_kp
+    ,14_kp
     // Turning (kI) Integral Tuning
-    ,0.4_ki
+    ,0.2_ki
     // Turning (kD) Derivative Tuning
-    ,50.0_kd
+    ,95.0_kd
+    // Turning (kR) Integral anti-windup Tuning. Higher value implies greater anti-windup near error=0. 
+    // NOTE: Affected by turning_i_activation
+    ,1.0_kr
     // The rotation distance (error) to activate turning_ki
     ,20.0_deg
+    // The maximum turning voltage change per second, as a slew rate
+    ,250.0_volts
 
     /////////////////////////
     // Forward PID
@@ -184,8 +187,13 @@ PursuitParams pursuit_parameters(
     ,0.1_ki
     // Forward (kD) Derivative Tuning
     ,250.0_kd
+    // Forward (kR) Integral anti-windup Tuning. Higher value implies greater anti-windup near error=0. 
+    // NOTE: Affected by forward_i_activation
+    ,0.0_kr
     // The forward distance (error) to activate forward_ki
     ,2.0_in
+    // The maximum forward voltage change per second, as a slew rate
+    ,150.0_volts
 );
 
 ////////////////////////////////////////////////////////////
@@ -202,7 +210,53 @@ WhoopDrivetrain robot_drivetrain(
     &right_motors         // Pointer to the right motor group (optionally can be a list of motors as well)
 );
 
-ComputeManager manager({&buffer_system, &jetson_commander, &robot_drivetrain, &controller1});
+/**
+ * My first autonomous routine
+ */
+void auton_1(){
+    robot_drivetrain.set_pose_units(PoseUnits::in_deg_cw);
+    robot_drivetrain.set_pose(0, 0, 0);
+
+    // robot_drivetrain.turn_to_position(15, 15);
+    robot_drivetrain.drive_forward(15);
+
+    robot_drivetrain.turn_to(90);
+
+    robot_drivetrain.drive_forward(-15);
+
+    robot_drivetrain.drive_forward(15);
+
+    robot_drivetrain.turn_to(0);
+
+    robot_drivetrain.drive_forward(-15);
+
+    // robot_drivetrain.drive_to_point(15, 15);
+    // robot_drivetrain.reverse_to_point(0,0);
+    robot_drivetrain.drive_through_path({{15, 15, 0}, {0, 0, 90}}, 7);
+    robot_drivetrain.reverse_through_path({{15, 15, 180}, {0, 0, 180}}, 7);
+}
+
+/**
+ * My second autonomous routine
+ */
+void auton_2(){
+
+}
+
+/**
+ * My third autonomous routine
+ */
+void auton_3(){
+
+}
+
+WhoopAutonSelector auton_selector(&controller1, {
+    AutonRoutine("First Auton", auton_1),
+    AutonRoutine("Second Auton", auton_2),
+    AutonRoutine("Third Auton", auton_3)
+}, "auton.txt");
+
+ComputeManager manager({&buffer_system, &jetson_commander, &robot_drivetrain, &controller1, &auton_selector});
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -212,6 +266,7 @@ ComputeManager manager({&buffer_system, &jetson_commander, &robot_drivetrain, &c
  */
 void initialize()
 {
+    auton_selector.run_selector();
     controller1.notify("Initializing");
     manager.start();
 }
@@ -251,29 +306,7 @@ void competition_initialize() {}
 void autonomous()
 {
     robot_drivetrain.set_state(drivetrainState::mode_autonomous);
-
-    robot_drivetrain.set_pose_units(PoseUnits::in_deg_cw);
-    robot_drivetrain.set_pose(0, 0, 0);
-
-    // robot_drivetrain.turn_to_position(15, 15);
-    robot_drivetrain.drive_forward(15);
-
-    robot_drivetrain.turn_to(90);
-
-    robot_drivetrain.drive_forward(-15);
-
-    robot_drivetrain.drive_forward(15);
-
-    robot_drivetrain.turn_to(0);
-
-    robot_drivetrain.drive_forward(-15);
-
-    
-
-    // robot_drivetrain.drive_to_point(15, 15);
-    // robot_drivetrain.reverse_to_point(0,0);
-    robot_drivetrain.drive_through_path({{15, 15, 0}, {0, 0, 90}}, 7);
-    robot_drivetrain.reverse_through_path({{15, 15, 180}, {0, 0, 180}}, 7);
+    auton_selector.run_autonomous();
 }
 
 /**
@@ -291,15 +324,10 @@ void autonomous()
  */
 void opcontrol()
 {
-    autonomous();
     robot_drivetrain.set_state(drivetrainState::mode_usercontrol);
     
     while (true)
     {
-        Pose current_pose = robot_drivetrain.get_pose();
-        //whoop::screen::clear_row(3);
-        //whoop::screen::print_at(3, "FO (%s): %.1f %.1f %.1f %.1f %.1f %.1f", robot_drivetrain.get_units_str().c_str(), current_pose.x, current_pose.y, current_pose.z, current_pose.pitch, current_pose.yaw, current_pose.roll);
-
         pros::delay(20); // Run for 20 ms then update
     }
 }

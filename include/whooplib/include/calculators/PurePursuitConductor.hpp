@@ -12,8 +12,9 @@
 
 #include "whooplib/include/calculators/PID.hpp"
 #include "whooplib/include/calculators/PurePursuit.hpp"
-#include "whooplib/include/calculators/Slew.hpp"
+#include "whooplib/include/calculators/SlewRateLimiter.hpp"
 #include "whooplib/include/calculators/TwoDPose.hpp"
+#include "whooplib/include/calculators/Units.hpp"
 #include "whooplib/include/toolbox.hpp"
 #include <vector>
 
@@ -27,8 +28,6 @@ struct PursuitParams {
   double forward_max_voltage;
   double turning_max_voltage;
 
-  double max_voltage_change;
-
   double settle_distance;
   double settle_rotation;
   double settle_time;
@@ -37,13 +36,16 @@ struct PursuitParams {
   double turning_kp;
   double turning_ki;
   double turning_kd;
+  double turning_kr;
   double turning_i_activation;
+  double max_turn_voltage_change;
 
   double forward_kp;
   double forward_ki;
   double forward_kd;
+  double forward_kr;
   double forward_i_activation;
-
+  double max_forward_voltage_change;
 
   /**
    * @param turning_radius Radius of the turns, in meters
@@ -63,35 +65,47 @@ struct PursuitParams {
    * @param turning_kp Turning Proportional Tuning
    * @param turning_ki Turning Integral Tuning
    * @param turning_kd Turning Derivative Tuning
+   * @param turning_kr Turning Integral anti-windup constant
    * @param turning_i_activation The rotation distance (error), in radians, to
    * activate turning_ki
+   * @param max_turn_voltage_change The maximum turning voltage change per
+   * second, as a slew rate
+   *
    * @param forward_kp Forward Proportional Tuning
    * @param forward_ki Forward Integral Tuning
    * @param forward_kd Forward Derivative Tuning
+   * @param forward_kr Forward Integral anti-windup constant
    * @param forward_i_activation The forward distance (error), in meters, to
    * activate forward_ki
+   * @param max_forward_voltage_change The maximum forward voltage change per
+   * second, as a slew rate
    */
-  PursuitParams(
-      double turning_radius = to_meters(5),
-      double lookahead_distance = to_meters(5),
-      int num_path_segments = 100,
-      double forward_max_voltage = 8.0, double turning_max_voltage = 12.0,
-      double max_voltage_change = 50, double settle_distance = to_meters(1.25),
-      double settle_rotation = to_rad(1), double settle_time = 0.3,
-      double timeout = 0, double turning_kp = 14, double turning_ki = 0.1,
-      double turning_kd = 20, double turning_i_activation = to_meters(15),
-      double forward_kp = 55, double forward_ki = 0.01, double forward_kd = 250,
-      double forward_i_activation = to_meters(2))
-      : turning_radius(turning_radius), lookahead_distance(lookahead_distance), num_path_segments(num_path_segments),
+  PursuitParams(double turning_radius = to_meters(5),
+                double lookahead_distance = to_meters(5),
+                int num_path_segments = 100, double forward_max_voltage = 8.0,
+                double turning_max_voltage = 12.0,
+                double settle_distance = to_meters(1.25),
+                double settle_rotation = to_rad(1.1), double settle_time = 0.0,
+                double timeout = 0, double turning_kp = 14,
+                double turning_ki = 0.2, double turning_kd = 95,
+                double turning_kr = 1.0, double turning_i_activation = to_rad(20),
+                double max_turn_voltage_change = 250, double forward_kp = 50,
+                double forward_ki = 0.1, double forward_kd = 250,
+                double forward_kr = 0,
+                double forward_i_activation = to_meters(2),
+                double max_forward_voltage_change = 150)
+      : turning_radius(turning_radius), lookahead_distance(lookahead_distance),
+        num_path_segments(num_path_segments),
         forward_max_voltage(forward_max_voltage),
         turning_max_voltage(turning_max_voltage),
-        max_voltage_change(max_voltage_change),
         settle_distance(settle_distance), settle_rotation(settle_rotation),
         settle_time(settle_time), timeout(timeout), turning_kp(turning_kp),
-        turning_ki(turning_ki), turning_kd(turning_kd),
-        turning_i_activation(turning_i_activation), forward_kp(forward_kp),
-        forward_ki(forward_ki), forward_kd(forward_kd),
-        forward_i_activation(forward_i_activation) {}
+        turning_ki(turning_ki), turning_kd(turning_kd), turning_kr(turning_kr),
+        turning_i_activation(turning_i_activation),
+        max_turn_voltage_change(max_turn_voltage_change),
+        forward_kp(forward_kp), forward_ki(forward_ki), forward_kd(forward_kd),
+        forward_kr(forward_kr), forward_i_activation(forward_i_activation),
+        max_forward_voltage_change(max_forward_voltage_change) {}
 };
 
 struct PursuitResult {
@@ -130,8 +144,8 @@ private:
 public:
   PID turn_pid;
   PID forward_pid;
-  Slew turn_slew;
-  Slew forward_slew;
+  SlewRateLimiter turn_slew;
+  SlewRateLimiter forward_slew;
   PurePursuitPath pursuit_path;
   TwoDPose end_position;
   PursuitParams *default_pursuit_parameters = nullptr;

@@ -34,6 +34,9 @@
 #ifndef WHOOP_LIB_H
 #define WHOOP_LIB_H
 
+// Include iostream
+#include <iostream>
+
 #include "whooplib/includer.hpp"
 
 // Toolbox
@@ -44,7 +47,7 @@
 #include "whooplib/include/calculators/PurePursuit.hpp"
 #include "whooplib/include/calculators/PurePursuitConductor.hpp"
 #include "whooplib/include/calculators/RollingAverage.hpp"
-#include "whooplib/include/calculators/Slew.hpp"
+#include "whooplib/include/calculators/SlewRateLimiter.hpp"
 #include "whooplib/include/calculators/TwoDPose.hpp"
 #include "whooplib/include/calculators/Units.hpp"
 #include "whooplib/include/calculators/WheelOdom.hpp"
@@ -67,6 +70,7 @@
 #include "whooplib/include/devices/WhoopOdomFusion.hpp"
 #include "whooplib/include/devices/WhoopRotation.hpp"
 #include "whooplib/include/devices/WhoopVision.hpp"
+#include "whooplib/include/devices/WhoopAutonSelector.hpp"
 
 using namespace units; // This is for units system such as "1.5_in"
 using namespace whoop; // This is to help newer teams get used to C/C++. If you

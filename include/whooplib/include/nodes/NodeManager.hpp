@@ -25,6 +25,9 @@ class ComputeNode; // Forward declaration to allow references in ComputeManager
  * execution and synchronization.
  */
 class ComputeManager {
+private:
+  bool running = false;
+
 public:
   WhoopMutex thread_lock; // Mutex for synchronizing access to compute nodes
   std::vector<ComputeNode *>

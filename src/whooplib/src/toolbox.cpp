@@ -275,4 +275,22 @@ double safeDivide(double numerator, double denominator,
   return result;
 }
 
+std::string truncate(const std::string& text, int truncated_n){
+  return text.substr(0, truncated_n);
+}
+
+std::string center(const std::string& text, int n){
+  // Calculate the number of spaces needed to center the text
+  int padding = (n - static_cast<int>(text.size())) / 2;
+
+  // Construct the centered string
+  std::string centered_text = std::string(std::max(0, padding), ' ') + text;
+
+  // If the text is shorter than n, pad the right side as well
+  centered_text += std::string(std::max(0, n - static_cast<int>(centered_text.size())), ' ');
+
+  // Return the centered and possibly truncated text
+  return centered_text;
+}
+
 } // namespace whoop
