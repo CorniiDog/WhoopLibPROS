@@ -42,7 +42,11 @@ bool write_string_to_sd(std::string filename, std::string text) {
     } else {
       ++tries;
       if (tries < 5) {
+#if USE_VEXCODE
         vex::task::sleep(100);
+#else
+        pros::delay(100);
+#endif
         return write_string_to_sd(filename, text);
       }
       return false;
