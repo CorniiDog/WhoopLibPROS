@@ -240,14 +240,24 @@ void auton_1(){
  * My second autonomous routine
  */
 void auton_2(){
+    robot_drivetrain.set_pose_units(PoseUnits::in_deg_cw);
+    robot_drivetrain.set_pose(-30, -10, 0);
 
+    robot_drivetrain.drive_forward(15);
+
+    robot_drivetrain.turn_to(0);
+
+    robot_drivetrain.drive_forward(-15);
 }
 
 /**
  * My third autonomous routine
  */
 void auton_3(){
+    robot_drivetrain.set_pose_units(PoseUnits::in_deg_cw);
+    robot_drivetrain.set_pose(25, 0, 0);
 
+    robot_drivetrain.reverse_through_path({{15, 15, 180}, {0, 0, 180}}, 7);
 }
 
 WhoopAutonSelector auton_selector(&controller1, {
