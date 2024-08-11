@@ -62,17 +62,17 @@ WhoopDrivetrain::WhoopDrivetrain(PursuitParams *default_pursuit_parameters,
 
 void WhoopDrivetrain::set_state(drivetrainState state) {
   if (state == drivetrainState::mode_autonomous) {
-    // Calibration logic to ensure that the robot is calibrated properly before anything else
-    if(is_calibrating){
-      while(is_calibrating){
+    // Calibration logic to ensure that the robot is calibrated properly before
+    // anything else
+    if (is_calibrating) {
+      while (is_calibrating) {
 #if USE_VEXCODE
         wait(5, msec);
 #else
         pros::delay(5);
 #endif
-      }   
-    }
-    else if(!is_calibrated){
+      }
+    } else if (!is_calibrated) {
       calibrate();
     }
 
@@ -262,8 +262,7 @@ void WhoopDrivetrain::drive_through_path(
 #if USE_VEXCODE
     Brain.Screen.print("A path requires at least 1 waypoint");
 #else
-    //whoop::screen::print_at(1, "A path requires at least 1 waypoint");
-
+    // whoop::screen::print_at(1, "A path requires at least 1 waypoint");
 #endif
     std::cout << "A path requires at least 1 waypoint" << std::endl;
   }
@@ -279,9 +278,9 @@ void WhoopDrivetrain::drive_through_path(
       Brain.Screen.print("Waypoints must consist of either 3 variables {x, y, "
                          "yaw}, or 2 variables {x, y}");
 #else
-      //whoop::screen::print_at(
-      //    1, "Waypoints must consist of either 3 variables {x, y, "
-      //       "yaw}, or 2 variables {x, y}");
+      // whoop::screen::print_at(
+      //     1, "Waypoints must consist of either 3 variables {x, y, "
+      //        "yaw}, or 2 variables {x, y}");
 #endif
       std::cout << "Waypoints must consist of either 3 variables {x, y, yaw}, "
                    "or 2 variables {x, y}"
@@ -391,7 +390,8 @@ void WhoopDrivetrain::run_disabled_calibration_protocol() {
         whoop_controller->notify("Robot Moved");
         moved_one_time_notif = false;
       }
-    } else if (!is_calibrated && !is_calibrating) { // Stationary and needs calibration
+    } else if (!is_calibrated &&
+               !is_calibrating) { // Stationary and needs calibration
       calibration_timer += 20;
       if (calibration_timer >
           time_until_calibration) { // If stationary for more than period of
@@ -405,7 +405,7 @@ void WhoopDrivetrain::run_disabled_calibration_protocol() {
 }
 
 void WhoopDrivetrain::calibrate() {
-  if(is_calibrating){
+  if (is_calibrating) {
     return; // because already calibrating, duh
   }
   whoop_controller->notify("Calibrating Dont Move");

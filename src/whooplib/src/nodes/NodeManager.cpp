@@ -38,8 +38,12 @@ void ComputeManager::add_compute_node(ComputeNode *node) {
 }
 
 void ComputeManager::start() {
+  if(running){
+    return;
+  }
   for (auto &compute : computes) {
     compute->start_pipeline(debug_mode);
+    running = true;
   }
 }
 

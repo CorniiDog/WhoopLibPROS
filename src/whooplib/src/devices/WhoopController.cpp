@@ -38,6 +38,7 @@ WhoopController::WhoopController(joystickmode mode,
 }
 
 void WhoopController::notify(std::string message, double duration_seconds) {
+  is_cleared = false;
 #if USE_VEXCODE
   vex::controller::Screen.clearLine(1);
   vex::controller::Screen.setCursor(1, 1);
@@ -53,8 +54,42 @@ void WhoopController::notify(std::string message, double duration_seconds) {
   pros::delay(50);
 #endif
   time_left_to_clear =
-      duration_seconds * std::round(safeDivide(1000, step_time_ms - 150,
+      duration_seconds * std::round(safeDivide(1000, step_time_ms,
                                                10000)); // in milliseconds
+}
+
+void WhoopController::display_text(std::string message) {
+  text_to_display = message;
+  if (!is_cleared) {
+    return;
+  }
+
+#if USE_VEXCODE
+  vex::controller::Screen.clearLine(1);
+  vex::controller::Screen.setCursor(1, 1);
+  vex::controller::Screen.print("%s", message.c_str());
+#else
+  pros::delay(
+      50); // https://www.vexforum.com/t/unable-to-clear-the-controller-screen/62997/2
+  pros::Controller::clear_line(2);
+  pros::delay(50);
+  pros::Controller::print(2, 0, "%s", message.c_str());
+  pros::delay(50);
+#endif
+}
+
+void WhoopController::clear_text() {
+  text_to_display = "";
+  if (!is_cleared) {
+    return;
+  }
+#if USE_VEXCODE
+  vex::controller::Screen.clearLine(1);
+#else
+  pros::delay(
+      50); // https://www.vexforum.com/t/unable-to-clear-the-controller-screen/62997/2
+  pros::Controller::clear_line(2);
+#endif
 }
 
 /////////////////////////////////////////////
@@ -186,18 +221,24 @@ bool WhoopController::left_bottom_bumper_pressing() {
 }
 
 void WhoopController::__step() {
-  time_left_to_clear -= 1;
+  time_left_to_clear--;
 
   if (time_left_to_clear < -1) {
-    time_left_to_clear = -1;
-  }
 
-  if (time_left_to_clear == 0) {
+    time_left_to_clear = -1;
+    if (!is_cleared) {
+      is_cleared = true;
 #if USE_VEXCODE
-    vex::controller::Screen.clearLine(1);
+      vex::controller::Screen.clearLine(1);
+      wait(50, msec);
 #else
-    pros::Controller::clear_line(2);
+      pros::Controller::clear_line(2);
+      pros::delay(50);
 #endif
+      display_text(text_to_display);
+    }
+  } else {
+    is_cleared = false;
   }
 }
 

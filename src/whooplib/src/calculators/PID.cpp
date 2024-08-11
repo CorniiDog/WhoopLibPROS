@@ -20,20 +20,21 @@ namespace whoop {
  * @param kp Proportional constant
  * @param ki Integral constant
  * @param kd Derivative constant
+ * @param ka Integral anti-windup constant
  * @param starti Maximum error to start integrating
  */
 
-PID::PID(double error, double kp, double ki, double kd, double starti,
+PID::PID(double error, double kp, double ki, double kd, double ka, double starti,
          double max_integral_power)
-    : error(error), kp(kp), ki(ki), kd(kd), starti(starti),
+    : error(error), kp(kp), ki(ki), kd(kd), ka(ka), starti(starti),
       max_integral_power(max_integral_power) {
   max_integral_power_scaled = max_integral_power / ki;
 }
 
-PID::PID(double error, double kp, double ki, double kd, double starti,
+PID::PID(double error, double kp, double ki, double kd, double ka, double starti,
          double max_integral_power, double settle_error, double settle_time,
          double timeout)
-    : error(error), kp(kp), ki(ki), kd(kd), starti(starti),
+    : error(error), kp(kp), ki(ki), kd(kd), ka(ka), starti(starti),
       settle_error(settle_error), settle_time(settle_time), timeout(timeout),
       max_integral_power(max_integral_power) {
   max_integral_power_scaled = max_integral_power / ki;
@@ -42,13 +43,16 @@ PID::PID(double error, double kp, double ki, double kd, double starti,
 double PID::step(double error) {
 
   double derivative = error - previous_error;
+  double error_abs = fabs(error);
 
   if (reject_first_accumulation) {
     reject_first_accumulation = false;
   } else {
-    if (fabs(error) < starti) {
+    if (error_abs < starti) {
       accumulated_error += error;
-      accumulated_error -= derivative;
+
+      // Anti-Windup 
+      accumulated_error -= derivative * (1 - error_abs / starti) * ka;
     } else {
       accumulated_error = 0;
     }
@@ -56,9 +60,9 @@ double PID::step(double error) {
 
   // Checks if the error has crossed 0, and if it has, it eliminates the
   // integral term
-  if ((error > 0 && previous_error < 0) || (error < 0 && previous_error > 0)) {
-    accumulated_error = 0;
-  }
+  // if ((error > 0 && previous_error < 0) || (error < 0 && previous_error > 0)) {
+  //   accumulated_error = 0;
+  // }
 
   double max_integral_power_scaled = max_integral_power / ki;
   if (accumulated_error > max_integral_power_scaled)
@@ -70,7 +74,7 @@ double PID::step(double error) {
 
   previous_error = error;
 
-  if (fabs(error) < settle_error) {
+  if (error_abs < settle_error) {
     time_spent_settled += 10;
   } else {
     time_spent_settled = 0;

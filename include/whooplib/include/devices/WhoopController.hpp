@@ -39,8 +39,11 @@ class WhoopController : public ComputeNode, private vex::controller {
 #else
 class WhoopController : public ComputeNode, private pros::Controller {
 #endif
+private:
+  std::string text_to_display = "";
 public:
   joystickmode joystick_mode; // Current joystick mode.
+  bool is_cleared = true;
 
   int time_left_to_clear = 0;
 
@@ -88,6 +91,17 @@ public:
    * @param duration_seconds The duration to display the message
    */
   void notify(std::string message, double duration_seconds = 5);
+
+  /**
+   * Displays text indefinitely unless cleared.
+   * @param message The message of the notification
+   */
+  void display_text(std::string message);
+
+  /**
+   * Clears the text on the controller
+   */
+  void clear_text();
 
   // UDLR
   bool up_pressing();

@@ -18,21 +18,27 @@ PurePursuitConductor::PurePursuitConductor(
     : turn_pid(0, default_pursuit_parameters->turning_kp,
                default_pursuit_parameters->turning_ki,
                default_pursuit_parameters->turning_kd,
+               default_pursuit_parameters->turning_kr,
                default_pursuit_parameters->turning_i_activation,
-               12.0,
+               default_pursuit_parameters
+                   ->turning_max_voltage, // For clamping total_error. Doesn't
+                                          // actually clamp output.
                default_pursuit_parameters->settle_rotation,
                default_pursuit_parameters->settle_time,
                default_pursuit_parameters->timeout),
       forward_pid(0, default_pursuit_parameters->forward_kp,
                   default_pursuit_parameters->forward_ki,
                   default_pursuit_parameters->forward_kd,
+                  default_pursuit_parameters->forward_kr,
                   default_pursuit_parameters->forward_i_activation,
-                  12.0,
+                  default_pursuit_parameters
+                      ->forward_max_voltage, // For clamping total_error.
+                                             // Doesn't actually clamp output.
                   default_pursuit_parameters->settle_distance,
                   default_pursuit_parameters->settle_time,
                   default_pursuit_parameters->timeout),
-      turn_slew(default_pursuit_parameters->max_voltage_change, false, 10),
-      forward_slew(default_pursuit_parameters->max_voltage_change, false, 10),
+      turn_slew(default_pursuit_parameters->max_turn_voltage_change, 10),
+      forward_slew(default_pursuit_parameters->max_forward_voltage_change, 10),
       pursuit_path(TwoDPose(), TwoDPose(),
                    default_pursuit_parameters->turning_radius,
                    default_pursuit_parameters->lookahead_distance,
@@ -125,7 +131,7 @@ void PurePursuitConductor::generate_path(std::vector<TwoDPose> waypoints,
 #if USE_VEXCODE
     Brain.Screen.print("A path requires at least 2 waypoints");
 #else
-    //whoop::screen::print_at(1, "A path requires at least 2 waypoints");
+    // whoop::screen::print_at(1, "A path requires at least 2 waypoints");
 #endif
     std::cout << "A path requires at least 2 waypoints" << std::endl;
   }
@@ -148,15 +154,21 @@ void PurePursuitConductor::generate_path(std::vector<TwoDPose> waypoints,
   forward_pid = PID(0, default_pursuit_parameters->forward_kp,
                     default_pursuit_parameters->forward_ki,
                     default_pursuit_parameters->forward_kd,
+                    default_pursuit_parameters->forward_kr,
                     default_pursuit_parameters->forward_i_activation,
-                    12.0,
+                    default_pursuit_parameters
+                        ->turning_max_voltage, // For clamping total_error.
+                                               // Doesn't actually clamp output.
                     default_pursuit_parameters->settle_distance,
                     default_pursuit_parameters->settle_time, t_out),
   turn_pid = PID(0, default_pursuit_parameters->turning_kp,
                  default_pursuit_parameters->turning_ki,
                  default_pursuit_parameters->turning_kd,
+                 default_pursuit_parameters->turning_kr,
                  default_pursuit_parameters->turning_i_activation,
-                 12.0,
+                 default_pursuit_parameters
+                     ->forward_max_voltage, // For clamping total_error. Doesn't
+                                            // actually clamp output.
                  default_pursuit_parameters->settle_rotation,
                  default_pursuit_parameters->settle_time, t_out),
   this->end_position =
@@ -210,12 +222,11 @@ PursuitResult PurePursuitConductor::step(TwoDPose current_pose) {
     forward_pid.zeroize_accumulated();
     estimate.steering_angle = estimate.last_steering;
     estimate.suggest_point_turn = true;
-    if(!wipe_turn_once){
+    if (!wipe_turn_once) {
       wipe_turn_once = true;
       turn_pid.zeroize_accumulated();
     }
-  }
-  else if(wipe_turn_once){
+  } else if (wipe_turn_once) {
     wipe_turn_once = false;
   }
 
