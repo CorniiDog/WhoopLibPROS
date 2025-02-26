@@ -19,15 +19,15 @@ The most advanced SLAM solution in VEX.
 
 ## Links
 
-[WhoopLib Documentation](https://connoratmos.github.io/WhoopLib/)
+[WhoopLib Documentation](https://CorniiDog.github.io/WhoopLib/)
 
-[WhoopLib Zero - Learn C++ From Zero](https://connoratmos.github.io/WhoopLibZero/)
+[WhoopLib Zero - Learn C++ From Zero](https://CorniiDog.github.io/WhoopLibZero/)
 
-[WhoopLibVEXCode Github](https://github.com/ConnorAtmos/WhoopLibVEXCode)
+[WhoopLibVEXCode Github](https://github.com/CorniiDog/WhoopLibVEXCode)
 
-[WhoopLibPROS Github](https://github.com/ConnorAtmos/WhoopLibPROS)
+[WhoopLibPROS Github](https://github.com/CorniiDog/WhoopLibPROS)
 
-[WhoopLibPython Github](https://github.com/ConnorAtmos/WhoopLibPython)
+[WhoopLibPython Github](https://github.com/CorniiDog/WhoopLibPython)
 
 <!-- LICENSE -->
 ## License
