@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       toolbox.cpp                                               */
-/*    Author:       Aggie Robotics                                            */
+/*    Author:       Connor White                                            */
 /*    Created:      Thu Jun 21 2024                                           */
 /*    Description:  Contains an Assortment of Useful Functions                */
 /*                                                                            */

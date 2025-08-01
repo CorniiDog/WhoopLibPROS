@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       whooplib.h                                                */
-/*    Author:       Aggie Robotics                                            */
+/*    Author:       Connor White                                            */
 /*    Created:      Thu Jun 21 2024                                           */
 /*    Description:  Primary Headers for WhoopLib                              */
 /*                                                                            */
