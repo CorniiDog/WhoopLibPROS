@@ -69,55 +69,13 @@ WhoopDriveOdomOffset odom_offset(
     4.95_in     // The y offset of the odom unit from the center of the robot (positive implies a shift forward from the center of the robot).
 );
 
-// ////////////////////////////////////////////////////////////
-// /**
-//  *    VISION TESSERACT
-//  */
-// ////////////////////////////////////////////////////////////
-
-// Serial communication module
-BufferNode buffer_system(
-    256,                      // The buffer size, in characters. Increase if necessary, but at the cost of computational efficiency.
-    debugmode::debug_disabled // debugMode::debug_disabled for competition use, debugMode::debug_enabled to allow the code to pass errors through
-);
-
-// Vision Offset of the Vision Tesseract from the Center of Robot
-RobotVisionOffset vision_offset(
-    0_mm,  // The x offset (right-positive from the center of the robot).
-    220_mm // The y offset (forward-positive from the center of the robot).
-);
-
-// Jetson Nano pose retreival object (also configured on Nano-side)
-WhoopVision vision_system(
-    &vision_offset, // pointer to the vision offset
-    &buffer_system, // Pointer to the buffer system (will be managed by the buffer system)
-    "P"             // The subscribed stream name to receive the pose from the Jetson Nano
-);
-
-// This is the jetson commander. It sends keep-alive messages intermittently and also commands the Jetson Nano.
-// This is essential to ensure that the nano starts its internal program, stop program, restarts program,
-// and can be told to reboot or shutdown.
-JetsonCommander jetson_commander(
-    &controller1,                      // The controller to send messages to upon error
-    &buffer_system,                    // Pointer to the buffer system (will be managed by the buffer system)
-    "C",                               // The subscribed stream name for keep-alive, shutdown, and reboot
-    60_sec,                            // In seconds. When the V5 Brain shuts down or disconnects, the Jetson Nano will keep the program running for this time before it shuts off
-    2_sec,                             // How many seconds to wait before sending anoter keep alive message to Jetson (suggested 2)
-    jetsonCommunication::disable_comms // If you don't have a Vision Tesseract on your robot, set to disable_comms
-);
-
 ////////////////////////////////////////////////////////////
 /**
- *    Vision x Wheel Odometry Fusion
+ *    Wheel Odometry Fusion (No Vision System)
  */
 ////////////////////////////////////////////////////////////
 WhoopOdomFusion odom_fusion(
-    &vision_system,              // Pointer to the vision system
-    &odom_offset,                // Pointer to the odometry offset
-    0.9,                         // Minimum confidence threshold to apply vision system to odometry
-    fusionmode::wheel_odom_only, // The method of fusing
-    50_in,                       // If FusionMode is fusion_gradual, it is the maximum allowable lateral shift the vision camera can update per second.
-    500_deg                      // If FusionMode is fusion_gradual, it is the maximum allowable yaw rotational shift the vision camera can update per second.
+    &odom_offset
 );
 
 ////////////////////////////////////////////////////////////
