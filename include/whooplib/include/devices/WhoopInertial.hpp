@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       WhoopInertial.hpp                                         */
-/*    Author:       Connor White (WHOOP)                                      */
+/*    Author:       Connor White                                              */
 /*    Created:      Thu Jun 21 2024                                           */
 /*    Description:  Virtual Interial Sensor that Follow Robotic Standard      */
 /*                                                                            */

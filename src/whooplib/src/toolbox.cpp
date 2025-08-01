@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       toolbox.cpp                                               */
-/*    Author:       Connor White                                            */
+/*    Author:       Connor White                                                   */
 /*    Created:      Thu Jun 21 2024                                           */
 /*    Description:  Contains an Assortment of Useful Functions                */
 /*                                                                            */

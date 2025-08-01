@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       WheelOdom.hpp                                             */
-/*    Author:       Connor White (WHOOP)                                      */
+/*    Author:       Connor White                                              */
 /*    Created:      Thu Jun 21 2024                                           */
 /*    Description:  Wheel X, Y, Yaw Tracking                                  */
 /*                                                                            */

@@ -1,6 +1,6 @@
 /**
  * Module:       main.cpp
- * Author:       Connor White -> Connor White
+ * Author:       Connor White   
  * Created:      Thu Jun 21 2024
  * Description:  Whooplib Template
  *

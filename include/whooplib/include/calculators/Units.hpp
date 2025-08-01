@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       Units.cpp                                                 */
-/*    Author:       Connor White (WHOOP)                                      */
+/*    Author:       Connor White                                              */
 /*    Created:      Thu July 25 2024                                          */
 /*    Description:  Units System for C++                                      */
 /*                                                                            */

@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       WhoopMutex.hpp                                            */
-/*    Author:       Connor White (WHOOP)                                      */
+/*    Author:       Connor White                                              */
 /*    Created:      Thu July 25 2024                                          */
 /*    Description:  Whoop Mutex to allow PROS and VEXCode                     */
 /*                                                                            */

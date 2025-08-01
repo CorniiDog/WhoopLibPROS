@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       WhoopOdomFusion.hpp                                       */
-/*    Author:       Connor White (WHOOP)                                      */
+/*    Author:       Connor White                                              */
 /*    Created:      Thu Jun 25 2024                                           */
 /*    Description:  Fuses Wheel and Visual Odometry                           */
 /*                                                                            */

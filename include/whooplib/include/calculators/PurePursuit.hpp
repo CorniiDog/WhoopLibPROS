@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       PurePursuit.hpp                                           */
-/*    Author:       Connor White (WHOOP)                                      */
+/*    Author:       Connor White                                              */
 /*    Created:      Thu July 3 2024                                           */
 /*    Description:  Pure Pursuit Steering Calculator                          */
 /*                                                                            */

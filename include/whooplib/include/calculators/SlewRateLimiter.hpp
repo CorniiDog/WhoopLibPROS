@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       SlewRateLimiter.hpp                                       */
-/*    Author:       Connor White (WHOOP)                                      */
+/*    Author:       Connor White                                              */
 /*    Created:      Thu July 4 2024                                           */
 /*    Description:  Slew Calculator                                           */
 /*                                                                            */
