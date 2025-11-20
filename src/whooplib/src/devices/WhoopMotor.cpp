@@ -3,6 +3,7 @@
 /*    Module:       WhoopMotor.cpp                                            */
 /*    Author:       Connor White                                              */
 /*    Created:      Thu Jun 21 2024                                           */
+/*    Updated:      Wed Nov 19 2025                                           */
 /*    Description:  Virtual Motor With Streamlined Functions                  */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
@@ -11,7 +12,7 @@
 #include "whooplib/include/toolbox.hpp"
 #include "whooplib/includer.hpp"
 
-#define ANALOG_TO_VOLTAGE (127.0 / 12.0)
+#define VOLTAGE_TO_ANALOG_CONVERSION (127.0 / 12.0)
 
 namespace whoop {
 
@@ -47,7 +48,7 @@ void WhoopMotor::spin(double volts) {
 #if USE_VEXCODE
   vex::motor::spin(fwd, linearize_voltage(volts), voltageUnits::volt);
 #else
-  pros::Motor::move(volts * ANALOG_TO_VOLTAGE);
+  pros::Motor::move(linearize_voltage(volts) * VOLTAGE_TO_ANALOG_CONVERSION);
 #endif
 }
 
