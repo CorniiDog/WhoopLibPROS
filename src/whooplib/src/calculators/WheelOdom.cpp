@@ -16,14 +16,15 @@
 
 namespace whoop {
 
+constexpr double EPSILON = 1e-9;
+
 void WheelOdom::set_position(double x, double y, double orientation) {
   X_position = x;
   Y_position = y;
-  orientation_rad = orientation;
   tare_angle = orientation; // Set the tare angle to the initial orientation
 
-  // Normalize the orientation_rad
-  orientation_rad = normalize_angle(orientation_rad);
+  // Normalize the orientation_rad and set
+  orientation_rad = normalize_angle(orientation);
 }
 
 void WheelOdom::set_physical_distances(double forward_distance,
@@ -49,7 +50,7 @@ void WheelOdom::update_pose(double forward_tracker_pos,
   double local_X_position;
   double local_Y_position;
 
-  if (orientation_delta_rad == 0) {
+  if (std::abs(orientation_delta_rad) < EPSILON) {
     local_X_position = delta_sideways;
     local_Y_position = delta_forward;
   } else {
