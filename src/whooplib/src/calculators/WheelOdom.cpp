@@ -65,7 +65,8 @@ void WheelOdom::update_pose(double forward_tracker_pos,
   double local_polar_angle;
   double local_polar_length;
 
-  if (local_X_position == 0 && local_Y_position == 0) {
+  if (std::abs(local_X_position) < EPSILON &&
+    std::abs(local_Y_position) < EPSILON) {
     local_polar_angle = 0;
     local_polar_length = 0;
   } else {
